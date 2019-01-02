@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html style="overflow: hidden;">
+<head>
+	<title>TIDE Blocks</title>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/scrollbar.css">
+	<link rel="stylesheet" type="text/css" href="./css/custom.css">
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<script>
+		// jQuery - Boostrap imports
+		window.jQuery = window.$ = require('jquery');
+		require('bootstrap');</script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand">TIDE Blocks</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
+					<ul class="dropdown-menu">
+						<li><a id="file-open">Abrir</a></li>
+						<li><a>Guardar</a></li>
+						<li><a>Guardar Como</a></li>
+						<li class="divider"></li>
+						<li><a>Salir</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">Edición</a>
+					<ul class="dropdown-menu">
+						<li><a>Undo</a></li>
+						<li><a>Redo</a></li>
+						<li class="divider"></li>
+						<li><a>Cortar</a></li>
+						<li><a>Copiar</a></li>
+						<li><a>Pegar</a></li>
+						<li><a>Borrar</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">Ayuda</a>
+					<ul class="dropdown-menu">
+						<li><a>Aprende más</a></li>
+						<li><a>Documentación</a></li>
+						<li><a>Acerca de nosotros</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a id="nav-mini"><span class="glyphicon glyphicon-minus"></span></a></li>
+				<li><a id="nav-maxi"><span class="glyphicon glyphicon-unchecked"></span></a></li>
+				<li><a id="nav-exit"><span class="glyphicon glyphicon-remove"></span></a></li>
+			</ul>
+		</div>
+	</nav>
+	<main class="scrollbar scrollbar-default">
+		<div id="blocks-container">
+			<div class="block-container">
+				<div id="Setter" class="block block-default">Default</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="block block-primary">Primary</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="block block-success">Success</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="block block-info">Info</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="block block-warning">Warning</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="block block-danger">Danger</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-default">Default
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-primary">Primary
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-success">Success
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-info">Info
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-warning">Warning
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div id="Setter" class="container-block container-block-danger">Danger
+					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+				</div>
+			</div>
+		</div>
+		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
+		<div id="workspace-container" class="scrollbar scrollbar-primary sortable">
+		</div>
+	</main>
+	<script>
+		// electron imports
+		const electron = require('electron')
+		const {ipcRenderer} = electron;
+		// element resize event imports
+		const elementResizeEvent = require('element-resize-event');
+		// Events
+		// Minimize
+		$('#nav-mini').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('nav:mini');
+		});
+		// Maximize
+		$('#nav-maxi').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('nav:maxi');
+		});
+		// Close
+		$('#nav-exit').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('nav:exit');
+		});
+		// Open dialog
+		$('#file-open').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('file:open');
+		});
+		// Colapse blocks container
+		$('#separator').on('click', function (event) {
+			event.preventDefault();
+			if ($('#blocks-container').css('display') != 'none') {
+				$('#blocks-container').css('display','none');
+				$('#separator').css('left','1px');
+				$('#workspace-container').css('left','11px');
+			} else {
+				$('#blocks-container').css('display','block');
+				$('#separator').css('left','301px');
+				$('#workspace-container').css('left','311px');
+			}
+		});
+
+		function update_element (element, sumhb) {
+			if (sumhb < 0) { 
+				sumhb = 0; 
+			}
+			$(element).css({
+				'background-position': '0px 0px, 80px 0px, 130px 0px, 0px 10px, 80px 10px, 130px 10px, 0px 20px, 80px 20px, 130px 20px, 0px 40px, 80px 40px, 130px 40px, 0px '+(40+sumhb)+'px, 80px '+(40+sumhb)+'px, 130px '+(40+sumhb)+'px, 0px '+(60+sumhb)+'px, 80px '+(60+sumhb)+'px, 130px '+(60+sumhb)+'px, 0px '+(70+sumhb)+'px, 80px '+(70+sumhb)+'px, 130px '+(70+sumhb)+'px',
+				'background-size': '80px 10px, 50px 10px, 10px 10px, 80px 10px, 50px 10px, 10px 10px, 80px 20px, 50px 20px, 10px 20px, 80px '+sumhb+'px, 50px '+sumhb+'px, 10px '+sumhb+'px, 80px 20px, 50px 20px, 10px 20px, 80px 10px, 50px 10px, 10px 10px, 80px 15px, 50px 15px, 10px 15px',
+				'min-height': (85+sumhb)+'px',
+				'height': (85+sumhb)+'px',
+				'max-height': (85+sumhb)+'px'
+			});
+		}
+
+		function sortable_update (event, ui) {
+			var ws = $('#workspace-container')
+			if (ws.length) {
+				var bs = ws[0].children;
+				for (var i = 0; i < bs.length; i++) {
+					var b = bs[i];
+					if ((' '+b.className+' ').indexOf(' container-block ') > -1) {
+						update_element(b,sum_height_blocks(b) - 20)
+					}
+				}
+			}
+		}
+
+		function sum_height_blocks (element) {
+			var cn = $(element).find('.sortable')
+			var sumhb = 0;
+			if (cn.length) {
+				var bs = cn[0].children;
+				for (var i = 0; i < bs.length; i++) {
+					var b = bs[i];
+					if ((' '+b.className+' ').indexOf(' container-block ') > -1) {
+						update_element(b,sum_height_blocks(b) - 20)
+					}
+					sumhb += parseInt($(b).css('height')) + parseInt($(b).css('margin-bottom'));
+				}
+			}
+			return sumhb;
+		}
+
+		function sortable_receive (event, ui) {
+			$('.sortable').sortable({
+				connectWith: ".sortable",
+				receive: sortable_receive,	
+				change: sortable_update,
+				over: sortable_update,
+				out: sortable_update,
+			});
+		}
+
+		$(".block-container").sortable({
+			connectWith: ".sortable",
+			remove: function (event, ui) {
+				$(this).html(ui.item.clone())
+			},
+			change: sortable_update,
+			over: sortable_update,
+			out: sortable_update
+		}).disableSelection();
+
+		$(".sortable").sortable({
+			connectWith: ".sortable",
+			receive: sortable_receive,
+			change: sortable_update,
+			over: sortable_update,
+			out: sortable_update
+		}).disableSelection();
+	</script>
+</body>
+</html>

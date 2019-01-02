@@ -1,0 +1,63 @@
+html, body {
+	-webkit-touch-callout: none;	/* iOS Safari */
+	-webkit-user-select: none;		/* Safari */
+	-khtml-user-select: none;		/* Konqueror HTML */
+	-moz-user-select: none;			/* Firefox */
+	-ms-user-select: none;			/* Internet Explorer/Edge */
+	user-select: none;				/* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.navbar-brand {
+  padding: 0 15px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.navbar {
+	z-index: 1;
+	min-height: 20px;
+	height: 20px;
+	max-height: 20px;
+	margin-bottom: 0px;
+	-webkit-app-region: drag;
+}
+
+@media (min-width: 2px) {
+	.navbar-nav > li > a {
+		padding: 0px 5px;
+		line-height: 20px;
+		min-height: 20px;
+		height: 20px;
+		max-height: 20px;
+		-webkit-app-region: no-drag;
+	}
+	.navbar-nav > li > a#nav-exit:hover {
+		background: #d9534f;
+		color: #d9d9d9;
+	}
+	.navbar-text {
+		margin: 0px;
+		padding: 0px 5px;
+		line-height: 20px;
+		min-height: 20px;
+		height: 20px;
+		max-height: 20px;
+	}
+}
+
+.dropdown-menu {
+	padding: 0px;
+}
+
+.dropdown-menu .divider {
+	margin: 0px;
+}
+
+main {
+	min-height: calc( 100vh - 22px );
+	height: calc( 100vh - 22px );
+	max-height: calc( 100vh - 22px );
+	min-width: calc( 100% - 2px );
+	width: calc( 100% - 2px );
+	max-width: calc( 100% - 2px );
+}

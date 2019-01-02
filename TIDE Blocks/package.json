@@ -1,0 +1,26 @@
+{
+  "name": "tide-blocks",
+  "version": "1.0.0",
+  "description": "TIDE Blocks desktop App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkAnfi/TideBlocksUCT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarkAnfi/TideBlocksUCT/issues"
+  },
+  "homepage": "https://github.com/DarkAnfi/TideBlocksUCT#readme",
+  "dependencies": {
+    "bootstrap": "^3.4.0",
+    "css-element-queries": "^1.1.1",
+    "electron": "^4.0.0",
+    "element-resize-event": "^3.0.3",
+    "jquery": "^3.3.1"
+  }
+}

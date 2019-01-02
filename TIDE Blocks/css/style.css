@@ -1,0 +1,419 @@
+#blocks-container {
+	position: absolute;
+	top: 21px;
+	bottom: 1px;
+	left: 1px;
+	min-width: 300px;
+	width: 300px;
+	max-width: 300px;
+	overflow-x: none;
+	padding-top: 15px;
+	padding-left: 15px;
+}
+#separator {
+	position: absolute;
+	top: 21px;
+	bottom: 1px;
+	left: 301px;
+	min-width: 10px;
+	width: 10px;
+	max-width: 10px;
+	padding-left: 0px;
+	padding-right: 0px;
+	outline: none;
+}
+#workspace-container {
+	position: absolute;
+	top: 21px;
+	bottom: 1px;
+	left: 311px;
+	right: 1px;
+	border-color: #1b2e40;
+	background-color: white;
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-bottom: calc(100vh - 37px);
+}
+
+.block-container {
+	padding: 0px;
+	min-height: 50px;
+}
+
+.block {
+	z-index: 0;
+	margin-bottom: -5px;
+	padding-top: 10px;
+	padding-left: 10px;
+	line-height: 10px;
+	font-size: 10px;
+	padding-bottom: 15px;
+	font-weight: bold;
+}
+
+.block-container .block {
+	margin-bottom: 0px
+}
+
+.container-block {
+	z-index: 0;
+	margin-bottom: -5px;
+	padding-top: 10px;
+	padding-left: 10px;
+	line-height: 10px;
+	font-size: 10px;
+	padding-bottom: 15px;
+	font-weight: bold;
+}
+
+.block-container .container-block {
+	margin-bottom: 0px
+}
+
+.block-default {
+	background-image: url(../pictures/blocks/default/tl.png),url(../pictures/blocks/default/t.png),url(../pictures/blocks/default/tr.png),
+					  url(../pictures/blocks/default/ml.png),url(../pictures/blocks/default/m.png),url(../pictures/blocks/default/mr.png),
+					  url(../pictures/blocks/default/bl.png),url(../pictures/blocks/default/b.png),url(../pictures/blocks/default/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.block-primary {
+	background-image: url(../pictures/blocks/primary/tl.png),url(../pictures/blocks/primary/t.png),url(../pictures/blocks/primary/tr.png),
+					  url(../pictures/blocks/primary/ml.png),url(../pictures/blocks/primary/m.png),url(../pictures/blocks/primary/mr.png),
+					  url(../pictures/blocks/primary/bl.png),url(../pictures/blocks/primary/b.png),url(../pictures/blocks/primary/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.block-success {
+	background-image: url(../pictures/blocks/success/tl.png),url(../pictures/blocks/success/t.png),url(../pictures/blocks/success/tr.png),
+					  url(../pictures/blocks/success/ml.png),url(../pictures/blocks/success/m.png),url(../pictures/blocks/success/mr.png),
+					  url(../pictures/blocks/success/bl.png),url(../pictures/blocks/success/b.png),url(../pictures/blocks/success/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.block-info {
+	background-image: url(../pictures/blocks/info/tl.png),url(../pictures/blocks/info/t.png),url(../pictures/blocks/info/tr.png),
+					  url(../pictures/blocks/info/ml.png),url(../pictures/blocks/info/m.png),url(../pictures/blocks/info/mr.png),
+					  url(../pictures/blocks/info/bl.png),url(../pictures/blocks/info/b.png),url(../pictures/blocks/info/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.block-warning {
+	background-image: url(../pictures/blocks/warning/tl.png),url(../pictures/blocks/warning/t.png),url(../pictures/blocks/warning/tr.png),
+					  url(../pictures/blocks/warning/ml.png),url(../pictures/blocks/warning/m.png),url(../pictures/blocks/warning/mr.png),
+					  url(../pictures/blocks/warning/bl.png),url(../pictures/blocks/warning/b.png),url(../pictures/blocks/warning/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.block-danger {
+	background-image: url(../pictures/blocks/danger/tl.png),url(../pictures/blocks/danger/t.png),url(../pictures/blocks/danger/tr.png),
+					  url(../pictures/blocks/danger/ml.png),url(../pictures/blocks/danger/m.png),url(../pictures/blocks/danger/mr.png),
+					  url(../pictures/blocks/danger/bl.png),url(../pictures/blocks/danger/b.png),url(../pictures/blocks/danger/br.png);
+	background-position: 0px 0px, 60px 0px, 110px 0px,
+						 0px 10px, 60px 10px, 110px 10px,
+						 0px 20px, 60px 20px, 110px 20px;
+	background-size: 60px 10px, 50px 10px, 10px 10px,
+					 60px 10px, 50px 10px, 10px 10px,
+					 60px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 120px;
+	width: 120px;
+	max-width: 120px;
+	min-height: 35px;
+	height: 35px;
+	max-height: 35px;
+}
+
+.container-block-default {
+	background-image: url(../pictures/containers-blocks/default/htl.png),url(../pictures/containers-blocks/default/ht.png),url(../pictures/containers-blocks/default/htr.png),
+					  url(../pictures/containers-blocks/default/hml.png),url(../pictures/containers-blocks/default/hm.png),url(../pictures/containers-blocks/default/hmr.png),
+					  url(../pictures/containers-blocks/default/btl.png),url(../pictures/containers-blocks/default/bt.png),url(../pictures/containers-blocks/default/btr.png),
+					  url(../pictures/containers-blocks/default/bml.png),url(../pictures/containers-blocks/default/bm.png),url(../pictures/containers-blocks/default/bmr.png),
+					  url(../pictures/containers-blocks/default/bbl.png),url(../pictures/containers-blocks/default/bb.png),url(../pictures/containers-blocks/default/bbr.png),
+					  url(../pictures/containers-blocks/default/fml.png),url(../pictures/containers-blocks/default/fm.png),url(../pictures/containers-blocks/default/fmr.png),
+					  url(../pictures/containers-blocks/default/fbl.png),url(../pictures/containers-blocks/default/fb.png),url(../pictures/containers-blocks/default/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
+
+.container-block-primary {
+	background-image: url(../pictures/containers-blocks/primary/htl.png),url(../pictures/containers-blocks/primary/ht.png),url(../pictures/containers-blocks/primary/htr.png),
+					  url(../pictures/containers-blocks/primary/hml.png),url(../pictures/containers-blocks/primary/hm.png),url(../pictures/containers-blocks/primary/hmr.png),
+					  url(../pictures/containers-blocks/primary/btl.png),url(../pictures/containers-blocks/primary/bt.png),url(../pictures/containers-blocks/primary/btr.png),
+					  url(../pictures/containers-blocks/primary/bml.png),url(../pictures/containers-blocks/primary/bm.png),url(../pictures/containers-blocks/primary/bmr.png),
+					  url(../pictures/containers-blocks/primary/bbl.png),url(../pictures/containers-blocks/primary/bb.png),url(../pictures/containers-blocks/primary/bbr.png),
+					  url(../pictures/containers-blocks/primary/fml.png),url(../pictures/containers-blocks/primary/fm.png),url(../pictures/containers-blocks/primary/fmr.png),
+					  url(../pictures/containers-blocks/primary/fbl.png),url(../pictures/containers-blocks/primary/fb.png),url(../pictures/containers-blocks/primary/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
+
+.container-block-success {
+	background-image: url(../pictures/containers-blocks/success/htl.png),url(../pictures/containers-blocks/success/ht.png),url(../pictures/containers-blocks/success/htr.png),
+					  url(../pictures/containers-blocks/success/hml.png),url(../pictures/containers-blocks/success/hm.png),url(../pictures/containers-blocks/success/hmr.png),
+					  url(../pictures/containers-blocks/success/btl.png),url(../pictures/containers-blocks/success/bt.png),url(../pictures/containers-blocks/success/btr.png),
+					  url(../pictures/containers-blocks/success/bml.png),url(../pictures/containers-blocks/success/bm.png),url(../pictures/containers-blocks/success/bmr.png),
+					  url(../pictures/containers-blocks/success/bbl.png),url(../pictures/containers-blocks/success/bb.png),url(../pictures/containers-blocks/success/bbr.png),
+					  url(../pictures/containers-blocks/success/fml.png),url(../pictures/containers-blocks/success/fm.png),url(../pictures/containers-blocks/success/fmr.png),
+					  url(../pictures/containers-blocks/success/fbl.png),url(../pictures/containers-blocks/success/fb.png),url(../pictures/containers-blocks/success/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
+
+.container-block-info {
+	background-image: url(../pictures/containers-blocks/info/htl.png),url(../pictures/containers-blocks/info/ht.png),url(../pictures/containers-blocks/info/htr.png),
+					  url(../pictures/containers-blocks/info/hml.png),url(../pictures/containers-blocks/info/hm.png),url(../pictures/containers-blocks/info/hmr.png),
+					  url(../pictures/containers-blocks/info/btl.png),url(../pictures/containers-blocks/info/bt.png),url(../pictures/containers-blocks/info/btr.png),
+					  url(../pictures/containers-blocks/info/bml.png),url(../pictures/containers-blocks/info/bm.png),url(../pictures/containers-blocks/info/bmr.png),
+					  url(../pictures/containers-blocks/info/bbl.png),url(../pictures/containers-blocks/info/bb.png),url(../pictures/containers-blocks/info/bbr.png),
+					  url(../pictures/containers-blocks/info/fml.png),url(../pictures/containers-blocks/info/fm.png),url(../pictures/containers-blocks/info/fmr.png),
+					  url(../pictures/containers-blocks/info/fbl.png),url(../pictures/containers-blocks/info/fb.png),url(../pictures/containers-blocks/info/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
+
+.container-block-warning {
+	background-image: url(../pictures/containers-blocks/warning/htl.png),url(../pictures/containers-blocks/warning/ht.png),url(../pictures/containers-blocks/warning/htr.png),
+					  url(../pictures/containers-blocks/warning/hml.png),url(../pictures/containers-blocks/warning/hm.png),url(../pictures/containers-blocks/warning/hmr.png),
+					  url(../pictures/containers-blocks/warning/btl.png),url(../pictures/containers-blocks/warning/bt.png),url(../pictures/containers-blocks/warning/btr.png),
+					  url(../pictures/containers-blocks/warning/bml.png),url(../pictures/containers-blocks/warning/bm.png),url(../pictures/containers-blocks/warning/bmr.png),
+					  url(../pictures/containers-blocks/warning/bbl.png),url(../pictures/containers-blocks/warning/bb.png),url(../pictures/containers-blocks/warning/bbr.png),
+					  url(../pictures/containers-blocks/warning/fml.png),url(../pictures/containers-blocks/warning/fm.png),url(../pictures/containers-blocks/warning/fmr.png),
+					  url(../pictures/containers-blocks/warning/fbl.png),url(../pictures/containers-blocks/warning/fb.png),url(../pictures/containers-blocks/warning/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
+
+.container-block-danger {
+	background-image: url(../pictures/containers-blocks/danger/htl.png),url(../pictures/containers-blocks/danger/ht.png),url(../pictures/containers-blocks/danger/htr.png),
+					  url(../pictures/containers-blocks/danger/hml.png),url(../pictures/containers-blocks/danger/hm.png),url(../pictures/containers-blocks/danger/hmr.png),
+					  url(../pictures/containers-blocks/danger/btl.png),url(../pictures/containers-blocks/danger/bt.png),url(../pictures/containers-blocks/danger/btr.png),
+					  url(../pictures/containers-blocks/danger/bml.png),url(../pictures/containers-blocks/danger/bm.png),url(../pictures/containers-blocks/danger/bmr.png),
+					  url(../pictures/containers-blocks/danger/bbl.png),url(../pictures/containers-blocks/danger/bb.png),url(../pictures/containers-blocks/danger/bbr.png),
+					  url(../pictures/containers-blocks/danger/fml.png),url(../pictures/containers-blocks/danger/fm.png),url(../pictures/containers-blocks/danger/fmr.png),
+					  url(../pictures/containers-blocks/danger/fbl.png),url(../pictures/containers-blocks/danger/fb.png),url(../pictures/containers-blocks/danger/fbr.png);
+	background-position: 0px 0px, 80px 0px, 130px 0px,
+						 0px 10px, 80px 10px, 130px 10px,
+						 0px 20px, 80px 20px, 130px 20px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 40px, 80px 40px, 130px 40px,
+						 0px 60px, 80px 60px, 130px 60px,
+						 0px 70px, 80px 70px, 130px 70px;
+	background-size: 80px 10px, 50px 10px, 10px 10px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px  0px, 50px  0px, 10px  0px,
+					 80px 20px, 50px 20px, 10px 20px,
+					 80px 10px, 50px 10px, 10px 10px,
+					 80px 15px, 50px 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	min-width: 140px;
+	width: 140px;
+	max-width: 140px;
+	min-height: 85px;
+	height: 85px;
+	max-height: 85px;
+}
