@@ -6,11 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="./css/scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="./css/custom.css">
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
-	<script>
-		// jQuery - Boostrap imports
-		window.jQuery = window.$ = require('jquery');
-		require('bootstrap');</script>
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
+	<script>require('./js/jquery-ui.min.js');</script>
+	<script>require('./js/bootstrap.min.js');</script>
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -119,8 +117,6 @@
 		// electron imports
 		const electron = require('electron')
 		const {ipcRenderer} = electron;
-		// element resize event imports
-		const elementResizeEvent = require('element-resize-event');
 		// Events
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
