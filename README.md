@@ -1,6 +1,8 @@
 <h1>TIDE Blocks</h1>
 <h2>Scripts</h2>
+<p>
 <em>/*NOTE: Se ejecutan en la carpeta TIDE Blocks.*/</em>
+</p>
 <code>npm install</code>
 <p>
 Se ejecuta cada vez que se tiene el repositorio limpio.<br/>
@@ -14,7 +16,7 @@ Inicia la aplicacion en modo de desarrollo.<br/>
 <code>npm run dist</code>
 <p>
 Empaqueta la aplicación en un instalador.<br/>
-<em>/*NOTE: Disponible solo para Windows.*/</em>
-<em>/*TODO: Diferenciar x86 y x64.*/</em>
+<em>/*NOTE: Disponible solo para Windows.*/</em><br/>
+<em>/*TODO: Diferenciar x86 y x64.*/</em><br/>
 <em>/*TODO: Agregar compilador para Linux y Mac.*/</em>
 </p>
