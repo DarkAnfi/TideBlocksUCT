@@ -16,7 +16,19 @@
   "license": "MIT",
   "build": {
     "appId": "tide-blocks-v1",
-    "asar": true,
+    "files": [
+      "bin/**",
+      "libraries/**",
+      "temp/**",
+      "css/**",
+      "fonts/**",
+      "js/**",
+      "pictures/**",
+      "home.html",
+      "main.js",
+      "package.json"
+    ],
+    "asar": false,
     "dmg": {
       "contents": [
         {

@@ -1,0 +1,11 @@
+{
+  "additionalFiles": "\\build\\preproc\\ctags_target_for_gcc_minus_e.cpp,\\build\\sketch\\build\\preproc\\ctags_target_for_gcc_minus_e.cpp,\\build\\sketch\\build\\sketch\\temp.ino.cpp,\\build\\sketch\\temp.ino.cpp",
+  "builtInLibrariesFolders": "C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\libraries",
+  "customBuildProperties": "build.path=C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\temp\\build,build.warn_data_percentage=75,runtime.tools.arduinoOTA.path=C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\hardware\\tools\\avr,runtime.tools.avr-gcc.path=C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\hardware\\tools\\avr,runtime.tools.avrdude.path=C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\hardware\\tools\\avr",
+  "fqbn": "arduino:avr:uno",
+  "hardwareFolders": "C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\hardware",
+  "otherLibrariesFolders": "C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\libraries",
+  "runtime.ide.version": "10805",
+  "sketchLocation": "C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\temp\\temp.ino",
+  "toolsFolders": "C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\tools-builder,C:\\Users\\Andres\\Documents\\GitHub\\TideBlocksUCT\\TIDE\\compilers\\windows\\hardware\\tools\\avr"
+}
