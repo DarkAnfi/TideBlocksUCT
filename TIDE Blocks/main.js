@@ -3,12 +3,11 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
-const {app, BrowserWindow, Menu, ipcMain, dialog} = electron;
+const { app, BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
-var Code;
 
-function createMainWindow () {
+function createMainWindow() {
 	mainWindow = new BrowserWindow({
 		minWidth: 800,
 		minHeight: 600,
@@ -19,16 +18,16 @@ function createMainWindow () {
 		protocol: 'file:',
 		slashes: true
 	}));
-	mainWindow.on('closed', function() {
+	mainWindow.on('closed', function () {
 		app.quit();
 	});
 }
 
-function navMini (event) {
+function navMini(event) {
 	BrowserWindow.getFocusedWindow().minimize();
 }
 
-function navMaxi (event) {
+function navMaxi(event) {
 	if (BrowserWindow.getFocusedWindow().isMaximized()) {
 		BrowserWindow.getFocusedWindow().restore();
 	} else {
@@ -36,20 +35,19 @@ function navMaxi (event) {
 	}
 }
 
-function navExit (event) {
+function navExit(event) {
 	BrowserWindow.getFocusedWindow().close();
 }
 
-function testcompiler (event, txCode) {
-	Code = txCode
-	let content= txCode;
-	const filename = path.join(__dirname,'temp','prueba.ino');
-	fs.writeFile(filename,content, (err)=>{
-		if(err){
+function testcompiler(event, txCode) {
+	const filename = path.join(__dirname, 'temp', 'temp.ino');
+	fs.writeFile(filename, txCode, (err) => {
+		if (err) {
 			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
+		} else {
+			console.log("El archivo se creo correctamente")
 		}
-		console.log("El archivo se creo correctamente")
-		});
+	});
 }
 
 /*

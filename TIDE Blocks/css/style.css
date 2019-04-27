@@ -49,13 +49,6 @@
 	padding-bottom: calc(100vh - 37px);
 }
 
-#testcodebutton{
-	position: absolute;
-	top: 1px;
-	left: 90%;
-	color: black;
-}
-
 .block-container {
 	padding: 0px;
 	min-height: 50px;
