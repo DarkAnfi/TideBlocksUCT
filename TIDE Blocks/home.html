@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html style="overflow: hidden;">
+
 <head>
 	<title>TIDE Blocks</title>
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
@@ -10,6 +11,7 @@
 	<script>require('./js/jquery-ui.min.js');</script>
 	<script>require('./js/bootstrap.min.js');</script>
 </head>
+
 <body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -119,12 +121,11 @@
 	<script>
 		// electron imports
 		const electron = require('electron')
-		const {ipcRenderer} = electron;
+		const { ipcRenderer } = electron;
 		// Events
-		$('#file-compiler').on('click', function(event){
+		$('#file-compiler').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('test:compiler', $('#workspace-code-constainer').val());
-
+			ipcRenderer.send('test:compiler', $('#workspace-code-container').val());
 		});
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
@@ -150,51 +151,51 @@
 		$('#separator').on('click', function (event) {
 			event.preventDefault();
 			if ($('#blocks-container').css('display') != 'none') {
-				$('#blocks-container').css('display','none');
-				$('#separator').css('left','1px');
-				$('#workspace-container').css('left','11px');
+				$('#blocks-container').css('display', 'none');
+				$('#separator').css('left', '1px');
+				$('#workspace-container').css('left', '11px');
 			} else {
-				$('#blocks-container').css('display','block');
-				$('#separator').css('left','301px');
-				$('#workspace-container').css('left','311px');
+				$('#blocks-container').css('display', 'block');
+				$('#separator').css('left', '301px');
+				$('#workspace-container').css('left', '311px');
 			}
 		});
 
-		function update_element (element, sumhb) {
-			if (sumhb < 0) { 
-				sumhb = 0; 
+		function update_element(element, sumhb) {
+			if (sumhb < 0) {
+				sumhb = 0;
 			}
 			$(element).css({
-				'background-position': '0px 0px, 80px 0px, 130px 0px, 0px 10px, 80px 10px, 130px 10px, 0px 20px, 80px 20px, 130px 20px, 0px 40px, 80px 40px, 130px 40px, 0px '+(40+sumhb)+'px, 80px '+(40+sumhb)+'px, 130px '+(40+sumhb)+'px, 0px '+(60+sumhb)+'px, 80px '+(60+sumhb)+'px, 130px '+(60+sumhb)+'px, 0px '+(70+sumhb)+'px, 80px '+(70+sumhb)+'px, 130px '+(70+sumhb)+'px',
-				'background-size': '80px 10px, 50px 10px, 10px 10px, 80px 10px, 50px 10px, 10px 10px, 80px 20px, 50px 20px, 10px 20px, 80px '+sumhb+'px, 50px '+sumhb+'px, 10px '+sumhb+'px, 80px 20px, 50px 20px, 10px 20px, 80px 10px, 50px 10px, 10px 10px, 80px 15px, 50px 15px, 10px 15px',
-				'min-height': (85+sumhb)+'px',
-				'height': (85+sumhb)+'px',
-				'max-height': (85+sumhb)+'px'
+				'background-position': '0px 0px, 80px 0px, 130px 0px, 0px 10px, 80px 10px, 130px 10px, 0px 20px, 80px 20px, 130px 20px, 0px 40px, 80px 40px, 130px 40px, 0px ' + (40 + sumhb) + 'px, 80px ' + (40 + sumhb) + 'px, 130px ' + (40 + sumhb) + 'px, 0px ' + (60 + sumhb) + 'px, 80px ' + (60 + sumhb) + 'px, 130px ' + (60 + sumhb) + 'px, 0px ' + (70 + sumhb) + 'px, 80px ' + (70 + sumhb) + 'px, 130px ' + (70 + sumhb) + 'px',
+				'background-size': '80px 10px, 50px 10px, 10px 10px, 80px 10px, 50px 10px, 10px 10px, 80px 20px, 50px 20px, 10px 20px, 80px ' + sumhb + 'px, 50px ' + sumhb + 'px, 10px ' + sumhb + 'px, 80px 20px, 50px 20px, 10px 20px, 80px 10px, 50px 10px, 10px 10px, 80px 15px, 50px 15px, 10px 15px',
+				'min-height': (85 + sumhb) + 'px',
+				'height': (85 + sumhb) + 'px',
+				'max-height': (85 + sumhb) + 'px'
 			});
 		}
 
-		function sortable_update (event, ui) {
+		function sortable_update(event, ui) {
 			var ws = $('#workspace-container')
 			if (ws.length) {
 				var bs = ws[0].children;
 				for (var i = 0; i < bs.length; i++) {
 					var b = bs[i];
-					if ((' '+b.className+' ').indexOf(' container-block ') > -1) {
-						update_element(b,sum_height_blocks(b) - 20)
+					if ((' ' + b.className + ' ').indexOf(' container-block ') > -1) {
+						update_element(b, sum_height_blocks(b) - 20)
 					}
 				}
 			}
 		}
 
-		function sum_height_blocks (element) {
+		function sum_height_blocks(element) {
 			var cn = $(element).find('.sortable')
 			var sumhb = 0;
 			if (cn.length) {
 				var bs = cn[0].children;
 				for (var i = 0; i < bs.length; i++) {
 					var b = bs[i];
-					if ((' '+b.className+' ').indexOf(' container-block ') > -1) {
-						update_element(b,sum_height_blocks(b) - 20)
+					if ((' ' + b.className + ' ').indexOf(' container-block ') > -1) {
+						update_element(b, sum_height_blocks(b) - 20)
 					}
 					sumhb += parseInt($(b).css('height')) + parseInt($(b).css('margin-bottom'));
 				}
@@ -202,10 +203,10 @@
 			return sumhb;
 		}
 
-		function sortable_receive (event, ui) {
+		function sortable_receive(event, ui) {
 			$('.sortable').sortable({
 				connectWith: ".sortable",
-				receive: sortable_receive,	
+				receive: sortable_receive,
 				change: sortable_update,
 				over: sortable_update,
 				out: sortable_update,
@@ -231,4 +232,5 @@
 		}).disableSelection();
 	</script>
 </body>
+
 </html>

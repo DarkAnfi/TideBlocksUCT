@@ -1,4 +1,37 @@
 <h1>TIDE Blocks</h1>
+<h2>Directorio</h2>
+<pre style="color:#a0a">
++--+TIDE Blocks
+   +--+bin
+   |  +--+builder
+   |     +---hardware
+   |     +---java
+   |     +---lib
+   |     +---libraries
+   |     +---tools-builder
+   |     +---arduino-builder.exe
+   |
+   +--+build
+   |  +---favicon.ico
+   |
+   +---css
+   +---fonts
+   +---js
+   +---libraries
+   +---pictures
+   +--+temp
+   |  +--+build
+   |  |  +--+sketch
+   |  |  |  +---temp.ino.cpp
+   |  |  |
+   |  |  +---temp.ino.hex
+   |  |
+   |  +temp.ino
+   |
+   +---home.html
+   +---main.js
+   +---package.json
+</pre>
 <h2>Scripts</h2>
 <p>
 <pre>
