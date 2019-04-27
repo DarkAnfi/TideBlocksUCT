@@ -3,7 +3,7 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
-const {app, BrowserWindow, Menu, ipcMain} = electron;
+const {app, BrowserWindow, Menu, ipcMain, dialog} = electron;
 
 let mainWindow;
 var Code;
@@ -42,7 +42,14 @@ function navExit (event) {
 
 function testcompiler (event, txCode) {
 	Code = txCode
-	console.log(Code);
+	let content= txCode;
+	const filename = path.join(__dirname,'temp','prueba.ino');
+	fs.writeFile(filename,content, (err)=>{
+		if(err){
+			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
+		}
+		console.log("El archivo se creo correctamente")
+		});
 }
 
 /*
