@@ -1,7 +1,7 @@
 <h1>TIDE Blocks</h1>
 <p>Hola mundo</p>
-<code>
-if (!element) {
+<pre>
+'if (!element) {
     return null;
 } else {
     return (
@@ -9,5 +9,5 @@ if (!element) {
             <NavLink href={element.href}>{element.title}</NavLink>
         </NavItem>
     );
-}
-</code>
+}'
+</pre>
