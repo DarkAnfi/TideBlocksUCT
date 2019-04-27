@@ -6,6 +6,7 @@ const fs = require('fs');
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let mainWindow;
+var Code;
 
 function createMainWindow () {
 	mainWindow = new BrowserWindow({
@@ -39,6 +40,11 @@ function navExit (event) {
 	BrowserWindow.getFocusedWindow().close();
 }
 
+function testcompiler (event, txCode) {
+	Code = txCode
+	console.log(Code);
+}
+
 /*
 ipcMain.on('file:open', function(event, dirname) {
 	if (dirname == undefined) {
@@ -54,4 +60,5 @@ ipcMain.on('file:open', function(event, dirname) {
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
+ipcMain.on('test:compiler', testcompiler);
 app.on('ready', createMainWindow);
