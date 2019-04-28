@@ -2,10 +2,13 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 const fs = require('fs');
+const Compiler = require('./js/compiler');
+const child_process = require('child_process');
 
 const { app, BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
+let compiler = new Compiler();
 
 function createMainWindow() {
 	mainWindow = new BrowserWindow({
@@ -41,11 +44,36 @@ function navExit(event) {
 
 function testcompiler(event, txCode) {
 	const filename = path.join(__dirname, 'temp', 'temp.ino');
-	fs.writeFile(filename, txCode, (err) => {
-		if (err) {
-			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
+	console.log("Creando archivo temp.ino...");
+	fs.writeFile(filename, txCode, (error) => {
+		if (error) {
+			console.log("Ha ocurrido un error al crear el archivo:" + error.message)
 		} else {
-			console.log("El archivo se creo correctamente")
+			console.log("Archivo temp.ino creado.");
+			console.log("Validando configuracion...");
+			child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
+				if (error) {
+					console.log(error.message);
+				} else {
+					console.log("Configuracion validada.")
+					console.log("Compilando...")
+					child_process.exec(compiler.compile(), (error, stdout, stderr) => {
+						if (error) {
+							console.log(error.message);
+						} else {
+							console.log("Compilado con exito.");
+							console.log("Enviando al puerto COM4");
+							child_process.exec(compiler.send('COM4'), (error, stdout, stderr) => {
+								if (error) {
+									console.log(error.message);
+								} else {
+									console.log("Envio con exito.");
+								}
+							});
+						}
+					});
+				}
+			});
 		}
 	});
 }
