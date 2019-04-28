@@ -43,6 +43,9 @@ function navExit(event) {
 }
 
 function testcompiler(event, txCode) {
+	if (!fs.existsSync(path.join(__dirname, 'temp'))) {
+		fs.mkdirSync(path.join(__dirname, 'temp'));
+	}
 	const filename = path.join(__dirname, 'temp', 'temp.ino');
 	console.log("Creando archivo temp.ino...");
 	fs.writeFile(filename, txCode, (error) => {
