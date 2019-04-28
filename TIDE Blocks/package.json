@@ -58,9 +58,7 @@
     "url": "https://github.com/DarkAnfi/TideBlocksUCT/issues"
   },
   "homepage": "https://github.com/DarkAnfi/TideBlocksUCT#readme",
-  "dependencies": {
-    "bootstrap": "^3.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "electron": "^4.1.5",
     "electron-builder": "^20.39.0"
