@@ -49,6 +49,9 @@ function testcompiler(event, txCode) {
 		if (error) {
 			console.log("Ha ocurrido un error al crear el archivo:" + error.message)
 		} else {
+			if (!fs.existsSync(path.join(__dirname, 'temp', 'build'))) {
+				fs.mkdirSync(path.join(__dirname, 'temp', 'build'));
+			}
 			console.log("Archivo temp.ino creado.");
 			console.log("Validando configuracion...");
 			child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
