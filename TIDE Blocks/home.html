@@ -112,21 +112,32 @@
 			</div>
 		</div>
 		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
-		<div id="workspace-container" class="scrollbar scrollbar-primary sortable">
-			<div>
-				<textarea id="workspace-code-container"></textarea>
-			</div>
+		<ul id="project-navegator" class="nav nav-tabs row">
+			<li class=""><a id="add-project" aria-expanded="true">+</a></li>
+		</ul>
+		<div id="workspace-container" class="scrollbar scrollbar-primary">
+			<div id="project-content" class="tab-content"></div>
 		</div>
 	</main>
 	<script>
 		// electron imports
 		const electron = require('electron')
 		const { ipcRenderer } = electron;
+		//id Para archivos nuevos, pero no existentes
+		let idProject = 0;
 		// Events
 		$('#file-compiler').on('click', function (event) {
 			event.preventDefault();
 			ipcRenderer.send('test:compiler', $('#workspace-code-container').val());
 		});
+		//Add New project to projects navegator
+		$('#add-project').on('click', function (event) {
+			event.preventDefault();
+
+			add_project('Project'+idProject, false);
+			idProject+=1;
+		});
+
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
 			event.preventDefault();
@@ -154,12 +165,39 @@
 				$('#blocks-container').css('display', 'none');
 				$('#separator').css('left', '1px');
 				$('#workspace-container').css('left', '11px');
+				$('#project-navegator').css('left', '26px');
 			} else {
 				$('#blocks-container').css('display', 'block');
 				$('#separator').css('left', '301px');
 				$('#workspace-container').css('left', '311px');
+				$('#project-navegator').css('left', '326px');
 			}
 		});
+
+		function add_project(arg, isNew) {
+			nameProject=arg
+			if(!isNew) nameProject="Nuevo Projecto";
+			$('#project-content').append($(document.createElement('div'))
+				.attr('id', arg)
+				.attr('class', 'tab-pane fade sortable tab-project')
+				.sortable({
+					connectWith: ".sortable",
+					receive: sortable_receive,
+					change: sortable_update,
+					over: sortable_update,
+					out: sortable_update
+				}).disableSelection()
+			);
+
+			$('#add-project').parent().before($(document.createElement('li'))
+				.append($(document.createElement('a'))
+					.attr('href', '#'+arg)
+					.attr('data-toggle', 'tab')
+					.attr('aria-expanded', 'false')
+					.text(nameProject)
+				)
+			);
+		}
 
 		function update_element(element, sumhb) {
 			if (sumhb < 0) {
