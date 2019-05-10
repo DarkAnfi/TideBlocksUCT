@@ -24,7 +24,7 @@
 }
 #workspace-container {
 	position: absolute;
-	top: 61px;
+	top: 63px;
 	bottom: 1px;
 	left: 311px;
 	right: 1px;
@@ -34,6 +34,7 @@
 	padding-left: 15px;
 	padding-bottom: calc(100vh - 37px);
 }
+
 #project-navegator{
 	position: absolute;
 	top: 21px;
