@@ -7,8 +7,7 @@
 	width: 300px;
 	max-width: 300px;
 	overflow-x: none;
-	padding-top: 15px;
-	padding-left: 15px;
+	padding: 15px;
 }
 #separator {
 	position: absolute;
@@ -30,23 +29,7 @@
 	right: 1px;
 	border-color: #1b2e40;
 	background-color: white;
-	padding-top: 15px;
-	padding-left: 15px;
-	padding-bottom: calc(100vh - 37px);
-}
-
-#workspace-code-container {
-	position: absolute;
-	top: 1px;
-	bottom: 1px;
-	left: 1px;
-	right: 1px;
-	width: 90%;
-	border-color: #1b2e40;
-	background-color: white;
-	padding-top: 5px;
-	padding-left: 5px;
-	padding-bottom: calc(100vh - 37px);
+	padding: 15px 15px calc(100vh - 37px) 15px;
 }
 
 .block-container {
@@ -57,12 +40,10 @@
 .block {
 	z-index: 0;
 	margin-bottom: -5px;
-	padding-top: 10px;
-	padding-left: 10px;
 	line-height: 10px;
 	font-size: 10px;
-	padding-bottom: 15px;
 	font-weight: bold;
+	background-color: rgba(0,255,0,0.5)
 }
 
 .block-container .block {
@@ -85,24 +66,21 @@
 }
 
 .block-default {
+	display: inline-block;
 	background-image: url(../pictures/blocks/default/tl.png),url(../pictures/blocks/default/t.png),url(../pictures/blocks/default/tr.png),
 					  url(../pictures/blocks/default/ml.png),url(../pictures/blocks/default/m.png),url(../pictures/blocks/default/mr.png),
 					  url(../pictures/blocks/default/bl.png),url(../pictures/blocks/default/b.png),url(../pictures/blocks/default/br.png);
-	background-position: 0px 0px, 60px 0px, 110px 0px,
-						 0px 10px, 60px 10px, 110px 10px,
-						 0px 20px, 60px 20px, 110px 20px;
-	background-size: 60px 10px, 50px 10px, 10px 10px,
-					 60px 10px, 50px 10px, 10px 10px,
-					 60px 15px, 50px 15px, 10px 15px;
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	min-width: 120px;
-	width: 120px;
-	max-width: 120px;
+	padding: 10px 10px 15px 10px;
 	min-height: 35px;
-	height: 35px;
-	max-height: 35px;
 }
 
 .block-primary {

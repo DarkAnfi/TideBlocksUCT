@@ -3,6 +3,7 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 const Compiler = require('./js/compiler');
+const Interpreter = require('./js/interpreter');
 const child_process = require('child_process');
 
 const { app, BrowserWindow, ipcMain } = electron;
@@ -14,7 +15,7 @@ function createMainWindow() {
 	mainWindow = new BrowserWindow({
 		minWidth: 800,
 		minHeight: 600,
-		frame: false
+		frame: true
 	});
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, 'home.html'),
@@ -42,39 +43,30 @@ function navExit(event) {
 	BrowserWindow.getFocusedWindow().close();
 }
 
-function testcompiler(event, txCode) {
+function fileCompile(event, txCode) {
+	console.log('Iniciando proceso de compilación...')
 	if (!fs.existsSync(path.join(__dirname, 'temp'))) {
 		fs.mkdirSync(path.join(__dirname, 'temp'));
 	}
+	if (!fs.existsSync(path.join(__dirname, 'temp', 'build'))) {
+		fs.mkdirSync(path.join(__dirname, 'temp', 'build'));
+	}
 	const filename = path.join(__dirname, 'temp', 'temp.ino');
-	console.log("Creando archivo temp.ino...");
 	fs.writeFile(filename, txCode, (error) => {
 		if (error) {
-			console.log("Ha ocurrido un error al crear el archivo:" + error.message)
+			mainWindow.webContents.send('file:compile', error, "Ha ocurrido un error al crear el archivo.", error.message);
 		} else {
-			if (!fs.existsSync(path.join(__dirname, 'temp', 'build'))) {
-				fs.mkdirSync(path.join(__dirname, 'temp', 'build'));
-			}
-			console.log("Archivo temp.ino creado.");
-			console.log("Validando configuracion...");
 			child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
 				if (error) {
-					console.log(error.message);
+					mainWindow.webContents.send('file:compile', error, stdout, stderr);
 				} else {
-					console.log("Configuracion validada.")
-					console.log("Compilando...")
 					child_process.exec(compiler.compile(), (error, stdout, stderr) => {
 						if (error) {
-							console.log(error.message);
+							mainWindow.webContents.send('file:compile', error, stdout, stderr);
 						} else {
-							console.log("Compilado con exito.");
-							console.log("Enviando al puerto COM4");
 							child_process.exec(compiler.send('COM4'), (error, stdout, stderr) => {
-								if (error) {
-									console.log(error.message);
-								} else {
-									console.log("Envio con exito.");
-								}
+								mainWindow.webContents.send('file:compile', error, stdout, stderr);
+								console.log('listo')
 							});
 						}
 					});
@@ -83,6 +75,11 @@ function testcompiler(event, txCode) {
 		}
 	});
 }
+
+ipcMain.on('test', function (event, html) {
+	const interpreter = new Interpreter(html);
+	console.log(interpreter.getCode());
+});
 
 /*
 ipcMain.on('file:open', function(event, dirname) {
@@ -99,5 +96,5 @@ ipcMain.on('file:open', function(event, dirname) {
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
-ipcMain.on('test:compiler', testcompiler);
+ipcMain.on('file:compile', fileCompile);
 app.on('ready', createMainWindow);

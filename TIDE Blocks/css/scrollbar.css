@@ -1,5 +1,5 @@
 .scrollbar {
-	overflow: auto;
+	overflow: hidden auto;
 }
 
 .scrollbar-primary::-webkit-scrollbar {

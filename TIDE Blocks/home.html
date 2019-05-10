@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="./css/custom.css">
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="./css/block.css">
 	<script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
 	<script>require('./js/jquery-ui.min.js');</script>
 	<script>require('./js/bootstrap.min.js');</script>
@@ -27,7 +28,7 @@
 						<li><a>Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
-						<li><a id="file-compiler">Compilar</a></li>
+						<li><a id="file-compile">Compilar</a></li>
 						<li class="divider"></li>
 						<li><a>Salir</a></li>
 					</ul>
@@ -63,9 +64,63 @@
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
 			<div class="block-container">
-				<div id="Setter" class="block block-default">Default</div>
+				<div class="block">
+					<div class="block-default" data-block='block-led-w-on'>Encender LED Blanco</div>
+				</div>
 			</div>
 			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-r-on'>Encender LED Rojo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-y-on'>Encender LED Amarillo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-g-on'>Encender LED Verde</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-w-off'>Apagar LED Blanco</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-r-off'>Apagar LED Rojo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-y-off'>Apagar LED Amarillo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-g-off'>Apagar LED Verde</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
+						<table>
+							<tbody>
+								<tr>
+									<td style="padding-right: 10px">Esperar</td>
+									<td>
+										<input class="form-control input-sm" min="0" max="4294967295" type="number" value="1000"
+											style="width:100px" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--div class="block-container">
 				<div id="Setter" class="block block-primary">Primary</div>
 			</div>
 			<div class="block-container">
@@ -79,10 +134,18 @@
 			</div>
 			<div class="block-container">
 				<div id="Setter" class="block block-danger">Danger</div>
+			</div-->
+			<!--div class="test-block-container">
+				<div class="test-block block-if">
+					<div><div class="block-header">Si true entonces</div></div>
+					<div><div class="block-body sortable"></div></div>
+				</div>
 			</div>
 			<div class="block-container">
 				<div id="Setter" class="container-block container-block-default">Default
-					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+					<div class="sortable"
+						style="position: relative; top: 10px; left: 10px; padding-bottom:20px; background-color: rgba(255,0,0,0.5)">
+					</div>
 				</div>
 			</div>
 			<div class="block-container">
@@ -109,23 +172,65 @@
 				<div id="Setter" class="container-block container-block-danger">Danger
 					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
 				</div>
-			</div>
+			</div-->
 		</div>
 		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
-		<div id="workspace-container" class="scrollbar scrollbar-primary sortable">
-			<div>
-				<textarea id="workspace-code-container"></textarea>
-			</div>
-		</div>
+		<div id="workspace-container" class="scrollbar scrollbar-primary sortable"></div>
 	</main>
 	<script>
-		// electron imports
-		const electron = require('electron')
+		/* Imports */
+
+		const electron = require('electron');
 		const { ipcRenderer } = electron;
-		// Events
-		$('#file-compiler').on('click', function (event) {
+		const html2json = require('html-to-json');
+
+		/* Event listeners */
+
+
+		$('.scrollbar').bind('scroll', function () {
+			if ($(this).scrollLeft() !== 0) {
+				$(this).scrollLeft(0);
+			}
+		});
+
+		$("#workspace-container").click(function () {
+			html2json.parse($("#workspace-container").html(), function (data) {
+				console.log(data[0].children);
+				ipcRenderer.send('test', data[0].children)
+			})
+		})
+
+		// Input Change
+		$(".block table input").change(function (event) {
+			event.currentTarget
+				.parentElement
+				.parentElement
+				.parentElement
+				.parentElement
+				.parentElement
+				.setAttribute('data-value', event.currentTarget.value);
+		})
+
+		// Nav Dropdown Mouse
+		$('nav .dropdown')
+			.on('mouseenter', function (event) {
+				if ($(event.currentTarget).hasClass('open') == false) {
+					$(event.currentTarget).find('.dropdown-toggle').dropdown("toggle");
+				}
+			})
+			.on('mouseleave', function (event) {
+				if ($(event.currentTarget).hasClass('open') == true) {
+					$(event.currentTarget).find('.dropdown-toggle').dropdown("toggle");
+				}
+			});
+
+		// Compile
+		$('#file-compile').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('test:compiler', $('#workspace-code-container').val());
+			if ($('#file-compile').parent().hasClass('disabled') == false) {
+				$('#file-compile').parent().addClass('disabled');
+				ipcRenderer.send('file:compile', "void setup(){} void loop(){}");
+			}
 		});
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
@@ -148,6 +253,8 @@
 			ipcRenderer.send('file:open');
 		});
 		// Colapse blocks container
+
+		/**/
 		$('#separator').on('click', function (event) {
 			event.preventDefault();
 			if ($('#blocks-container').css('display') != 'none') {
@@ -230,6 +337,45 @@
 			over: sortable_update,
 			out: sortable_update
 		}).disableSelection();
+		/**/
+		/*
+		function sortableRemove(event, ui) {
+			$(this).html(ui.item.clone())
+		}
+
+		function sortableReceive(event, ui) {
+			$('.sortable').sortable({
+				connectWith: ".sortable",
+				receive: sortableReceive
+			});
+		}
+
+		$(".test-block-container").sortable({
+			connectWith: ".sortable",
+			remove: sortableRemove
+		}).disableSelection();
+
+		$(".sortable").sortable({
+			connectWith: ".sortable",
+			receive: sortableReceive
+		})
+		/**/
+
+		/* IPC Renderer listeners */
+
+		function fileCompile(error, stdout, stderr) {
+			if ($('#file-compile').parent().hasClass('disabled') == true) {
+				$('#file-compile').parent().removeClass('disabled');
+				if (error) {
+					console.log(error.message);
+				} else {
+					console.log('Success.');
+				}
+			}
+		}
+
+		ipcRenderer.on('file:compile', fileCompile);
+
 	</script>
 </body>
 
