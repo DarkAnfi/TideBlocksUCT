@@ -99,14 +99,27 @@ function savefileas(event, txCode){
  	});
 }
 
-function openfile(event,txCode){
+function savefile(event,txCode){
+	Code=txCode
+	console.log("Actualizando archivo");
+	let content=txCode;
+	const filename = path.join(__dirname,'temp','prueba.ino');
+	fs.writeFile(filename,content, (err)=>{
+		if(err){
+			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
+		}
+		console.log("El archivo se actualizo correctamente")
+		});
+}
+
+function openfile(event){
 	console.log("Buscando Archivo ...");
 	
-	dialog.showOpenDialog(function (fileNames) {
-       if(fileNames === undefined){
+	dialog.showOpenDialog(function (filenames) {
+       if(filenames === undefined){
             console.log("No se selecciono ningun archivo");
        }else{
-            readFile(fileNames[0]);
+            readFile(filenames[0]);
        }
 	});
 
@@ -116,7 +129,6 @@ function openfile(event,txCode){
 				alert("Ha ocurrido un error abriendo el archivo:" + err.message);
 				return;
 			}
-			// Cambia cómo manipular el contenido del archivo
 			console.log("El contenido del archivo es : " + data);
 			event.sender.send('contentData', data)
 		});
@@ -139,6 +151,7 @@ ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
 ipcMain.on('open:files', openfile);
-ipcMain.on('save:files', savefileas);
+ipcMain.on('saveas:files', savefileas);
+ipcMain.on('save:files',savefile);
 ipcMain.on('test:compiler', testcompiler);
 app.on('ready', createMainWindow);

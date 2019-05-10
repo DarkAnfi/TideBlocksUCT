@@ -23,8 +23,8 @@
 					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
 					<ul class="dropdown-menu">
 						<li><a id="open-files">Abrir</a></li>
-						<li><a>Guardar</a></li>
-						<li><a id="save-files">Guardar Como</a></li>
+						<li><a id="save-files">Guardar</a></li>
+						<li><a id="saveas-files">Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
 						<li><a id="file-compiler">Compilar</a></li>
@@ -125,17 +125,21 @@
 		// Open file
 		$('#open-files').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('open:files', $('#workspace-code-container').val());
+			ipcRenderer.send('open:files');
 			ipcRenderer.on('contentData', (event,data)=>{
 				$('#workspace-code-container').val(data);
-				
 			});
 		});
-		//Save Files
-		$('#save-files').on('click', function (event) {
+		//Saveas Files
+		$('#saveas-files').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('save:files', $('#workspace-code-container').val());
+			ipcRenderer.send('saveas:files', $('#workspace-code-container').val());
 			
+		});
+		//Save Files
+		$('#save-files').on('click', function(event){
+			event.preventDefault();
+			ipcRenderer.send('save:files',$('#workspace-code-container').val());
 		});
 		// Events
 		$('#file-compiler').on('click', function (event) {
