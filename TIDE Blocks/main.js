@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const Compiler = require('./js/compiler');
 const child_process = require('child_process');
-
+const {dialog} = require('electron')
 const { app, BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
@@ -78,6 +78,51 @@ function testcompiler(event, txCode) {
 	});
 }
 
+function savefileas(event, txCode){
+	Code=txCode
+	console.log("Guardando archivo .tb");
+	let content=txCode;
+	
+	dialog.showSaveDialog(function (fileName) {
+		if (fileName === undefined){
+			 console.log("No guardaste el archivo");
+			 return;
+		}
+		
+		fs.writeFile(fileName, content, function (err) {
+			if(err){
+				console.log("Ha ocurrido un error creando el archivo: "+ err.message)
+			}
+						 
+			console.log("El archivo ha sido creado satisfactoriamente");
+		});
+ 	});
+}
+
+function openfile(event,txCode){
+	console.log("Buscando Archivo ...");
+	
+	dialog.showOpenDialog(function (fileNames) {
+       if(fileNames === undefined){
+            console.log("No se selecciono ningun archivo");
+       }else{
+            readFile(fileNames[0]);
+       }
+	});
+
+	function readFile(filepath){
+		fs.readFile(filepath, 'utf-8', function (err, data) {
+			if(err){
+				alert("Ha ocurrido un error abriendo el archivo:" + err.message);
+				return;
+			}
+			// Cambia cómo manipular el contenido del archivo
+			console.log("El contenido del archivo es : " + data);
+			event.sender.send('contentData', data)
+		});
+	}
+}
+
 /*
 ipcMain.on('file:open', function(event, dirname) {
 	if (dirname == undefined) {
@@ -93,5 +138,7 @@ ipcMain.on('file:open', function(event, dirname) {
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
+ipcMain.on('open:files', openfile);
+ipcMain.on('save:files', savefileas);
 ipcMain.on('test:compiler', testcompiler);
 app.on('ready', createMainWindow);

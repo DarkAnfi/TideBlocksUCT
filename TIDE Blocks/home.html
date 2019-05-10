@@ -22,9 +22,9 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
 					<ul class="dropdown-menu">
-						<li><a id="file-open">Abrir</a></li>
+						<li><a id="open-files">Abrir</a></li>
 						<li><a>Guardar</a></li>
-						<li><a>Guardar Como</a></li>
+						<li><a id="save-files">Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
 						<li><a id="file-compiler">Compilar</a></li>
@@ -122,10 +122,26 @@
 		// electron imports
 		const electron = require('electron')
 		const { ipcRenderer } = electron;
+		// Open file
+		$('#open-files').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('open:files', $('#workspace-code-container').val());
+			ipcRenderer.on('contentData', (event,data)=>{
+				$('#workspace-code-container').val(data);
+				
+			});
+		});
+		//Save Files
+		$('#save-files').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('save:files', $('#workspace-code-container').val());
+			
+		});
 		// Events
 		$('#file-compiler').on('click', function (event) {
 			event.preventDefault();
 			ipcRenderer.send('test:compiler', $('#workspace-code-container').val());
+			
 		});
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
@@ -142,11 +158,7 @@
 			event.preventDefault();
 			ipcRenderer.send('nav:exit');
 		});
-		// Open dialog
-		$('#file-open').on('click', function (event) {
-			event.preventDefault();
-			ipcRenderer.send('file:open');
-		});
+		
 		// Colapse blocks container
 		$('#separator').on('click', function (event) {
 			event.preventDefault();
