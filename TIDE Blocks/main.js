@@ -79,65 +79,45 @@ function testcompiler(event, txCode) {
 	});
 }
 
-function savefileas(event, txCode){
-	Code=txCode
+function savefileas(event){
 	console.log("Guardando archivo .tb");
-	let content=txCode;
-	
 	dialog.showSaveDialog(function (fileName) {
 		if (fileName === undefined){
 			 console.log("No guardaste el archivo");
 			 return;
 		}
-		
-		fs.writeFile(fileName, content, function (err) {
-			if(err){
-				console.log("Ha ocurrido un error creando el archivo: "+ err.message)
-			}
-						 
-			console.log("El archivo ha sido creado satisfactoriamente");
-		});
+		event.sender.send('update:name-project', fileName, 'windows');
  	});
 }
 
-function savefile(event,txCode){
-	Code=txCode
-	console.log("Actualizando archivo");
-	let content=txCode;
-	const filename = path.join(__dirname,'temp','prueba.ino');
-	fs.writeFile(filename,content, (err)=>{
+function save(even, txCode, filename) {
+	fs.writeFile(filename, txCode, function (err) {
 		if(err){
-			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
-		}
-		console.log("El archivo se actualizo correctamente")
-		});
+			console.log("Ha ocurrido un error creando el archivo: "+ err.message)
+		}		 
+		console.log("El archivo ha sido creado satisfactoriamente");
+	});
 }
 
 function openfile(event, response){
 	console.log("Buscando Archivo ...");
-	
 	dialog.showOpenDialog(function (filenames) {
        if(filenames === undefined){
             console.log("No se selecciono ningun archivo");
        }else{
-            readFile(filenames[0]);
+            readFile(event, filenames[0]);
        }
 	});
+}
 
-	function readFile(filepath){
-		
-		fs.readFile(filepath, 'utf-8', function (err, data) {
-			if(err){
-				
-				alert("Ha ocurrido un error abriendo el archivo:" + err.message);
-				return;
-			}
-			
-			console.log("El contenido del archivo es : " + data);
-			
-			event.sender.send('contentData', data)
-		});
-	}
+function readFile(event, filepath){
+	fs.readFile(filepath, 'utf-8', function (err, data) {
+		if(err){
+			alert("Ha ocurrido un error abriendo el archivo:" + err.message);
+			return;
+		}
+		event.sender.send('contentData', data, filepath, 'windows')
+	});
 }
 
 /*
@@ -151,12 +131,11 @@ ipcMain.on('file:open', function(event, dirname) {
 	});
 });
 */
-
+ipcMain.on('ready:tosave', save);
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
 ipcMain.on('open:files', openfile);
 ipcMain.on('saveas:files', savefileas);
-ipcMain.on('save:files',savefile);
 ipcMain.on('test:compiler', testcompiler);
 app.on('ready', createMainWindow);

@@ -138,20 +138,16 @@
 		$('#open-files').on('click', function (event) {
 			event.preventDefault();
 			ipcRenderer.send('open:files');
-			ipcRenderer.on('contentData', (event,data)=>{
-				add_project('<nombre archivo>', true, data);
-			});
 		});
 		//Saveas Files
 		$('#saveas-files').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('saveas:files', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'));
-			
+			ipcRenderer.send('saveas:files');
 		});
 		//Save Files
 		$('#save-files').on('click', function(event){
 			event.preventDefault();
-			ipcRenderer.send('save:files',$('#project-content').val());
+			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'), ($( "#"+$('#project-navegator .active').attr('name'))).attr('path'));
 		});
 		// Events
 		$('#file-compiler').on('click', function (event) {
@@ -165,7 +161,7 @@
 			idProject+=1;
 		});
 		//Remove Project
-		$('#project-navegator').on('click','.close',function(event){
+		$('#project-navegator').on('click','.close', function(event){
 			event.preventDefault();
 			remove_project(event);
 		});
@@ -214,13 +210,13 @@
 
 	    function update_tabs() {
 	    	$.each($('#project-navegator').children(), function(indx, tab) {
-	    		if((((indx+1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width() > $('#project-navegator').width()) || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])){
+	    		if((((indx+1) * $(tab).width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width() > $('#project-navegator').width()) || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])){
 	    			$(tab).remove();
 	    		}
 	    	});
 	    	$.each($('#list-projects').children(), function(indx, tab) {
-	    		if($('#project-navegator > li[name="'+$(tab).attr('name')+'"]' ).attr('name') == null){
-	    			if((($('#project-navegator').children().length - 1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length-1 == 1) {
+	    		if($('li[name="'+$(tab).attr('name')+'"]' ).length == 1){
+	    			if(((($('#project-navegator').children().length - 1) * $(tab).width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])) {
 	    				$($(tab).clone()).insertBefore($('#add-project').parent());
 	    			}
 	    		}
@@ -228,9 +224,11 @@
 	    }
 
 		function add_project(arg, isNew, filecontent=null) {
-			nameProject=arg
+			nameProject=arg;
+			arg = arg.replace('.', 'punto');
 			if(!isNew) nameProject="Nuevo Projecto";
 			if(filecontent){
+				console.log($.parseHTML(filecontent));
 				$('#project-content').append($.parseHTML(filecontent));
 			}else{
 				$('#project-content').append($(document.createElement('div'))
@@ -282,6 +280,7 @@
 			$($(event.currentTarget).parent().attr('href')).remove();
 			$.each($('li[name="'+$(event.currentTarget).parent().attr('href').substr(1)+'"]'), function(indx, tab) {
 				tab.remove();
+				console.log('removiendo');
 			});
 			update_tabs();
 		}
@@ -355,6 +354,39 @@
 			over: sortable_update,
 			out: sortable_update
 		}).disableSelection();
+
+		ipcRenderer.on('contentData', (event, data, filepath, system)=>{				
+			newId = '';
+			if(system == 'windows'){
+				newId = filepath.substr(filepath.lastIndexOf("\\") + 1);
+			}else{
+				newId = filepath.substr(filepath.lastIndexOf("/") + 1)
+			}
+			if($('li[name="'+newId.replace('.','punto')+'"]' ).length == 0){
+				add_project(newId, true, data);
+			}
+		});
+
+		ipcRenderer.on('update:name-project', (event, filepath, system)=> {
+			newId = '';
+			$("#"+$('#project-navegator .active').attr('name')).attr('path', filepath);
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('path', filepath);
+			if(system == 'windows'){
+				newId = filepath.substr(filepath.lastIndexOf("\\") + 1);
+			}else{
+				newId = filepath.substr(filepath.lastIndexOf("/") + 1)
+			}
+			$( "#"+$('#project-navegator .active').attr('name')).attr('id', newId.replace('.', 'punto'));
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"'] a").attr('href', '#'+newId.replace('.','punto'));
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"'] a").text(newId);
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"'] a").append($(document.createElement('button'))
+					.attr('class', 'close')
+					.attr('type', 'button')
+					.text(' x')
+				);
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('name', newId.replace('.','punto'));
+			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'), filepath);
+		});
 	</script>
 </body>
 
