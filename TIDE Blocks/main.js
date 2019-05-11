@@ -4,7 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const Compiler = require('./js/compiler');
 const child_process = require('child_process');
-
+const {dialog} = require('electron')
+const http = require('http');
 const { app, BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
@@ -78,6 +79,67 @@ function testcompiler(event, txCode) {
 	});
 }
 
+function savefileas(event, txCode){
+	Code=txCode
+	console.log("Guardando archivo .tb");
+	let content=txCode;
+	
+	dialog.showSaveDialog(function (fileName) {
+		if (fileName === undefined){
+			 console.log("No guardaste el archivo");
+			 return;
+		}
+		
+		fs.writeFile(fileName, content, function (err) {
+			if(err){
+				console.log("Ha ocurrido un error creando el archivo: "+ err.message)
+			}
+						 
+			console.log("El archivo ha sido creado satisfactoriamente");
+		});
+ 	});
+}
+
+function savefile(event,txCode){
+	Code=txCode
+	console.log("Actualizando archivo");
+	let content=txCode;
+	const filename = path.join(__dirname,'temp','prueba.ino');
+	fs.writeFile(filename,content, (err)=>{
+		if(err){
+			console.log("Ha ocurrido un error al crear el archivo:" + err.message)
+		}
+		console.log("El archivo se actualizo correctamente")
+		});
+}
+
+function openfile(event, response){
+	console.log("Buscando Archivo ...");
+	
+	dialog.showOpenDialog(function (filenames) {
+       if(filenames === undefined){
+            console.log("No se selecciono ningun archivo");
+       }else{
+            readFile(filenames[0]);
+       }
+	});
+
+	function readFile(filepath){
+		
+		fs.readFile(filepath, 'utf-8', function (err, data) {
+			if(err){
+				
+				alert("Ha ocurrido un error abriendo el archivo:" + err.message);
+				return;
+			}
+			
+			console.log("El contenido del archivo es : " + data);
+			
+			event.sender.send('contentData', data)
+		});
+	}
+}
+
 /*
 ipcMain.on('file:open', function(event, dirname) {
 	if (dirname == undefined) {
@@ -93,5 +155,8 @@ ipcMain.on('file:open', function(event, dirname) {
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
+ipcMain.on('open:files', openfile);
+ipcMain.on('saveas:files', savefileas);
+ipcMain.on('save:files',savefile);
 ipcMain.on('test:compiler', testcompiler);
 app.on('ready', createMainWindow);

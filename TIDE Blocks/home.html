@@ -22,9 +22,9 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
 					<ul class="dropdown-menu">
-						<li><a id="file-open">Abrir</a></li>
-						<li><a>Guardar</a></li>
-						<li><a>Guardar Como</a></li>
+						<li><a id="open-files">Abrir</a></li>
+						<li><a id="save-files">Guardar</a></li>
+						<li><a id="saveas-files">Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
 						<li><a id="file-compiler">Compilar</a></li>
@@ -112,15 +112,18 @@
 			</div>
 		</div>
 		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
-		<ul id="project-navegator" class="nav nav-tabs row">
-			<li id="add-project-btn" class=""><a id="add-project" aria-expanded="true">+</a></li>
-			<li id="hidden-projects-btn" class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-	      			<span class="caret"></span>
-	    		</a>
-				<ul id="list-projects" class="dropdown-menu dropdown-menu-right"></ul>
-		    </li>
-		</ul>
+		<div>
+			<ul id="project-navegator" class="nav nav-tabs row">
+				<li id="add-project-btn" class=""><a id="add-project" aria-expanded="true">+</a></li>
+				<li id="hidden-projects-btn" class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+		      			<span class="caret"></span>
+		    		</a>
+					<ul id="list-projects" class="dropdown-menu dropdown-menu-right"></ul>
+			    </li>
+			</ul>
+		</div>
+		
 		<div id="workspace-container" class="scrollbar scrollbar-primary">
 			<div id="project-content" class="tab-content"></div>
 		</div>
@@ -131,6 +134,25 @@
 		const { ipcRenderer } = electron;
 		//id Para archivos nuevos, pero no existentes
 		let idProject = 0;
+		// Open file
+		$('#open-files').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('open:files');
+			ipcRenderer.on('contentData', (event,data)=>{
+				add_project('<nombre archivo>', true, data);
+			});
+		});
+		//Saveas Files
+		$('#saveas-files').on('click', function (event) {
+			event.preventDefault();
+			ipcRenderer.send('saveas:files', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'));
+			
+		});
+		//Save Files
+		$('#save-files').on('click', function(event){
+			event.preventDefault();
+			ipcRenderer.send('save:files',$('#project-content').val());
+		});
 		// Events
 		$('#file-compiler').on('click', function (event) {
 			event.preventDefault();
@@ -139,11 +161,14 @@
 		//Add New project to projects navegator
 		$('#add-project').on('click', function (event) {
 			event.preventDefault();
-
 			add_project('Project'+idProject, false);
 			idProject+=1;
 		});
-
+		//Remove Project
+		$('#project-navegator').on('click','.close',function(event){
+			event.preventDefault();
+			remove_project(event);
+		});
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
 			event.preventDefault();
@@ -184,7 +209,6 @@
 
 		window.addEventListener('resize', function(e){
 	    	e.preventDefault();
-	    	//console.log("hola");
 	    	update_tabs();
 	    })
 
@@ -198,47 +222,67 @@
 	    		if($('#project-navegator > li[name="'+$(tab).attr('name')+'"]' ).attr('name') == null){
 	    			if((($('#project-navegator').children().length - 1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length-1 == 1) {
 	    				$($(tab).clone()).insertBefore($('#add-project').parent());
-	    				console.log('se puede poner en el project navegator');
 	    			}
 	    		}
 	    	});
-	    	
 	    }
 
-		function add_project(arg, isNew) {
+		function add_project(arg, isNew, filecontent=null) {
 			nameProject=arg
 			if(!isNew) nameProject="Nuevo Projecto";
-			$('#project-content').append($(document.createElement('div'))
-				.attr('id', arg)
-				.attr('class', 'tab-pane fade sortable tab-project')
-				.sortable({
-					connectWith: ".sortable",
-					receive: sortable_receive,
-					change: sortable_update,
-					over: sortable_update,
-					out: sortable_update
-				}).disableSelection()
-			);
+			if(filecontent){
+				$('#project-content').append($.parseHTML(filecontent));
+			}else{
+				$('#project-content').append($(document.createElement('div'))
+					.attr('id', arg)
+					.attr('class', 'tab-pane fade sortable tab-project')
+					.sortable({
+						connectWith: ".sortable",
+						receive: sortable_receive,
+						change: sortable_update,
+						over: sortable_update,
+						out: sortable_update
+					}).disableSelection()
+				);
+			}
 			$('#add-project').parent().before($(document.createElement('li'))
+				.attr('name', arg)
+				.attr('class', 'tab-design')
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
 					.attr('aria-expanded', 'false')
 					.text(nameProject)
+					.append($(document.createElement('button'))
+						.attr('class', 'close')
+						.attr('type', 'button')
+						.text(' x')
+					)
 				)
-				.attr('name', arg)
-				.attr('class', 'tab-design')
 			);
 			$('#list-projects').append($(document.createElement('li'))
+				.attr('name', arg)
+				.attr('class', 'tab-design')
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
 					.attr('aria-expanded', 'false')
 					.text(nameProject)
+					.append($(document.createElement('button'))
+						.attr('class', 'close')
+						.attr('type', 'button')
+						.text(' x')
+					)
 				)
-				.attr('name', arg)
-				.attr('class', 'tab-design')
 			);
+			update_tabs();
+		}
+
+		function remove_project(event) {
+			$($(event.currentTarget).parent().attr('href')).remove();
+			$.each($('li[name="'+$(event.currentTarget).parent().attr('href').substr(1)+'"]'), function(indx, tab) {
+				tab.remove();
+			});
 			update_tabs();
 		}
 
