@@ -142,12 +142,20 @@
 		//Saveas Files
 		$('#saveas-files').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('saveas:files');
+			if($('#project-navegator .active').attr('name') != null) {
+				ipcRenderer.send('saveas:files');
+			}
 		});
 		//Save Files
 		$('#save-files').on('click', function(event){
 			event.preventDefault();
-			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'), ($( "#"+$('#project-navegator .active').attr('name'))).attr('path'));
+			if($('#project-navegator .active').attr('name') != null) {
+				if($('#project-navegator .active a').text() == 'Nuevo Proyecto x'){
+					ipcRenderer.send('saveas:files');
+				}else{
+					ipcRenderer.send('save:file', ($( "#"+$('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), ($( "#"+$('#project-navegator .active').attr('name'))).attr('path'));
+				}
+			}
 		});
 		// Events
 		$('#file-compiler').on('click', function (event) {
@@ -226,10 +234,17 @@
 		function add_project(arg, isNew, filecontent=null) {
 			nameProject=arg;
 			arg = arg.replace('.', 'punto');
-			if(!isNew) nameProject="Nuevo Projecto";
+			if(!isNew) nameProject="Nuevo Proyecto";
 			if(filecontent){
-				console.log($.parseHTML(filecontent));
-				$('#project-content').append($.parseHTML(filecontent));
+				$('#project-content').append($($.parseHTML(filecontent))
+					.sortable({
+						connectWith: ".sortable",
+						receive: sortable_receive,
+						change: sortable_update,
+						over: sortable_update,
+						out: sortable_update
+					}).disableSelection()
+				);
 			}else{
 				$('#project-content').append($(document.createElement('div'))
 					.attr('id', arg)
@@ -246,6 +261,7 @@
 			$('#add-project').parent().before($(document.createElement('li'))
 				.attr('name', arg)
 				.attr('class', 'tab-design')
+				.attr('path', ' ')
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
@@ -261,6 +277,7 @@
 			$('#list-projects').append($(document.createElement('li'))
 				.attr('name', arg)
 				.attr('class', 'tab-design')
+				.attr('path', ' ')
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
@@ -280,7 +297,6 @@
 			$($(event.currentTarget).parent().attr('href')).remove();
 			$.each($('li[name="'+$(event.currentTarget).parent().attr('href').substr(1)+'"]'), function(indx, tab) {
 				tab.remove();
-				console.log('removiendo');
 			});
 			update_tabs();
 		}
@@ -385,7 +401,7 @@
 					.text(' x')
 				);
 			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('name', newId.replace('.','punto'));
-			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name'))).prop('outerHTML'), filepath);
+			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), filepath);
 		});
 	</script>
 </body>
