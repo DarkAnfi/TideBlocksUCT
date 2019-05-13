@@ -283,6 +283,17 @@
 			event.preventDefault();
 			remove_project(event);
 		});
+		//Add New project to projects navegator
+		$('#add-project').on('click', function (event) {
+			event.preventDefault();
+			add_project('Project'+idProject, false);
+			idProject+=1;
+		});
+		//Remove Project
+		$('#project-navegator').on('click','.close', function(event){
+			event.preventDefault();
+			remove_project(event);
+		});
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
 			event.preventDefault();
