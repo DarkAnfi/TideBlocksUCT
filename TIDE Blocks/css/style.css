@@ -43,6 +43,10 @@
 	height: 100vh;
 }
 
+button.close{
+	padding-left: 10px;
+}
+
 .block-container {
 	padding: 0px;
 	min-height: 50px;

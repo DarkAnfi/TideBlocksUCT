@@ -5,7 +5,8 @@ const fs = require('fs');
 const Compiler = require('./js/compiler');
 const Interpreter = require('./js/interpreter');
 const child_process = require('child_process');
-
+const {dialog} = require('electron')
+const http = require('http');
 const { app, BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
@@ -81,6 +82,48 @@ ipcMain.on('test', function (event, html) {
 	console.log(interpreter.getCode());
 });
 
+
+function savefileas(event){
+	console.log("Guardando archivo .tb");
+	dialog.showSaveDialog(function (fileName) {
+		if (fileName === undefined){
+			 console.log("No guardaste el archivo");
+			 return;
+		}
+		event.sender.send('update:name-project', fileName, 'windows');
+ 	});
+}
+
+function save(even, txCode, filename) {
+	fs.writeFile(filename, txCode, function (err) {
+		if(err){
+			console.log("Ha ocurrido un error creando el archivo: "+ err.message)
+		}		 
+		console.log("El archivo ha sido creado satisfactoriamente");
+	});
+}
+
+function openfile(event, response){
+	console.log("Buscando Archivo ...");
+	dialog.showOpenDialog(function (filenames) {
+       if(filenames === undefined){
+            console.log("No se selecciono ningun archivo");
+       }else{
+            readFile(event, filenames[0]);
+       }
+	});
+}
+
+function readFile(event, filepath){
+	fs.readFile(filepath, 'utf-8', function (err, data) {
+		if(err){
+			alert("Ha ocurrido un error abriendo el archivo:" + err.message);
+			return;
+		}
+		event.sender.send('contentData', data, filepath, 'windows')
+	});
+}
+
 /*
 ipcMain.on('file:open', function(event, dirname) {
 	if (dirname == undefined) {
@@ -92,9 +135,11 @@ ipcMain.on('file:open', function(event, dirname) {
 	});
 });
 */
-
+ipcMain.on('ready:tosave', save);
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
 ipcMain.on('nav:exit', navExit);
 ipcMain.on('file:compile', fileCompile);
+ipcMain.on('open:files', openfile);
+ipcMain.on('saveas:files', savefileas);
 app.on('ready', createMainWindow);
