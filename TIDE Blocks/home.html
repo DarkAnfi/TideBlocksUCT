@@ -175,7 +175,18 @@
 			</div-->
 		</div>
 		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
-		<div id="workspace-container" class="scrollbar scrollbar-primary sortable"></div>
+		<ul id="project-navegator" class="nav nav-tabs row">
+			<li id="add-project-btn" class=""><a id="add-project" aria-expanded="true">+</a></li>
+			<li id="hidden-projects-btn" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+	      			<span class="caret"></span>
+	    		</a>
+				<ul id="list-projects" class="dropdown-menu dropdown-menu-right"></ul>
+		    </li>
+		</ul>
+		<div id="workspace-container" class="scrollbar scrollbar-primary">
+			<div id="project-content" class="tab-content"></div>
+		</div>
 	</main>
 	<script>
 		/* Imports */
@@ -232,6 +243,14 @@
 				ipcRenderer.send('file:compile', "void setup(){} void loop(){}");
 			}
 		});
+		//Add New project to projects navegator
+		$('#add-project').on('click', function (event) {
+			event.preventDefault();
+
+			add_project('Project'+idProject, false);
+			idProject+=1;
+		});
+
 		// Minimize
 		$('#nav-mini').on('click', function (event) {
 			event.preventDefault();
@@ -261,12 +280,76 @@
 				$('#blocks-container').css('display', 'none');
 				$('#separator').css('left', '1px');
 				$('#workspace-container').css('left', '11px');
+				$('#project-navegator').css('left', '26px');
+				update_tabs();
 			} else {
 				$('#blocks-container').css('display', 'block');
 				$('#separator').css('left', '301px');
 				$('#workspace-container').css('left', '311px');
+				$('#project-navegator').css('left', '326px');
+				update_tabs();
 			}
 		});
+
+		window.addEventListener('resize', function(e){
+	    	e.preventDefault();
+	    	//console.log("hola");
+	    	update_tabs();
+	    })
+
+	    function update_tabs() {
+	    	$.each($('#project-navegator').children(), function(indx, tab) {
+	    		if((((indx+1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width() > $('#project-navegator').width()) || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])){
+	    			$(tab).remove();
+	    		}
+	    	});
+	    	$.each($('#list-projects').children(), function(indx, tab) {
+	    		if($('#project-navegator > li[name="'+$(tab).attr('name')+'"]' ).attr('name') == null){
+	    			if((($('#project-navegator').children().length - 1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length-1 == 1) {
+	    				$($(tab).clone()).insertBefore($('#add-project').parent());
+	    				console.log('se puede poner en el project navegator');
+	    			}
+	    		}
+	    	});
+	    	
+	    }
+
+		function add_project(arg, isNew) {
+			nameProject=arg
+			if(!isNew) nameProject="Nuevo Projecto";
+			$('#project-content').append($(document.createElement('div'))
+				.attr('id', arg)
+				.attr('class', 'tab-pane fade sortable tab-project')
+				.sortable({
+					connectWith: ".sortable",
+					receive: sortable_receive,
+					change: sortable_update,
+					over: sortable_update,
+					out: sortable_update
+				}).disableSelection()
+			);
+			$('#add-project').parent().before($(document.createElement('li'))
+				.append($(document.createElement('a'))
+					.attr('href', '#'+arg)
+					.attr('data-toggle', 'tab')
+					.attr('aria-expanded', 'false')
+					.text(nameProject)
+				)
+				.attr('name', arg)
+				.attr('class', 'tab-design')
+			);
+			$('#list-projects').append($(document.createElement('li'))
+				.append($(document.createElement('a'))
+					.attr('href', '#'+arg)
+					.attr('data-toggle', 'tab')
+					.attr('aria-expanded', 'false')
+					.text(nameProject)
+				)
+				.attr('name', arg)
+				.attr('class', 'tab-design')
+			);
+			update_tabs();
+		}
 
 		function update_element(element, sumhb) {
 			if (sumhb < 0) {

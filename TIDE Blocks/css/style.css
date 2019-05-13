@@ -23,13 +23,24 @@
 }
 #workspace-container {
 	position: absolute;
-	top: 21px;
+	top: 63px;
 	bottom: 1px;
 	left: 311px;
 	right: 1px;
 	border-color: #1b2e40;
 	background-color: white;
 	padding: 15px 15px calc(100vh - 37px) 15px;
+}
+
+#project-navegator{
+	position: absolute;
+	top: 21px;
+	left: 326px;
+	right: 1px;
+}
+
+.tab-project{
+	height: 100vh;
 }
 
 .block-container {
