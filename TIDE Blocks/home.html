@@ -30,11 +30,11 @@
 						<li><a>Exportar</a></li>
 						<li><a id="file-compile">Compilar</a></li>
 						<li class="divider"></li>
-						<li class="dropdown-submenu">
-							<a class="dropdown-subtoggle">Preferencias</a>
+						<li class="dropdown dropdown-submenu">
+							<a class="dropdown-toggle" data-toggle="dropdown">Preferencias</a>
 							<ul class="dropdown-menu">
-								<li class="dropdown-submenu">
-									<a class="dropdown-subtoggle">Puerto</a>
+								<li class="dropdown dropdown-submenu">
+									<a class="dropdown-toggle" data-toggle="dropdown">Puerto</a>
 									<ul class="dropdown-menu" id="menu-ports">
 									</ul>
 								</li>
@@ -212,7 +212,6 @@
 		const serialport = require('serialport');
 
 		serialport.list((e, p) => {
-			console.log(e, p)
 			$('#menu-ports').html(null)
 			p.forEach(el => {
 				$('#menu-ports').append($(document.createElement('li'))
@@ -225,6 +224,22 @@
 				);
 			});
 		});
+
+		$('#menu-ports').parent().children('.dropdown-toggle').click(() => {
+			serialport.list((e, p) => {
+				$('#menu-ports').html(null)
+				p.forEach(el => {
+					$('#menu-ports').append($(document.createElement('li'))
+						.html($(document.createElement('a'))
+							.text(el.comName)
+							.click(() => {
+								ipcRenderer.send('set:port', el.comName);
+							})
+						)
+					);
+				});
+			});
+		})
 
 		/* Event listeners */
 
@@ -245,10 +260,11 @@
 				.setAttribute('data-value', event.currentTarget.value);
 		})
 
-		$('.dropdown-submenu a.dropdown-subtoggle').on("click", function (e) {
-			$(this).next('ul').toggle();
-			e.stopPropagation();
-			e.preventDefault();
+		$('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+			event.preventDefault();
+			event.stopPropagation();
+			$(this).parent().siblings().removeClass('open');
+			$(this).parent().toggleClass('open');
 		});
 
 		//id Para archivos nuevos, pero no existentes
@@ -530,8 +546,8 @@
 
 		/* IPC Renderer listeners */
 
-		function fileCompile(event,error, stdout, stderr) {
-			console.log(event,error,stdout,stderr)
+		function fileCompile(event, error, stdout, stderr) {
+			console.log(event, error, stdout, stderr)
 			if ($('#file-compile').parent().hasClass('disabled') == true) {
 				$('#file-compile').parent().removeClass('disabled');
 				if (error) {
