@@ -5,7 +5,7 @@ function Interpreter(options, html) {
         options = options ? options : {};
         self._imports = (options.imports) ? options.imports : ["Servo.h"];
         self._global = (options.global) ? options.global : "Servo SERVO1;\nServo SERVO2;\n";
-        self._setup = (options.setup) ? options.setup : "pinMode(LED_G, OUTPUT);\npinMode(LED_Y, OUTPUT);\npinMode(LED_R, OUTPUT);\npinMode(LED_W, OUTPUT);\nSERVO1.attach(S1);\nSERVO2.attach(S2);";
+        self._setup = (options.setup) ? options.setup : "pinMode(4, OUTPUT);\npinMode(5, OUTPUT);\npinMode(6, OUTPUT);\npinMode(13, OUTPUT);\nSERVO1.attach(12);\nSERVO2.attach(11);";
         self._debug = (options.debug) ? options.debug : false;
         self._html = (html) ? html : [];
     }

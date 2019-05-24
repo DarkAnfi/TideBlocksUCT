@@ -30,6 +30,17 @@
 						<li><a>Exportar</a></li>
 						<li><a id="file-compile">Compilar</a></li>
 						<li class="divider"></li>
+						<li class="dropdown-submenu">
+							<a class="dropdown-subtoggle">Preferencias</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-submenu">
+									<a class="dropdown-subtoggle">Puerto</a>
+									<ul class="dropdown-menu" id="menu-ports">
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="divider"></li>
 						<li><a>Salir</a></li>
 					</ul>
 				</li>
@@ -111,8 +122,8 @@
 								<tr>
 									<td style="padding-right: 10px">Esperar</td>
 									<td>
-										<input class="form-control input-sm" min="0" max="4294967295" type="number" value="1000"
-											style="width:100px" />
+										<input class="form-control input-sm" min="0" max="4294967295" type="number"
+											value="1000" style="width:100px" />
 									</td>
 								</tr>
 							</tbody>
@@ -198,6 +209,22 @@
 		const { ipcRenderer } = electron;
 		const html2json = require('html-to-json');
 		const path = require('path');
+		const serialport = require('serialport');
+
+		serialport.list((e, p) => {
+			console.log(e, p)
+			$('#menu-ports').html(null)
+			p.forEach(el => {
+				$('#menu-ports').append($(document.createElement('li'))
+					.html($(document.createElement('a'))
+						.text(el.comName)
+						.click(() => {
+							ipcRenderer.send('set:port', el.comName);
+						})
+					)
+				);
+			});
+		});
 
 		/* Event listeners */
 
@@ -206,17 +233,6 @@
 				$(this).scrollLeft(0);
 			}
 		});
-
-		$("#workspace-container").click(function () {
-			html2json.parse($("#" + $("#project-navegator .active").attr('name')).html(), function (data) {
-				if (data.length) {
-					if (data[0].children) {
-						console.log(data[0].children);
-						ipcRenderer.send('test', data[0].children)
-					}
-				}
-			})
-		})
 
 		// Input Change
 		$(".block table input").change(function (event) {
@@ -229,19 +245,11 @@
 				.setAttribute('data-value', event.currentTarget.value);
 		})
 
-		// Nav Dropdown Mouse
-		$('nav .dropdown')
-			.on('mouseenter', function (event) {
-				if ($(event.currentTarget).hasClass('open') == false) {
-					$(event.currentTarget).find('.dropdown-toggle').dropdown("toggle");
-				}
-			})
-			.on('mouseleave', function (event) {
-				if ($(event.currentTarget).hasClass('open') == true) {
-					$(event.currentTarget).find('.dropdown-toggle').dropdown("toggle");
-				}
-			});
-
+		$('.dropdown-submenu a.dropdown-subtoggle').on("click", function (e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
 
 		//id Para archivos nuevos, pero no existentes
 		let idProject = 0;
@@ -273,8 +281,17 @@
 		$('#file-compile').on('click', function (event) {
 			event.preventDefault();
 			if ($('#file-compile').parent().hasClass('disabled') == false) {
-				$('#file-compile').parent().addClass('disabled');
-				ipcRenderer.send('file:compile', "void setup(){} void loop(){}");
+				if ($("#" + $("#project-navegator .active").attr('name')).html()) {
+					html2json.parse($("#" + $("#project-navegator .active").attr('name')).html(), function (data) {
+						if (data.length) {
+							if (data[0].children) {
+
+								$('#file-compile').parent().addClass('disabled');
+								ipcRenderer.send('file:compile', data[0].children);
+							}
+						}
+					})
+				}
 			}
 		});
 		//Add New project to projects navegator
@@ -513,7 +530,8 @@
 
 		/* IPC Renderer listeners */
 
-		function fileCompile(error, stdout, stderr) {
+		function fileCompile(event,error, stdout, stderr) {
+			console.log(event,error,stdout,stderr)
 			if ($('#file-compile').parent().hasClass('disabled') == true) {
 				$('#file-compile').parent().removeClass('disabled');
 				if (error) {
