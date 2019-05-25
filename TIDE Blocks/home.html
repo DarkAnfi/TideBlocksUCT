@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="./css/custom.css">
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="./css/block.css">
 	<script>window.$ = window.jQuery = require('./js/jquery.min.js');</script>
 	<script>require('./js/jquery-ui.min.js');</script>
 	<script>require('./js/bootstrap.min.js');</script>
@@ -27,7 +28,18 @@
 						<li><a id="saveas-files">Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
-						<li><a id="file-compiler">Compilar</a></li>
+						<li><a id="file-compile">Compilar</a></li>
+						<li class="divider"></li>
+						<li class="dropdown-submenu">
+							<a class="dropdown-subtoggle">Preferencias</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-submenu">
+									<a class="dropdown-subtoggle">Puerto</a>
+									<ul class="dropdown-menu" id="menu-ports">
+									</ul>
+								</li>
+							</ul>
+						</li>
 						<li class="divider"></li>
 						<li><a>Salir</a></li>
 					</ul>
@@ -42,6 +54,8 @@
 						<li><a>Copiar</a></li>
 						<li><a>Pegar</a></li>
 						<li><a>Borrar</a></li>
+						<li class="divider"></li>
+						<li><a id="rename-project" data-toggle="modal" data-target="#rename-modal" href=""> Cambiar nombre</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -63,9 +77,63 @@
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
 			<div class="block-container">
-				<div id="Setter" class="block block-default">Default</div>
+				<div class="block">
+					<div class="block-default" data-block='block-led-w-on'>Encender LED Blanco</div>
+				</div>
 			</div>
 			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-r-on'>Encender LED Rojo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-y-on'>Encender LED Amarillo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-g-on'>Encender LED Verde</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-w-off'>Apagar LED Blanco</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-r-off'>Apagar LED Rojo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-y-off'>Apagar LED Amarillo</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='block-led-g-off'>Apagar LED Verde</div>
+				</div>
+			</div>
+			<div class="block-container">
+				<div class="block">
+					<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
+						<table>
+							<tbody>
+								<tr>
+									<td style="padding-right: 10px">Esperar</td>
+									<td>
+										<input class="form-control input-sm" min="0" max="4294967295" type="number"
+											value="1000" style="width:100px" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--div class="block-container">
 				<div id="Setter" class="block block-primary">Primary</div>
 			</div>
 			<div class="block-container">
@@ -79,10 +147,18 @@
 			</div>
 			<div class="block-container">
 				<div id="Setter" class="block block-danger">Danger</div>
+			</div-->
+			<!--div class="test-block-container">
+				<div class="test-block block-if">
+					<div><div class="block-header">Si true entonces</div></div>
+					<div><div class="block-body sortable"></div></div>
+				</div>
 			</div>
 			<div class="block-container">
 				<div id="Setter" class="container-block container-block-default">Default
-					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
+					<div class="sortable"
+						style="position: relative; top: 10px; left: 10px; padding-bottom:20px; background-color: rgba(255,0,0,0.5)">
+					</div>
 				</div>
 			</div>
 			<div class="block-container">
@@ -109,7 +185,7 @@
 				<div id="Setter" class="container-block container-block-danger">Danger
 					<div class="sortable" style="position: relative; top: 10px; left: 10px; padding-bottom:20px"></div>
 				</div>
-			</div>
+			</div-->
 		</div>
 		<button type="button" id="separator" class="btn btn-default">&laquo;</button>
 		<div>
@@ -123,15 +199,77 @@
 			    </li>
 			</ul>
 		</div>
-		
+
 		<div id="workspace-container" class="scrollbar scrollbar-primary">
 			<div id="project-content" class="tab-content"></div>
 		</div>
+		<div class="modal" id="rename-modal">
+		  	<div class="modal-dialog">
+		    	<div class="modal-content">
+			    	<div class="modal-header">
+			    		<h4 class="modal-title">Cambiar nombre de proyecto</h4>
+			    		<button type="button" class="close" data-dismiss="modal">&times;</button>
+			    	</div>
+			    	<div class="modal-body">
+			        	Nuevo nombre: <input id="rename" type="text">
+			    	</div>
+			    	<div class="modal-footer">
+				      	<button id="rename-accept" class="btn btn-default" type="button" data-dismiss="modal">Aceptar</button>
+						<button id="rename-cancel" class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
 	<script>
-		// electron imports
-		const electron = require('electron')
+		/* Imports */
+
+		const electron = require('electron');
 		const { ipcRenderer } = electron;
+		const html2json = require('html-to-json');
+		const path = require('path');
+		const serialport = require('serialport');
+
+		serialport.list((e, p) => {
+			console.log(e, p)
+			$('#menu-ports').html(null)
+			p.forEach(el => {
+				$('#menu-ports').append($(document.createElement('li'))
+					.html($(document.createElement('a'))
+						.text(el.comName)
+						.click(() => {
+							ipcRenderer.send('set:port', el.comName);
+						})
+					)
+				);
+			});
+		});
+
+		/* Event listeners */
+
+		$('.scrollbar').bind('scroll', function () {
+			if ($(this).scrollLeft() !== 0) {
+				$(this).scrollLeft(0);
+			}
+		});
+
+		// Input Change
+		$(".block table input").change(function (event) {
+			event.currentTarget
+				.parentElement
+				.parentElement
+				.parentElement
+				.parentElement
+				.parentElement
+				.setAttribute('data-value', event.currentTarget.value);
+		})
+
+		$('.dropdown-submenu a.dropdown-subtoggle').on("click", function (e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+
 		//id Para archivos nuevos, pero no existentes
 		let idProject = 0;
 		// Open file
@@ -150,17 +288,51 @@
 		$('#save-files').on('click', function(event){
 			event.preventDefault();
 			if($('#project-navegator .active').attr('name') != null) {
-				if($('#project-navegator .active a').text() == 'Nuevo Proyecto x'){
+				if($('#project-navegator .active').attr('path') == ' '){
 					ipcRenderer.send('saveas:files');
 				}else{
-					ipcRenderer.send('save:file', ($( "#"+$('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), ($( "#"+$('#project-navegator .active').attr('name'))).attr('path'));
+					ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), path.resolve($( "#"+$('#project-navegator .active').attr('name')).attr('path'), $('#project-navegator .active a').text().slice(0, -2)));
 				}
 			}
 		});
-		// Events
-		$('#file-compiler').on('click', function (event) {
+
+		// Compile
+		$('#file-compile').on('click', function (event) {
 			event.preventDefault();
-			ipcRenderer.send('test:compiler', $('#workspace-code-container').val());
+			if ($('#file-compile').parent().hasClass('disabled') == false) {
+				if ($("#" + $("#project-navegator .active").attr('name')).html()) {
+					html2json.parse($("#" + $("#project-navegator .active").attr('name')).html(), function (data) {
+						if (data.length) {
+							if (data[0].children) {
+
+								$('#file-compile').parent().addClass('disabled');
+								ipcRenderer.send('file:compile', data[0].children);
+							}
+						}
+					})
+				}
+			}
+		});
+		//Display rename modal
+		$('#rename-project').on('click', function (event) {
+			event.preventDefault();
+			$('#rename').val('');
+			if($('#project-navegator .active').attr('name') != null) {
+				$('#rename').val($('#project-navegator .active a').text().slice(0, -2));
+			}
+		});
+		//Click accept button (rename)
+		$('#rename-accept').on('click', function (event) {
+			event.preventDefault();
+			if($('#project-navegator .active').attr('name') != null) {
+				if($('#rename').val() != ''){
+					if($( "#"+$('#project-navegator .active').attr('name')).attr('path') == ' '){
+						update_nameProject(path.resolve($( "#"+$('#project-navegator .active').attr('name')).attr('path'), $('#rename').val()), true);
+					}else{
+						update_nameProject(path.resolve($( "#"+$('#project-navegator .active').attr('name')).attr('path'), $('#rename').val()), false);
+					}
+				}	
+			}
 		});
 		//Add New project to projects navegator
 		$('#add-project').on('click', function (event) {
@@ -169,7 +341,7 @@
 			idProject+=1;
 		});
 		//Remove Project
-		$('#project-navegator').on('click','.close', function(event){
+		$('#project-navegator').on('click', '.close', function (event) {
 			event.preventDefault();
 			remove_project(event);
 		});
@@ -194,6 +366,8 @@
 			ipcRenderer.send('file:open');
 		});
 		// Colapse blocks container
+
+		/**/
 		$('#separator').on('click', function (event) {
 			event.preventDefault();
 			if ($('#blocks-container').css('display') != 'none') {
@@ -211,12 +385,12 @@
 			}
 		});
 
-		window.addEventListener('resize', function(e){
-	    	e.preventDefault();
-	    	update_tabs();
-	    })
+		window.addEventListener('resize', function (e) {
+			e.preventDefault();
+			update_tabs();
+		})
 
-	    function update_tabs() {
+		function update_tabs() {
 	    	$.each($('#project-navegator').children(), function(indx, tab) {
 	    		if((((indx+1) * $(tab).width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width() > $('#project-navegator').width()) || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])){
 	    			$(tab).remove();
@@ -233,6 +407,7 @@
 
 		function add_project(arg, isNew, filecontent=null) {
 			nameProject=arg;
+			newPath = ' '
 			arg = arg.replace('.', 'punto');
 			if(!isNew) nameProject="Nuevo Proyecto";
 			if(filecontent){
@@ -245,9 +420,11 @@
 						out: sortable_update
 					}).disableSelection()
 				);
+				newPath = $('#'+ arg).attr('path'); 
 			}else{
 				$('#project-content').append($(document.createElement('div'))
 					.attr('id', arg)
+					.attr('path', ' ')
 					.attr('class', 'tab-pane fade sortable tab-project')
 					.sortable({
 						connectWith: ".sortable",
@@ -261,7 +438,7 @@
 			$('#add-project').parent().before($(document.createElement('li'))
 				.attr('name', arg)
 				.attr('class', 'tab-design')
-				.attr('path', ' ')
+				.attr('path', newPath)
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
@@ -277,7 +454,7 @@
 			$('#list-projects').append($(document.createElement('li'))
 				.attr('name', arg)
 				.attr('class', 'tab-design')
-				.attr('path', ' ')
+				.attr('path', newPath)
 				.append($(document.createElement('a'))
 					.attr('href', '#'+arg)
 					.attr('data-toggle', 'tab')
@@ -370,28 +547,53 @@
 			over: sortable_update,
 			out: sortable_update
 		}).disableSelection();
+		/**/
+		/*
+		function sortableRemove(event, ui) {
+			$(this).html(ui.item.clone())
+		}
 
-		ipcRenderer.on('contentData', (event, data, filepath, system)=>{				
-			newId = '';
-			if(system == 'windows'){
-				newId = filepath.substr(filepath.lastIndexOf("\\") + 1);
-			}else{
-				newId = filepath.substr(filepath.lastIndexOf("/") + 1)
-			}
-			if($('li[name="'+newId.replace('.','punto')+'"]' ).length == 0){
-				add_project(newId, true, data);
-			}
-		});
+		function sortableReceive(event, ui) {
+			$('.sortable').sortable({
+				connectWith: ".sortable",
+				receive: sortableReceive
+			});
+		}
 
-		ipcRenderer.on('update:name-project', (event, filepath, system)=> {
-			newId = '';
-			$("#"+$('#project-navegator .active').attr('name')).attr('path', filepath);
-			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('path', filepath);
-			if(system == 'windows'){
-				newId = filepath.substr(filepath.lastIndexOf("\\") + 1);
-			}else{
-				newId = filepath.substr(filepath.lastIndexOf("/") + 1)
+		$(".test-block-container").sortable({
+			connectWith: ".sortable",
+			remove: sortableRemove
+		}).disableSelection();
+
+		$(".sortable").sortable({
+			connectWith: ".sortable",
+			receive: sortableReceive
+		})
+		/**/
+
+		/* IPC Renderer listeners */
+
+		function fileCompile(event,error, stdout, stderr) {
+			console.log(event,error,stdout,stderr)
+			if ($('#file-compile').parent().hasClass('disabled') == true) {
+				$('#file-compile').parent().removeClass('disabled');
+				if (error) {
+					console.log(error.message);
+				} else {
+					console.log('Success.');
+				}
 			}
+		}
+
+		function update_nameProject(filepath, isNew) {
+			newId = path.basename(filepath);
+			if(isNew){
+				newPath = ' '
+			}else{
+				newPath = path.dirname(filepath);
+			}
+			$("#"+$('#project-navegator .active').attr('name')).attr('path', newPath);
+			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('path', newPath);
 			$( "#"+$('#project-navegator .active').attr('name')).attr('id', newId.replace('.', 'punto'));
 			$( "li[name='"+$('#project-navegator .active').attr('name')+"'] a").attr('href', '#'+newId.replace('.','punto'));
 			$( "li[name='"+$('#project-navegator .active').attr('name')+"'] a").text(newId);
@@ -401,6 +603,20 @@
 					.text(' x')
 				);
 			$( "li[name='"+$('#project-navegator .active').attr('name')+"']").attr('name', newId.replace('.','punto'));
+		}
+
+		ipcRenderer.on('file:compile', fileCompile);
+
+
+		ipcRenderer.on('contentData', (event, data, filepath)=>{				
+			newId = path.basename(filepath);
+			if($('li[name="'+newId.replace('.','punto')+'"]' ).length == 0){
+				add_project(newId, true, data);
+			}
+		});
+
+		ipcRenderer.on('update:name-project', (event, filepath)=> {
+			update_nameProject(filepath);
 			ipcRenderer.send('ready:tosave', ($( "#"+$('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), filepath);
 		});
 	</script>
