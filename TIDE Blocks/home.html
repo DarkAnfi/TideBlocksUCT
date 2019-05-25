@@ -45,7 +45,7 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown">Edición</a>
+					<a id="edit-menu" class="dropdown-toggle" data-toggle="dropdown">Edición</a>
 					<ul class="dropdown-menu">
 						<li><a>Undo</a></li>
 						<li><a>Redo</a></li>
@@ -289,6 +289,14 @@
 
 		//id Para archivos nuevos, pero no existentes
 		let idProject = 0;
+		//Edit menu click
+		$('#edit-menu').on('click', function(event) {
+			if($('#project-navegator .active').attr('name') == null) {
+				$('#rename-project').parent().addClass('disabled');
+			}else{
+				$('#rename-project').parent().removeClass('disabled');
+			}
+		});
 		// Open file
 		$('#open-files').on('click', function (event) {
 			event.preventDefault();
@@ -333,11 +341,14 @@
 		//Display rename modal
 		$('#rename-project').on('click', function (event) {
 			event.preventDefault();
-			$('#rename').val('');
-			if($('#project-navegator .active').attr('name') != null) {
+			if ($(this).parent().hasClass("disabled")) {
+                event.stopPropagation()
+            } else {
+            	$('#rename').val('');                
 				$('#rename').val($('#project-navegator .active a').text().slice(0, -2));
-			}
+            }
 		});
+
 		//Click accept button (rename)
 		$('#rename-accept').on('click', function (event) {
 			event.preventDefault();
