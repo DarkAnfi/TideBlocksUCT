@@ -76,63 +76,89 @@
 	</nav>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-w-on'>Encender LED Blanco</div>
+			<ul id="block-menu" class="nav nav-pills nav-stacked text-center">
+				<li class="block-menu-option"><a href="#vars" data-toggle="tab" aria-expanded="true">Variables</a></li>
+				<li class="block-menu-option"><a href="#controls" data-toggle="tab" aria-expanded="true">Control</a></li>
+				<li class="block-menu-option"><a href="#operators" data-toggle="tab" aria-expanded="true">Operadores</a></li>
+				<li class="block-menu-option"><a href="#makers" data-toggle="tab" aria-expanded="true">Maker</a></li>
+			</ul>
+			<div id="block-content" class="tab-content">
+				<div class="tab-pane fade block-section" id="vars">
+					<div class="block-container">
+				    	<p>Variables</p>
+				    </div>
 				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-r-on'>Encender LED Rojo</div>
+				<div class="tab-pane fade block-section" id="controls">
+					<div class="block-container">
+				    	<p>Controles</p>
+				    </div>
 				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-y-on'>Encender LED Amarillo</div>
+				<div class="tab-pane fade block-section" id="operators">
+					<div class="block-container">
+			    		<p>Operadores</p>
+			    	</div>
 				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-g-on'>Encender LED Verde</div>
-				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-w-off'>Apagar LED Blanco</div>
-				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-r-off'>Apagar LED Rojo</div>
-				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-y-off'>Apagar LED Amarillo</div>
-				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='block-led-g-off'>Apagar LED Verde</div>
-				</div>
-			</div>
-			<div class="block-container">
-				<div class="block">
-					<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
-						<table>
-							<tbody>
-								<tr>
-									<td style="padding-right: 10px">Esperar</td>
-									<td>
-										<input class="form-control input-sm" min="0" max="4294967295" type="number"
-											value="1000" style="width:100px" />
-									</td>
-								</tr>
-							</tbody>
-						</table>
+				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="makers">
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-w-on'>Encender LED Blanco</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-r-on'>Encender LED Rojo</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-y-on'>Encender LED Amarillo</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-g-on'>Encender LED Verde</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-w-off'>Apagar LED Blanco</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-r-off'>Apagar LED Rojo</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-y-off'>Apagar LED Amarillo</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='block-led-g-off'>Apagar LED Verde</div>
+						</div>
+					</div>
+					<div class="block-container">
+						<div class="block">
+							<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
+								<table>
+									<tbody>
+										<tr>
+											<td style="padding-right: 10px">Esperar</td>
+											<td>
+												<input class="form-control input-sm" min="0" max="4294967295" type="number"
+													value="1000" style="width:100px" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 			<!--div class="block-container">
 				<div id="Setter" class="block block-primary">Primary</div>
 			</div>
@@ -260,7 +286,9 @@
 			});
 		})
 
-
+		$(document).ready(function(event) {
+			$('.block-section').css('height', "calc(100vh - "+((parseInt($('.block-menu-option').css('height'))*4)+parseInt($('.navbar').css('height')))+"px)");
+		});
 		/* Event listeners */
 
 		$('.scrollbar').bind('scroll', function () {
@@ -415,6 +443,7 @@
 
 		window.addEventListener('resize', function (e) {
 			e.preventDefault();
+			$('.block-section').css('height', "calc(100vh - "+((parseInt($('.block-menu-option').css('height'))*4)+parseInt($('.navbar').css('height')))+"px)");
 			update_tabs();
 		})
 

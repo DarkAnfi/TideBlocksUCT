@@ -2,12 +2,10 @@
 	position: absolute;
 	top: 21px;
 	bottom: 1px;
-	left: 1px;
-	min-width: 300px;
-	width: 300px;
-	max-width: 300px;
+	min-width: 290px;
+	width: 290px;
+	max-width: 290px;
 	overflow-x: none;
-	padding: 15px;
 }
 #separator {
 	position: absolute;
@@ -32,11 +30,24 @@
 	padding: 15px 15px calc(100vh - 37px) 15px;
 }
 
+#block-menu{
+	width: 301px;
+}
+
+#block-content{
+	width: 301px;
+}
+
 #project-navegator{
 	position: absolute;
 	top: 21px;
 	left: 326px;
 	right: 1px;
+}
+
+.block-section{
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .tab-project{
