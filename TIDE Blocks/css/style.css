@@ -2,9 +2,9 @@
 	position: absolute;
 	top: 21px;
 	bottom: 1px;
-	min-width: 290px;
-	width: 290px;
-	max-width: 290px;
+	min-width: 301px;
+	width: 301px;
+	max-width: 301px;
 	overflow-x: none;
 }
 #separator {
@@ -31,7 +31,8 @@
 }
 
 #block-menu{
-	width: 301px;
+	width: 100%;
+	margin:0px;
 }
 
 #block-content{
@@ -46,8 +47,12 @@
 }
 
 .block-section{
-	padding-left: 15px;
-	padding-right: 15px;
+	padding: 15px;
+	height: calc(100vh - 80px);
+}
+
+.block-menu-option {
+	outline: none !important;
 }
 
 .tab-project{

@@ -76,12 +76,12 @@
 	</nav>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
-			<ul id="block-menu" class="nav nav-pills nav-stacked text-center">
-				<li class="block-menu-option"><a href="#vars" data-toggle="tab" aria-expanded="true">Variables</a></li>
-				<li class="block-menu-option"><a href="#controls" data-toggle="tab" aria-expanded="true">Control</a></li>
-				<li class="block-menu-option"><a href="#operators" data-toggle="tab" aria-expanded="true">Operadores</a></li>
-				<li class="block-menu-option"><a href="#makers" data-toggle="tab" aria-expanded="true">Maker</a></li>
-			</ul>
+			<div id="block-menu" class="row">
+				<button class="block-menu-option btn btn-default btn-sm col-xs-6" href="#vars" data-toggle="tab" aria-expanded="true">Variables</button>
+				<button class="block-menu-option btn btn-default btn-sm col-xs-6" href="#controls" data-toggle="tab" aria-expanded="true">Control</button>
+				<button class="block-menu-option btn btn-default btn-sm col-xs-6" href="#operators" data-toggle="tab" aria-expanded="true">Operadores</button>
+				<button class="block-menu-option btn btn-default btn-sm col-xs-6" href="#makers" data-toggle="tab" aria-expanded="true">Maker</button>
+			</div>
 			<div id="block-content" class="tab-content">
 				<div class="tab-pane fade block-section" id="vars">
 					<div class="block-container">
@@ -90,8 +90,22 @@
 				</div>
 				<div class="tab-pane fade block-section" id="controls">
 					<div class="block-container">
-				    	<p>Controles</p>
-				    </div>
+						<div class="block">
+							<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
+								<table>
+									<tbody>
+										<tr>
+											<td style="padding-right: 10px">Esperar</td>
+											<td>
+												<input class="form-control input-sm" min="0" max="4294967295" type="number"
+													value="1000" style="width:100px" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="tab-pane fade block-section" id="operators">
 					<div class="block-container">
@@ -137,23 +151,6 @@
 					<div class="block-container">
 						<div class="block">
 							<div class="block-default" data-block='block-led-g-off'>Apagar LED Verde</div>
-						</div>
-					</div>
-					<div class="block-container">
-						<div class="block">
-							<div class="block-default" data-block='delay' data-value="1000" style="margin-bottom: -1px">
-								<table>
-									<tbody>
-										<tr>
-											<td style="padding-right: 10px">Esperar</td>
-											<td>
-												<input class="form-control input-sm" min="0" max="4294967295" type="number"
-													value="1000" style="width:100px" />
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -285,10 +282,10 @@
 				});
 			});
 		})
-
+		/*
 		$(document).ready(function(event) {
 			$('.block-section').css('height', "calc(100vh - "+((parseInt($('.block-menu-option').css('height'))*4)+parseInt($('.navbar').css('height')))+"px)");
-		});
+		});*/
 		/* Event listeners */
 
 		$('.scrollbar').bind('scroll', function () {
@@ -434,16 +431,21 @@
 				update_tabs();
 			} else {
 				$('#blocks-container').css('display', 'block');
-				$('#separator').css('left', '301px');
+		 		$('#separator').css('left', '301px');
 				$('#workspace-container').css('left', '311px');
 				$('#project-navegator').css('left', '326px');
 				update_tabs();
 			}
 		});
 
+		$(".block-menu-option").click(function(event){
+			$(".block-menu-option").removeClass('active')
+			$(event.currentTarget).addClass('active')
+		});
+
 		window.addEventListener('resize', function (e) {
 			e.preventDefault();
-			$('.block-section').css('height', "calc(100vh - "+((parseInt($('.block-menu-option').css('height'))*4)+parseInt($('.navbar').css('height')))+"px)");
+			//$('.block-section').css('height', "calc(100vh - "+((parseInt($('.block-menu-option').css('height'))*4)+parseInt($('.navbar').css('height')))+"px)");
 			update_tabs();
 		})
 
