@@ -1,4 +1,4 @@
-const electron = require('electron'); 
+const electron = require('electron');
 const url = require('url');
 const path = require('path');
 const fs = require('fs');
@@ -81,7 +81,7 @@ function fileCompile(event, html) {
 		});
 	} else {
 		console.log("Puerto no definido.")
-		mainWindow.webContents.send('file:compile', {message:"Puerto no definido."}, "Puerto no definido.", "Puerto no definido.");
+		mainWindow.webContents.send('file:compile', { message: "Puerto no definido." }, "Puerto no definido.", "Puerto no definido.");
 	}
 }
 
@@ -91,40 +91,40 @@ ipcMain.on('test', function (event, html) {
 });
 
 
-function savefileas(event){
+function savefileas(event) {
 	console.log("Guardando archivo .tb");
 	dialog.showSaveDialog(function (fileName) {
-		if (fileName === undefined){
+		if (fileName === undefined) {
 			console.log("No guardaste el archivo");
 			return;
 		}
 		event.sender.send('update:name-project', fileName);
- 	});
+	});
 }
 
 function save(even, txCode, filename) {
 	fs.writeFile(filename, txCode, function (err) {
-		if(err){
-			console.log("Ha ocurrido un error creando el archivo: "+ err.message)
-		}		 
+		if (err) {
+			console.log("Ha ocurrido un error creando el archivo: " + err.message)
+		}
 		console.log("El archivo ha sido creado satisfactoriamente");
 	});
 }
 
-function openfile(event, response){
+function openfile(event, response) {
 	console.log("Buscando Archivo ...");
 	dialog.showOpenDialog(function (filenames) {
-    	if(filenames === undefined){
-            console.log("No se selecciono ningun archivo");
-    	}else{
-            readFile(event, filenames[0]);
-    	}
+		if (filenames === undefined) {
+			console.log("No se selecciono ningun archivo");
+		} else {
+			readFile(event, filenames[0]);
+		}
 	});
 }
 
-function readFile(event, filepath){
+function readFile(event, filepath) {
 	fs.readFile(filepath, 'utf-8', function (err, data) {
-		if(err){
+		if (err) {
 			alert("Ha ocurrido un error abriendo el archivo:" + err.message);
 			return;
 		}

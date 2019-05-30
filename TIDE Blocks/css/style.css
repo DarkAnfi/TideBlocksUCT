@@ -6,6 +6,7 @@
 	width: 301px;
 	max-width: 301px;
 	overflow-x: none;
+	padding: 15px;
 }
 #separator {
 	position: absolute;
