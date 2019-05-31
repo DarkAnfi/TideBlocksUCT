@@ -46,10 +46,11 @@ function navExit(event) {
 }
 
 function fileCompile(event, html) {
+	mainWindow.webContents.send('log:open', 'Compilando')
 	const interpreter = new Interpreter(html);
 	const txCode = interpreter.getCode();
 	if (current_port) {
-		console.log('Iniciando proceso de compilación...')
+		mainWindow.webContents.send('log:write', 'Iniciando proceso de compilación.');
 		if (!fs.existsSync(path.join(__dirname, 'temp'))) {
 			fs.mkdirSync(path.join(__dirname, 'temp'));
 		}
@@ -59,19 +60,30 @@ function fileCompile(event, html) {
 		const filename = path.join(__dirname, 'temp', 'temp.ino');
 		fs.writeFile(filename, txCode, (error) => {
 			if (error) {
+				mainWindow.webContents.send('log:write', 'Ha ocurrido un error al crear el archivo.');
 				mainWindow.webContents.send('file:compile', error, "Ha ocurrido un error al crear el archivo.", error.message);
 			} else {
+				mainWindow.webContents.send('log:write', 'Validando parametros.');
 				child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
 					if (error) {
+						mainWindow.webContents.send('log:write', error.message)
 						mainWindow.webContents.send('file:compile', error, stdout, stderr);
 					} else {
+						mainWindow.webContents.send('log:write', 'Compilando.');
 						child_process.exec(compiler.compile(), (error, stdout, stderr) => {
 							if (error) {
+								mainWindow.webContents.send('log:write', error.message);
 								mainWindow.webContents.send('file:compile', error, stdout, stderr);
 							} else {
+								mainWindow.webContents.send('log:write', 'Enviando por el puerto ' + current_port + '.');
 								child_process.exec(compiler.send(current_port), (error, stdout, stderr) => {
-									mainWindow.webContents.send('file:compile', error, stdout, stderr);
-									console.log('listo')
+									if (error) {
+										mainWindow.webContents.send('log:write', error.message);
+										mainWindow.webContents.send('file:compile', error, stdout, stderr);
+									} else {
+										mainWindow.webContents.send('log:write', 'Listo.');
+										mainWindow.webContents.send('log:end');
+									}
 								});
 							}
 						});
@@ -80,7 +92,8 @@ function fileCompile(event, html) {
 			}
 		});
 	} else {
-		console.log("Puerto no definido.")
+		mainWindow.webContents.send('log:write', 'Puerto no definido.');
+		mainWindow.webContents.send('log:end')
 		mainWindow.webContents.send('file:compile', { message: "Puerto no definido." }, "Puerto no definido.", "Puerto no definido.");
 	}
 }
