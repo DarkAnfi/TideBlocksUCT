@@ -23,6 +23,7 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
 					<ul class="dropdown-menu">
+						<li><a id="new-file">Nuevo Archivo</a></li>
 						<li><a id="open-files">Abrir</a></li>
 						<li><a id="save-files">Guardar</a></li>
 						<li><a id="saveas-files">Guardar Como</a></li>
@@ -328,6 +329,12 @@
 			} else {
 				$('#rename-project').parent().removeClass('disabled');
 			}
+
+		//New File
+		$('#new-file').on('click', function (event) {
+			event.preventDefault();
+			add_project('Project' + idProject, false);
+			idProject += 1;
 		});
 		// Open file
 		$('#open-files').on('click', function (event) {
