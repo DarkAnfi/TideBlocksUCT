@@ -13,8 +13,19 @@ void setup() {
 }
 
 void loop() {
-    digitalWrite(13, HIGH);
-    delay(1000);
-    digitalWrite(13, LOW);
-    delay(1000);
+    if (analogRead(3) > 512) {
+        digitalWrite(4, HIGH);
+        digitalWrite(5, LOW);
+        digitalWrite(6, LOW);
+    }
+    if (analogRead(3) <=512 && analogRead(3) > 256) {
+        digitalWrite(4, LOW);
+        digitalWrite(5, HIGH);
+        digitalWrite(6, LOW);
+    }
+    if (analogRead(3) <= 256) {
+        digitalWrite(4, LOW);
+        digitalWrite(5, LOW);
+        digitalWrite(6, HIGH);
+    }
 }

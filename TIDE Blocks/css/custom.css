@@ -88,3 +88,100 @@ main {
 .dropdown-submenu.pull-left {
     float:none;
 }
+
+ul.sortable,
+ul.block-container {
+	list-style: none;
+	padding: 0px;
+}
+
+ul.sortable *,
+ul.block-container * {
+	font-size: 12px;
+}
+
+ul.sortable li,
+ul.block-container li {
+	width: fit-content;
+	margin-bottom: -5px;
+	background-image: url(../pictures/blocks/default/tl.png),url(../pictures/blocks/default/t.png),url(../pictures/blocks/default/tr.png),
+					  url(../pictures/blocks/default/bl.png),url(../pictures/blocks/default/b.png),url(../pictures/blocks/default/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+ul.sortable div,
+ul.block-container div {
+	background-image: url(../pictures/containers-blocks/default/hml.png),url(../pictures/containers-blocks/default/hm.png),url(../pictures/containers-blocks/default/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+ul.sortable li.locked div,
+ul.block-container li.locked div {
+	background-image: url(../pictures/blocks/default/tl.png),url(../pictures/blocks/default/t.png),url(../pictures/blocks/default/tr.png),
+					  url(../pictures/blocks/default/ml.png),url(../pictures/blocks/default/m.png),url(../pictures/blocks/default/mr.png),
+					  url(../pictures/blocks/default/bl.png),url(../pictures/blocks/default/b.png),url(../pictures/blocks/default/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+ul.sortable ul,
+ul.block-container ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(../pictures/containers-blocks/default/btl.png),url(../pictures/containers-blocks/default/bt.png),url(../pictures/containers-blocks/default/btr.png),
+					  url(../pictures/containers-blocks/default/bml.png),url(../pictures/containers-blocks/default/bm.png),url(../pictures/containers-blocks/default/bmr.png),
+					  url(../pictures/containers-blocks/default/bbl.png),url(../pictures/containers-blocks/default/bb.png),url(../pictures/containers-blocks/default/bbr.png),
+					  url(../pictures/containers-blocks/default/fbl.png),url(../pictures/containers-blocks/default/fb.png),url(../pictures/containers-blocks/default/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+ul.sortable li.ui-sortable-placeholder.mjs-nestedSortable-error,
+ul.sortable li.locked ul,
+ul.block-container li.ui-sortable-placeholder.mjs-nestedSortable-error,
+ul.block-container li.locked ul {
+	margin: 0px !important;
+	max-height: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+ul.sortable td,
+ul.block-container td {
+	padding-right: 10px;
+}
+
+ul.sortable input,
+ul.block-container input {
+	border-radius: 15px;
+}

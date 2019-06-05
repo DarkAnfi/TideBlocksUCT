@@ -23,7 +23,7 @@ function Interpreter(options, html) {
         if (options) {
             self._imports = (options.imports) ? options.imports : ["Servo.h"];
             self._global = (options.global) ? options.global : "Servo SERVO1;\nServo SERVO2;\n";
-            self._setup = (options.setup) ? options.setup : "pinMode(LED_G, OUTPUT);\npinMode(LED_Y, OUTPUT);\npinMode(LED_R, OUTPUT);\npinMode(LED_W, OUTPUT);\nSERVO1.attach(S1);\nSERVO2.attach(S2);";
+            self._setup = (options.setup) ? options.setup : "pinMode(4, OUTPUT);\npinMode(5, OUTPUT);\npinMode(6, OUTPUT);\npinMode(13, OUTPUT);\nSERVO1.attach(12);\nSERVO2.attach(11);";
             self._debug = (options.debug) ? options.debug : false;
             return self;
         } else {
@@ -40,78 +40,78 @@ function Interpreter(options, html) {
         html = (html) ? html : self._html;
         var tree = [];
         html.forEach(e1 => {
-            if ((" " + e1.attribs.class + " ").includes(' block ')) {
-                e1.children.forEach(e2 => {
-                    if (e2.attribs) {
-                        if (e2.attribs['data-block']) {
-                            switch (e2.attribs['data-block']) {
-                                case 'block-led-w-on':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['13', 'HIGH']
-                                    });
-                                    break;
-                                case 'block-led-r-on':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['6', 'HIGH']
-                                    });
-                                    break;
-                                case 'block-led-y-on':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['5', 'HIGH']
-                                    });
-                                    break;
-                                case 'block-led-g-on':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['4', 'HIGH']
-                                    });
-                                    break;
-                                case 'block-led-w-off':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['13', 'LOW']
-                                    });
-                                    break;
-                                case 'block-led-r-off':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['6', 'LOW']
-                                    });
-                                    break;
-                                case 'block-led-y-off':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['5', 'LOW']
-                                    });
-                                    break;
-                                case 'block-led-g-off':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'digitalWrite',
-                                        args: ['4', 'LOW']
-                                    });
-                                    break;
-                                case 'delay':
-                                    tree.push({
-                                        block: 'callFunction',
-                                        name: 'delay',
-                                        args: [e2.attribs['data-value']]
-                                    });
-                                    break;
-                            }
-                        }
-                    }
-                });
+            if (e1.attribs['data-block']) {
+                switch (e1.attribs['data-block']) {
+                    case 'block-led-w-on':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['13', 'HIGH']
+                        });
+                        break;
+                    case 'block-led-r-on':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['6', 'HIGH']
+                        });
+                        break;
+                    case 'block-led-y-on':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['5', 'HIGH']
+                        });
+                        break;
+                    case 'block-led-g-on':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['4', 'HIGH']
+                        });
+                        break;
+                    case 'block-led-w-off':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['13', 'LOW']
+                        });
+                        break;
+                    case 'block-led-r-off':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['6', 'LOW']
+                        });
+                        break;
+                    case 'block-led-y-off':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['5', 'LOW']
+                        });
+                        break;
+                    case 'block-led-g-off':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'digitalWrite',
+                            args: ['4', 'LOW']
+                        });
+                        break;
+                    case 'delay':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'delay',
+                            args: [e1.attribs['data-time']]
+                        });
+                        break;
+                    case 'if':
+                        tree.push({
+                            block: 'if',
+                            condition: e1.attribs['data-condition'],
+                            content: self.prepare(e1.children[3].children)
+                        });
+                }
             }
         });
         return tree
@@ -157,6 +157,11 @@ function Interpreter(options, html) {
                                 }
                                 break;
                         }
+                        break;
+                    case 'if':
+                        code += ' '.repeat(4 * identation) + 'if (' + element.condition + ') {\n';
+                        code += self.build(identation + 1, element.content);
+                        code += ' '.repeat(4 * identation) + '}\n'
                         break;
                 }
             }

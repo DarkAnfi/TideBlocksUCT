@@ -45,10 +45,9 @@ function navExit(event) {
 	BrowserWindow.getFocusedWindow().close();
 }
 
-function fileCompile(event, html) {
+function fileCompile(event, txCode) {
 	mainWindow.webContents.send('log:open', 'Compilando')
-	const interpreter = new Interpreter(html);
-	const txCode = interpreter.getCode();
+	mainWindow.webContents.send('log:write', 'Analizando puerto.');
 	if (current_port) {
 		mainWindow.webContents.send('log:write', 'Iniciando proceso de compilación.');
 		if (!fs.existsSync(path.join(__dirname, 'temp'))) {
@@ -61,29 +60,29 @@ function fileCompile(event, html) {
 		fs.writeFile(filename, txCode, (error) => {
 			if (error) {
 				mainWindow.webContents.send('log:write', 'Ha ocurrido un error al crear el archivo.');
-				mainWindow.webContents.send('file:compile', error, "Ha ocurrido un error al crear el archivo.", error.message);
+				mainWindow.webContents.send('file:compile');
 			} else {
 				mainWindow.webContents.send('log:write', 'Validando parametros.');
 				child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
 					if (error) {
 						mainWindow.webContents.send('log:write', error.message)
-						mainWindow.webContents.send('file:compile', error, stdout, stderr);
+						mainWindow.webContents.send('file:compile');
 					} else {
 						mainWindow.webContents.send('log:write', 'Compilando.');
 						child_process.exec(compiler.compile(), (error, stdout, stderr) => {
 							if (error) {
 								mainWindow.webContents.send('log:write', error.message);
-								mainWindow.webContents.send('file:compile', error, stdout, stderr);
+								mainWindow.webContents.send('file:compile');
 							} else {
 								mainWindow.webContents.send('log:write', 'Enviando por el puerto ' + current_port + '.');
 								child_process.exec(compiler.send(current_port), (error, stdout, stderr) => {
 									if (error) {
 										mainWindow.webContents.send('log:write', error.message);
-										mainWindow.webContents.send('file:compile', error, stdout, stderr);
 									} else {
 										mainWindow.webContents.send('log:write', 'Listo.');
-										mainWindow.webContents.send('log:end');
 									}
+									mainWindow.webContents.send('log:end');
+									mainWindow.webContents.send('file:compile');
 								});
 							}
 						});
@@ -98,38 +97,31 @@ function fileCompile(event, html) {
 	}
 }
 
-ipcMain.on('test', function (event, html) {
-	const interpreter = new Interpreter(html);
-	console.log(interpreter.getCode());
-});
-
-
 function savefileas(event) {
-	console.log("Guardando archivo .tb");
 	dialog.showSaveDialog(function (fileName) {
-		if (fileName === undefined) {
-			console.log("No guardaste el archivo");
-			return;
+		if (fileName) {
+			event.sender.send('update:name-project', fileName);
 		}
-		event.sender.send('update:name-project', fileName);
 	});
 }
 
 function save(even, txCode, filename) {
 	fs.writeFile(filename, txCode, function (err) {
 		if (err) {
-			console.log("Ha ocurrido un error creando el archivo: " + err.message)
+			mainWindow.webContents.send("log:open", "Error");
+			mainWindow.webContents.send("log:write", "Ha ocurrido un error creando el archivo: " + err.message);
+			mainWindow.webContents.send("log:end");
+		} else {
+			mainWindow.webContents.send("log:open", "Listo");
+			mainWindow.webContents.send("log:write", "El archivo ha sido guardado satisfactoriamente.");
+			mainWindow.webContents.send("log:end");
 		}
-		console.log("El archivo ha sido creado satisfactoriamente");
 	});
 }
 
 function openfile(event, response) {
-	console.log("Buscando Archivo ...");
 	dialog.showOpenDialog(function (filenames) {
-		if (filenames === undefined) {
-			console.log("No se selecciono ningun archivo");
-		} else {
+		if (filenames) {
 			readFile(event, filenames[0]);
 		}
 	});
@@ -138,10 +130,12 @@ function openfile(event, response) {
 function readFile(event, filepath) {
 	fs.readFile(filepath, 'utf-8', function (err, data) {
 		if (err) {
-			alert("Ha ocurrido un error abriendo el archivo:" + err.message);
-			return;
+			mainWindow.webContents.send("log:open", "Error");
+			mainWindow.webContents.send("log:write", "Ha ocurrido un error abriendo el archivo: " + err.message);
+			mainWindow.webContents.send("log:end");
+		} else {
+			event.sender.send('contentData', data, filepath)
 		}
-		event.sender.send('contentData', data, filepath)
 	});
 }
 
@@ -149,17 +143,6 @@ function setPort(even, port) {
 	current_port = port
 }
 
-/*
-ipcMain.on('file:open', function(event, dirname) {
-	if (dirname == undefined) {
-		dirname = __dirname;
-	}
-	fs.readdir(dirname, function(err, items) {
-		items.unshift('..');
-		mainWindow.webContents.send('file:open',dirname, items)
-	});
-});
-*/
 ipcMain.on('ready:tosave', save);
 ipcMain.on('nav:mini', navMini);
 ipcMain.on('nav:maxi', navMaxi);
