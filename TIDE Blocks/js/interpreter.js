@@ -6,7 +6,6 @@ function Interpreter(options, html) {
         self._imports = (options.imports) ? options.imports : ["Servo.h"];
         self._global = (options.global) ? options.global : "Servo SERVO1;\nServo SERVO2;\n";
         self._setup = (options.setup) ? options.setup : "pinMode(4, OUTPUT);\npinMode(5, OUTPUT);\npinMode(6, OUTPUT);\npinMode(13, OUTPUT);\nSERVO1.attach(12);\nSERVO2.attach(11);";
-        self._debug = (options.debug) ? options.debug : false;
         self._html = (html) ? html : [];
     }
 
@@ -21,10 +20,9 @@ function Interpreter(options, html) {
 
     self.options = function (options) {
         if (options) {
-            self._imports = (options.imports) ? options.imports : ["Servo.h"];
-            self._global = (options.global) ? options.global : "Servo SERVO1;\nServo SERVO2;\n";
-            self._setup = (options.setup) ? options.setup : "pinMode(4, OUTPUT);\npinMode(5, OUTPUT);\npinMode(6, OUTPUT);\npinMode(13, OUTPUT);\nSERVO1.attach(12);\nSERVO2.attach(11);";
-            self._debug = (options.debug) ? options.debug : false;
+            self._imports = (options.imports) ? options.imports : self._imports;
+            self._global = (options.global) ? options.global : self._global;
+            self._setup = (options.setup) ? options.setup : self._setup;
             return self;
         } else {
             return {

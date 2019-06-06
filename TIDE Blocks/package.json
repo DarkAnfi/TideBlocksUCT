@@ -1,6 +1,6 @@
 {
   "name": "tide-blocks",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "TIDE Blocks desktop App",
   "main": "main.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "TIDE",
   "license": "MIT",
   "build": {
-    "appId": "tide-blocks-v1",
+    "appId": "tide-blocks",
     "files": [
       "bin/**",
       "libraries/**",
