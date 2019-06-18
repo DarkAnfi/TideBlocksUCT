@@ -24,13 +24,13 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Archivo</a>
 					<ul class="dropdown-menu">
-						<li><a id="new-file">Nuevo Archivo</a></li>
-						<li><a id="open-files">Abrir</a></li>
-						<li><a id="save-files">Guardar</a></li>
+						<li><a id="new-file">Nuevo Archivo<span class="shortcut-tag"><i>Ctrl+N</i></span></a></li>
+						<li><a id="open-files">Abrir<span class="shortcut-tag"><i>Ctrl+O</i></span></a></li>
+						<li><a id="save-files">Guardar<span class="shortcut-tag"><i>Ctrl+S</i></span></a></li>
 						<li><a id="saveas-files">Guardar Como</a></li>
 						<li class="divider"></li>
 						<li><a>Exportar</a></li>
-						<li><a id="file-compile">Compilar</a></li>
+						<li><a id="file-compile">Compilar<span class="shortcut-tag"><i>Ctrl+Shift+C</i></span></a></li>
 						<li class="divider"></li>
 						<li class="dropdown dropdown-submenu">
 							<a class="dropdown-toggle" data-toggle="dropdown">Preferencias</a>
@@ -77,6 +77,12 @@
 			</ul>
 		</div>
 	</nav>
+	<div id="shortcuts-bar">
+		<span id="shortcut-file" class="shortcut glyphicon glyphicon-file"></span>
+		<span id="shortcut-open" class="shortcut glyphicon glyphicon-folder-open"></span>
+		<span id="shortcut-save" class="shortcut glyphicon glyphicon-floppy-disk"></span>
+		<span id="shortcut-compile" class="shortcut glyphicon glyphicon-play-circle"></span>
+	</div>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
 			<div id="block-menu" class="row">
@@ -606,8 +612,16 @@
 		$('#new-file')
 			.on('click', handlerNewFileClick);
 
+		// Shortcut New File
+		$('#shortcut-file')
+			.on('click', handlerNewFileClick);
+
 		// Open File Click
 		$('#open-files')
+			.on('click', handlerOpenFileClick);
+
+		// Shortcut Open File
+		$('#shortcut-open')
 			.on('click', handlerOpenFileClick);
 
 		// Save As File Click
@@ -618,8 +632,16 @@
 		$('#save-files')
 			.on('click', handlerSaveFileClick);
 
+		// Shortcut Save
+		$('#shortcut-save')
+			.on('click', handlerSaveFileClick);
+
 		// Compile
 		$('#file-compile')
+			.on('click', handlerFileCompileClick);
+
+		// Shortcut Compile
+		$('#shortcut-compile')
 			.on('click', handlerFileCompileClick);
 
 		// Display rename modal
@@ -763,6 +785,12 @@
 		ipcRenderer.on('log:open', handlerIpcRendererLogOpen);
 		ipcRenderer.on('log:write', handlerIpcRendererLogWrite);
 		ipcRenderer.on('log:end', handlerIpcRendererLogEnd);
+
+		//Keyboard Shortcuts
+		ipcRenderer.on('Shortcut:new', ()=>{$('#new-file').triggerHandler('click');});
+		ipcRenderer.on('Shortcut:open', ()=>{$('#open-files').triggerHandler('click');});
+		ipcRenderer.on('Shortcut:save', ()=>{$('#save-files').triggerHandler('click');});
+		ipcRenderer.on('Shortcut:compile', ()=>{$('#file-compile').triggerHandler('click');});
 
 	</script>
 </body>

@@ -7,13 +7,26 @@ const Interpreter = require('./js/interpreter');
 const child_process = require('child_process');
 const { dialog } = require('electron')
 const http = require('http');
-const { app, BrowserWindow, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain , globalShortcut} = electron;
 
 let mainWindow;
 let compiler = new Compiler();
 let current_port = null;
 
 function createMainWindow() {
+	//Keyboard Shortcuts
+	globalShortcut.register('CommandOrControl+N', () => {
+		mainWindow.webContents.send('Shortcut:new');
+	});
+	globalShortcut.register('CommandOrControl+O', () => {
+		mainWindow.webContents.send('Shortcut:open');
+	});
+	globalShortcut.register('CommandOrControl+S', () => {
+		mainWindow.webContents.send('Shortcut:save');
+	});
+	globalShortcut.register('CommandOrControl+Shift++C', () => {
+		mainWindow.webContents.send('Shortcut:compile');
+	});
 	mainWindow = new BrowserWindow({
 		minWidth: 800,
 		minHeight: 600,

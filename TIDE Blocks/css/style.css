@@ -1,6 +1,6 @@
 #blocks-container {
 	position: absolute;
-	top: 21px;
+	top: 40px;
 	bottom: 1px;
 	min-width: 301px;
 	width: 301px;
@@ -9,7 +9,7 @@
 }
 #separator {
 	position: absolute;
-	top: 21px;
+	top: 40px;
 	bottom: 1px;
 	left: 301px;
 	min-width: 10px;
@@ -21,7 +21,7 @@
 }
 #workspace-container {
 	position: absolute;
-	top: 63px;
+	top: 78px;
 	bottom: 1px;
 	left: 311px;
 	right: 1px;
@@ -35,13 +35,31 @@
 	margin:0px;
 }
 
+#shortcuts-bar{
+	position: absolute;
+	top: 20px;
+	width: 100%;
+	background-color: #343434;
+	height: 20px;
+}
+
+.shortcut{
+	height: 15px;
+	margin-left: 5px;
+}
+.shortcut-tag{
+	color: #AFAFAF;
+	font-size: 7pt;
+	float: right;
+}
+
 #block-content{
 	width: 301px;
 }
 
 #project-navegator{
 	position: absolute;
-	top: 21px;
+	top: 40px;
 	left: 326px;
 	right: 1px;
 }
