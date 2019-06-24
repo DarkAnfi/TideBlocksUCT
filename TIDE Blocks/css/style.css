@@ -1,6 +1,6 @@
 #blocks-container {
 	position: absolute;
-	top: 40px;
+	top: 44px;
 	bottom: 1px;
 	min-width: 301px;
 	width: 301px;
@@ -9,7 +9,7 @@
 }
 #separator {
 	position: absolute;
-	top: 40px;
+	top: 44px;
 	bottom: 1px;
 	left: 301px;
 	min-width: 10px;
@@ -21,7 +21,7 @@
 }
 #workspace-container {
 	position: absolute;
-	top: 78px;
+	top: 82px;
 	bottom: 1px;
 	left: 311px;
 	right: 1px;
@@ -40,13 +40,32 @@
 	top: 20px;
 	width: 100%;
 	background-color: #343434;
-	height: 20px;
+	height: 24px;
 }
 
 .shortcut{
-	height: 15px;
+	top: 4px;
+	min-height: 22px;
 	margin-left: 5px;
+	margin-right: 5px;
 }
+
+#plus-sign{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#shortcut-variable{
+	height: 24px;
+	padding: 0px;
+	padding-right: 5px;
+	float: right;
+}
+
+#variables-list > tr > td{
+	vertical-align: middle;
+}
+
 .shortcut-tag{
 	color: #AFAFAF;
 	font-size: 7pt;
@@ -59,7 +78,7 @@
 
 #project-navegator{
 	position: absolute;
-	top: 40px;
+	top: 44px;
 	left: 326px;
 	right: 1px;
 }

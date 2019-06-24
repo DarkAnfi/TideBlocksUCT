@@ -59,6 +59,7 @@
 						<li class="divider"></li>
 						<li><a id="rename-project" data-toggle="modal" data-target="#rename-modal" href=""> Cambiar
 								nombre</a></li>
+						<li><a  data-toggle="modal" data-target="#variables">Variables<span class="shortcut-tag"><i>Ctrl+Shift+V</i></span></a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -78,10 +79,15 @@
 		</div>
 	</nav>
 	<div id="shortcuts-bar">
-		<span id="shortcut-file" class="shortcut glyphicon glyphicon-file"></span>
-		<span id="shortcut-open" class="shortcut glyphicon glyphicon-folder-open"></span>
-		<span id="shortcut-save" class="shortcut glyphicon glyphicon-floppy-disk"></span>
-		<span id="shortcut-compile" class="shortcut glyphicon glyphicon-play-circle"></span>
+		<span id="shortcut-file" class="shortcut glyphicon glyphicon-file" data-toggle="tooltip" data-placement="bottom" title="Nuevo Archivo (Ctrl + N)"></span>
+		<span id="shortcut-open" class="shortcut glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Abrir Archivo (Ctrl + O)"></span>
+		<span id="shortcut-save" class="shortcut glyphicon glyphicon-floppy-disk" data-toggle="tooltip" data-placement="bottom" title="Guardar Archivo (Ctrl + S)"></span>
+		<span id="shortcut-compile" class="shortcut glyphicon glyphicon-play-circle" data-toggle="tooltip" data-placement="bottom" title="Compilar Archivo (Ctrl + Shift + C)"></span>
+		<button id="shortcut-variable" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#variables">
+			<span id="plus-sign" class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="left" title="(Ctrl + Shift + V)"></span><span data-toggle="tooltip" data-placement="left" title="(Ctrl + Shift + V)">Variable</span>
+		</button>
+
+			
 	</div>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
@@ -231,6 +237,51 @@
 			</div>
 		</div>
 	</main>
+	<div id="variables" class="modal fade">
+	 	<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header">
+	        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        		<h4 class="modal-title">Variables</h4>
+	      		</div>
+	      		<div class="modal-body scrollbar scrollbar-default">
+	        		<table class="table table-striped table-hover ">
+						<thead>
+					    	<tr class="success">
+					    		<th>Nombre de la Variable</th>
+					    		<th>Tipo de dato</th>
+					    		<th>Acción</th>
+					    	</tr>
+					  	</thead>
+					  	<tbody id="variables-list">
+					    	<tr>
+					    		<td>
+					      			<input id="variable-name" type="text" class="form-control" placeholder="Nombre">
+					      		</td>
+					      		<td>
+							      	<select id="variable-type" class="form-control">
+								        <option id="default-option">Elige un tipo de variable</option>
+								        <option>Entero</option>
+								        <option>Char</option>
+								        <option>Texto</option>
+								        <option>Flotante</option>
+								        <option>Flotante Doble</option>
+								        <option>Booleano</option>
+							        </select>
+					      		</td>
+					      		<td>
+					      			<button id="variable-add" type="button" class="btn btn-info">Agregar</button>
+					      		</td>
+					    	</tr>
+					  	</tbody>
+					</table> 
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
 	<script>
 		/* Imports */
 
@@ -259,6 +310,7 @@
 				}
 			});
 		}
+		$("[data-toggle=tooltip").tooltip();
 
 		function add_project(arg, isNew, filecontent = null) {
 			nameProject = arg;
@@ -577,6 +629,57 @@
 			input.attr('value', input.closest('[data-block]').attr('data-' + input.attr('data-arg')));
 		}
 
+		function handlerRemoveVariable(event){
+			event.preventDefault();
+			if(window.confirm('¿Seguro que deseas eliminar esta variable?')){
+				$('ul[name=' + $($(event.currentTarget).parent().parent().children()[0]).text() + ']').remove();
+				$(event.currentTarget).parent().parent().remove();
+			}
+		}
+
+		function handlerAddVariable(event){
+			event.preventDefault();
+			let temp = false;
+			$.each($(event.currentTarget).parent().parent().parent().children(), function(indx, value){
+				if($(value).attr('name') == $('#variable-name').val()){
+					temp = true;
+				}
+			});
+			if(!temp && $('#variable-name').val() !== '' && $('#variable-type').val() !== 'Elige un tipo de variable'){
+				$(event.currentTarget).parent().parent().before($(document.createElement('tr'))
+				.attr('name', $('#variable-name').val())
+				.append($(document.createElement('td'))
+					.text($('#variable-name').val()))
+				.append($(document.createElement('td'))
+					.text($('#variable-type').val()))
+				.append($(document.createElement('td'))
+					.append($(document.createElement('button'))
+						.attr('name', 'variable-remove')
+						.attr('class', 'variable-remove btn btn-danger')
+						.attr('type', 'button')
+						.on('click', handlerRemoveVariable)
+						.text('Remover'))
+					)
+				);
+				$('#vars').append($(document.createElement('ul'))
+					.attr('class', 'block-container')
+					.attr('name', $('#variable-name').val())
+					.attr('data-toggle', 'tooltip')
+					.attr('data-placement', 'bottom')
+					.attr('title', 'Esta variable es de tipo: ' + $('#variable-type').val())
+					.append($(document.createElement('li'))
+						.attr('class', 'locked')
+						.attr('data-block', 'block-led-y-on')
+						.append($(document.createElement('div'))
+							.text($('#variable-name').val()))
+						)
+					);//data-toggle="tooltip" data-placement="bottom" title="(Ctrl + Shift + V)"
+				$('#variable-name').val('');
+				$('#variable-type option[selected]').removeAttr('selected');
+				$('#default-option').attr('selected', 'selected');
+			}
+		}
+
 		/* Event Listeners */
 		// List Ports
 		serialport.list(handlerListPorts);
@@ -691,6 +794,9 @@
 			.on('change', handlerUpdateArgs)
 			.on('keypress', handlerUpdateArgs);
 
+		$('#variable-add')
+			.on('click', handlerAddVariable);
+
 
 		/* ---------- Sortable Implementation ---------- */
 
@@ -791,6 +897,7 @@
 		ipcRenderer.on('Shortcut:open', ()=>{$('#open-files').triggerHandler('click');});
 		ipcRenderer.on('Shortcut:save', ()=>{$('#save-files').triggerHandler('click');});
 		ipcRenderer.on('Shortcut:compile', ()=>{$('#file-compile').triggerHandler('click');});
+		ipcRenderer.on('Shortcut:variables', ()=>{$('#variables').modal('show');});
 
 	</script>
 </body>

@@ -24,8 +24,11 @@ function createMainWindow() {
 	globalShortcut.register('CommandOrControl+S', () => {
 		mainWindow.webContents.send('Shortcut:save');
 	});
-	globalShortcut.register('CommandOrControl+Shift++C', () => {
+	globalShortcut.register('CommandOrControl+Shift+C', () => {
 		mainWindow.webContents.send('Shortcut:compile');
+	});
+	globalShortcut.register('CommandOrControl+Shift+V', () => {
+		mainWindow.webContents.send('Shortcut:variables');
 	});
 	mainWindow = new BrowserWindow({
 		minWidth: 800,
