@@ -98,12 +98,17 @@
 .tab-design{
 	width: 164px;
 }
+
 .tab-label{
 	display: inline-block;
 	width: 108px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+#list-projects .tab-label{
+	width: 100px;
 }
 
 button.close{
