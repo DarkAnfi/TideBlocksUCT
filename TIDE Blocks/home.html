@@ -91,6 +91,21 @@
 			</div>
 			<div id="block-content" class="tab-content">
 				<div class="scrollbar scrollbar-primary tab-pane fade active in block-section" id="vars">
+					<div class="value-container">
+						<div data-block="value" data-name="unnamed">
+							<div>Lorem</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="unnamed">
+							<div>Ipsum Dolor</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="unnamed">
+							<div>Sit Amet</div>
+						</div>
+					</div>
 				</div>
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="controls">
 					<ul class="block-container">
@@ -111,15 +126,17 @@
 						</li>
 					</ul>
 					<ul class="block-container">
-						<li data-block='delay' data-time="1000" class="locked">
+						<li data-block='delay' class="locked">
 							<div>
 								<table>
 									<tbody>
 										<tr>
 											<td>Esperar</td>
 											<td>
-												<input class="form-control input-sm" min="0" max="4294967295"
-													type="number" value="1000" data-arg="time" data-type="" />
+												<div class="value-slot" data-name="time" data-default="1000"
+													data-type="unsigned long">
+													<input class="form-control input-sm" />
+												</div>
 											</td>
 										</tr>
 									</tbody>
@@ -266,6 +283,7 @@
 						handle: 'div',
 						items: 'li',
 						toleranceElement: '> div',
+						cancel: "div[data-block='value'],input,textarea,button,select,option",
 						isAllowed: function (placeholder, placeholderParent, currentItem) {
 							if (placeholderParent) {
 								if (placeholderParent.hasClass('locked')) {
@@ -294,6 +312,7 @@
 						handle: 'div',
 						items: 'li',
 						toleranceElement: '> div',
+						cancel: "div[data-block='value'],input,textarea,button,select,option",
 						isAllowed: function (placeholder, placeholderParent, currentItem) {
 							if (placeholderParent) {
 								if (placeholderParent.hasClass('locked')) {
@@ -548,20 +567,27 @@
 		}
 
 		function handlerBlockClick(event) {
-			/*if (!$(this).parent().hasClass('block-container')) {
-				if ($(this).children().hasClass('block-default')) {
-					$(this).children().addClass('block-info');
-					$(this).children().removeClass('block-default');
-				} else {
-					$(this).children().addClass('block-default');
-					$(this).children().removeClass('block-info');
+			if (!$(this).parent().hasClass('block-container')) {
+				if (!$(this).parent().hasClass('value-container')) {
+					if ($(this).hasClass('selected')) {
+						$(this).removeClass('selected')
+					}
+					else {
+						$(".selected").removeClass('selected')
+						$(this).addClass('selected');
+					}
+					event.stopPropagation();
 				}
-			}*/
+			}
 		}
 
 		function handlerRemoveBlocks(event) {
 			if (event.keyCode == 46) {
-				$('.block-info').parent().remove()
+				if ($('.selected').parent().hasClass('value-slot')) {
+					$('.selected').parent().html("<input class=\"form-control input-sm\"/>")
+				} else {
+					$('.selected').remove();
+				}
 			}
 		}
 
@@ -662,7 +688,7 @@
 		$(".block-menu-option")
 			.on('click', handlerBlockMenuOptionClick);
 
-		$(".block")
+		$("[data-block]")
 			.on('click', handlerBlockClick);
 
 		$("[data-block] input")
@@ -691,6 +717,12 @@
 			connectWith: ".sortable",
 			remove: function (event, ui) {
 				const item = $(ui.item.clone());
+				item.find(".value-slot").droppable(
+					{
+						accept: "div[data-block='value']",
+						drop: valueSlotDrop
+					}
+				);
 				item.on('click', handlerBlockClick)
 					.find('input')
 					.on('change', handlerUpdateArgs)
@@ -704,6 +736,7 @@
 			handle: 'div',
 			items: 'li',
 			toleranceElement: '> div',
+			cancel: "div[data-block='value'],input,textarea,button,select,option,input,textarea,button,select,option",
 			isAllowed: function (placeholder, placeholderParent, currentItem) {
 				if (placeholderParent) {
 					if (placeholderParent.hasClass('locked')) {
@@ -718,6 +751,41 @@
 		});
 
 		/* --------------------------------------------- */
+
+		/* ---------- Drag and Drop system ---------- */
+
+		function valueSlotDrop(event, ui) {
+			const droppedItem = $(ui.draggable).clone().attr("style", null);
+			if ($(ui.draggable).parent().hasClass('value-slot')) {
+				$(ui.draggable).parent().html("<input class=\"form-control input-sm\"/>")
+				$(ui.draggable).remove()
+			}
+			droppedItem.draggable(
+				{
+					helper: 'original',
+					scroll: false,
+					revert: 'invalid',
+					revertDuration: 0
+				}
+			);
+			droppedItem.on('click', handlerBlockClick)
+			$(this).html(droppedItem);
+		}
+
+		$("div[data-block='value']").draggable(
+			{
+				helper: "clone",
+				scroll: false,
+				zIndex: 100
+			}
+		);
+		$(".value-slot").droppable(
+			{
+				accept: "div[data-block='value']",
+				drop: valueSlotDrop
+			}
+		);
+		/* ------------------------------------------ */
 
 		/* IPC Renderer Handlers */
 

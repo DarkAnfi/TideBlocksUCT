@@ -60,18 +60,21 @@ function fileCompile(event, txCode) {
 		fs.writeFile(filename, txCode, (error) => {
 			if (error) {
 				mainWindow.webContents.send('log:write', 'Ha ocurrido un error al crear el archivo.');
+				mainWindow.webContents.send('log:end')
 				mainWindow.webContents.send('file:compile');
 			} else {
 				mainWindow.webContents.send('log:write', 'Validando parametros.');
 				child_process.exec(compiler.dump_prefs(), (error, stdout, stderr) => {
 					if (error) {
 						mainWindow.webContents.send('log:write', error.message)
+						mainWindow.webContents.send('log:end')
 						mainWindow.webContents.send('file:compile');
 					} else {
 						mainWindow.webContents.send('log:write', 'Compilando.');
 						child_process.exec(compiler.compile(), (error, stdout, stderr) => {
 							if (error) {
 								mainWindow.webContents.send('log:write', error.message);
+								mainWindow.webContents.send('log:end')
 								mainWindow.webContents.send('file:compile');
 							} else {
 								mainWindow.webContents.send('log:write', 'Enviando por el puerto ' + current_port + '.');

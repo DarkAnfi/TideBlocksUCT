@@ -114,8 +114,8 @@ ul.block-container li {
 					   no-repeat, no-repeat, no-repeat;
 }
 
-ul.sortable div,
-ul.block-container div {
+ul.sortable li > div,
+ul.block-container li > div {
 	background-image: url(../pictures/containers-blocks/default/hml.png),url(../pictures/containers-blocks/default/hm.png),url(../pictures/containers-blocks/default/hmr.png);
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
@@ -123,8 +123,8 @@ ul.block-container div {
 	padding: 10px 10px 15px 10px;
 }
 
-ul.sortable li.locked div,
-ul.block-container li.locked div {
+ul.sortable > li.locked > div,
+ul.block-container > li.locked > div {
 	background-image: url(../pictures/blocks/default/tl.png),url(../pictures/blocks/default/t.png),url(../pictures/blocks/default/tr.png),
 					  url(../pictures/blocks/default/ml.png),url(../pictures/blocks/default/m.png),url(../pictures/blocks/default/mr.png),
 					  url(../pictures/blocks/default/bl.png),url(../pictures/blocks/default/b.png),url(../pictures/blocks/default/br.png);
@@ -184,4 +184,31 @@ ul.block-container td {
 ul.sortable input,
 ul.block-container input {
 	border-radius: 15px;
+}
+
+/* ---------- Value Blocks ---------- */
+
+div[data-block='value'] {	
+	padding: 10px;
+	font-size: 12px;
+	background-color: green;
+	line-height: 12px;
+	border-radius: 16px;
+	width: fit-content;
+}
+
+div.value-slot{
+	width: fit-content;
+	border-radius: 100px;
+	background-color: #ffffff;
+    background-image: none;
+    border: 1px solid transparent;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+/* ---------------------------------- */
+
+.selected {
+	background-color: #d9534f !important;
 }
