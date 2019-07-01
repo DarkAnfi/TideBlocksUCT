@@ -28,8 +28,7 @@ function Interpreter(options, html) {
             return {
                 imports: self._imports,
                 global: self._global,
-                setup: self._setup,
-                debug: self._debug
+                setup: self._setup
             }
         }
     }
@@ -109,6 +108,42 @@ function Interpreter(options, html) {
                             condition: e1.attribs['data-condition'],
                             content: e1.children[1] ? self.prepare(e1.children[1].children) : []
                         });
+                        break;
+                    case 'servo1':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'SERVO1.write',
+                            args: [e1.attribs['data-angle']]
+                        });
+                        break;
+                    case 'servo2':
+                        tree.push({
+                            block: 'callFunction',
+                            name: 'SERVO2.write',
+                            args: [e1.attribs['data-angle']]
+                        });
+                        break;
+                    case 'while':
+                        tree.push({
+                            block: 'while',
+                            condition: e1.attribs['data-condition'],
+                            content: e1.children[1] ? self.prepare(e1.children[1].children) : []
+                        });
+                        break;
+                    case 'repeat':
+                        tree.push({
+                            block: 'repeat',
+                            steps: e1.attribs['data-steps'],
+                            content: e1.children[1] ? self.prepare(e1.children[1].children) : []
+                        });
+                        break;
+                    case 'setter':
+                        tree.push({
+                            block: 'setter',
+                            name: e2.attribs['data-name'],
+                            value: e2.attribs['data-value'],
+                        });
+                        break;
                 }
             }
         });
@@ -123,8 +158,19 @@ function Interpreter(options, html) {
                     case 'callFunction':
                         code += ' '.repeat(4 * identation) + element.name + "(" + element.args.join(', ') + ");\n";
                         break;
+                    case 'while':
+                        code += ' '.repeat(4 * identation) + 'while(' + element.condition + "){\n";
+                        code += self.build(identation + 1, element.content);
+                        code += ' '.repeat(4 * identation) + '}\n'
+                        break;
+                    case 'repeat':
+                        code += ' '.repeat(4 * identation) + 'repeat(' + element.steps + ',[](){';
+                        code += self.build(identation + 1, element.content);
+                        code += ' '.repeat(4 * identation) + '});\n'
+                        break;
                     case 'setter':
-                        switch (element.type) {
+                        code += ' '.repeat(4 * identation) + element.name + " = " + element.value + ";"
+                        /*switch (element.type) {
                             case 'String':
                                 if (element.value) {
                                     code += ' '.repeat(4 * identation) + element.name + " = \"" + element.value + "\";"
@@ -154,7 +200,7 @@ function Interpreter(options, html) {
                                     code += ' '.repeat(4 * identation) + element.name + " = 0;"
                                 }
                                 break;
-                        }
+                        }*/
                         break;
                     case 'if':
                         code += ' '.repeat(4 * identation) + 'if (' + element.condition + ') {\n';
@@ -174,6 +220,11 @@ function Interpreter(options, html) {
         });
         code += "\n"
         code += self._global;
+        code += "\nvoid repeat(int _NR, void (*_CR)()) {\n";
+        code += "   for (int _IR = 0; _IR < _NR; _IR++) {\n";
+        code += "       _CR();\n";
+        code += "   }\n";
+        code += "}\n";
         code += "\nvoid setup() {\n";
         self._setup.split('\n').forEach(element => {
             code += "    " + element + "\n";
