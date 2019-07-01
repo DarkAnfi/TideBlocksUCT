@@ -1,10 +1,14 @@
-function Interpreter(options, html) {
+function Interpreter(html, options) {
     var self = this;
 
     self.init = function (html, options) {
         options = options ? options : {};
         self._imports = (options.imports) ? options.imports : ["Servo.h"];
-        self._global = (options.global) ? options.global : "Servo SERVO1;\nServo SERVO2;\n";
+        self._global = (options.global) ? options.global : [
+            { block: 'execute', command: 'bool _NULL = 0' },
+            { block: 'execute', command: 'Servo SERVO1' },
+            { block: 'execute', command: 'Servo SERVO2' }
+        ];
         self._setup = (options.setup) ? options.setup : "pinMode(4, OUTPUT);\npinMode(5, OUTPUT);\npinMode(6, OUTPUT);\npinMode(13, OUTPUT);\nSERVO1.attach(12);\nSERVO2.attach(11);";
         self._html = (html) ? html : [];
     }
@@ -36,112 +40,120 @@ function Interpreter(options, html) {
     self.prepare = function (html) {
         html = (html) ? html : self._html;
         var tree = [];
+        var elements = {};
         html.forEach(e1 => {
             if (e1.attribs['data-block']) {
                 switch (e1.attribs['data-block']) {
-                    case 'block-led-w-on':
+                    case 'led-on':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0];
                         tree.push({
                             block: 'callFunction',
                             name: 'digitalWrite',
-                            args: ['13', 'HIGH']
+                            args: [elements[0].name == "select" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 13)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 13), 'HIGH']
                         });
                         break;
-                    case 'block-led-r-on':
+                    case 'led-off':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0];
                         tree.push({
                             block: 'callFunction',
                             name: 'digitalWrite',
-                            args: ['6', 'HIGH']
-                        });
-                        break;
-                    case 'block-led-y-on':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['5', 'HIGH']
-                        });
-                        break;
-                    case 'block-led-g-on':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['4', 'HIGH']
-                        });
-                        break;
-                    case 'block-led-w-off':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['13', 'LOW']
-                        });
-                        break;
-                    case 'block-led-r-off':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['6', 'LOW']
-                        });
-                        break;
-                    case 'block-led-y-off':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['5', 'LOW']
-                        });
-                        break;
-                    case 'block-led-g-off':
-                        tree.push({
-                            block: 'callFunction',
-                            name: 'digitalWrite',
-                            args: ['4', 'LOW']
+                            args: [elements[0].name == "select" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 13)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 13), 'LOW']
                         });
                         break;
                     case 'delay':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'callFunction',
                             name: 'delay',
-                            args: [e1.attribs['data-time']]
+                            args: [
+                                elements[0].name == "input" ?
+                                    (elements[0].attribs.value ? elements[0].attribs.value : 1000)
+                                    :
+                                    (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 1000)
+                            ]
                         });
                         break;
                     case 'if':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'if',
-                            condition: e1.attribs['data-condition'],
+                            condition: elements[0].name == "input" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 1)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 1),
+                            content: e1.children[1] ? self.prepare(e1.children[1].children) : []
+                        });
+                        break;
+                    case 'else':
+                        tree.push({
+                            block: 'else',
                             content: e1.children[1] ? self.prepare(e1.children[1].children) : []
                         });
                         break;
                     case 'servo1':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'callFunction',
                             name: 'SERVO1.write',
-                            args: [e1.attribs['data-angle']]
+                            args: elements[0].name == "input" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 0)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)
                         });
                         break;
                     case 'servo2':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'callFunction',
                             name: 'SERVO2.write',
-                            args: [e1.attribs['data-angle']]
+                            args: elements[0].name == "input" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 0)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)
                         });
                         break;
                     case 'while':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'while',
-                            condition: e1.attribs['data-condition'],
+                            condition: elements[0].name == "input" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 1)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 1),
                             content: e1.children[1] ? self.prepare(e1.children[1].children) : []
                         });
                         break;
                     case 'repeat':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[1].children[0].children[0];
                         tree.push({
                             block: 'repeat',
-                            steps: e1.attribs['data-steps'],
+                            steps: elements[0].name == "input" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : 1)
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 1),
                             content: e1.children[1] ? self.prepare(e1.children[1].children) : []
                         });
                         break;
                     case 'setter':
+                        elements[0] = e1.children[0].children[0].children[0].children[0].children[0].children[0];
+                        elements[1] = e1.children[0].children[0].children[0].children[0].children[2].children[0].children[0];
+                        console.log(elements)
                         tree.push({
                             block: 'setter',
-                            name: e2.attribs['data-name'],
-                            value: e2.attribs['data-value'],
+                            name: elements[0].name == "select" ?
+                                (elements[0].attribs.value ? elements[0].attribs.value : '_NULL')
+                                :
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : '_NULL'),
+                            value: elements[1].name == "input" ?
+                                (elements[1].attribs.value ? elements[1].attribs.value : 0)
+                                :
+                                (elements[1].attribs["data-block"] == "value" ? elements[1].attribs["data-name"] : 0),
                         });
                         break;
                 }
@@ -155,6 +167,9 @@ function Interpreter(options, html) {
         tree.forEach(
             (element) => {
                 switch (element.block) {
+                    case 'execute':
+                        code += ' '.repeat(4 * identation) + element.command + ';\n';
+                        break;
                     case 'callFunction':
                         code += ' '.repeat(4 * identation) + element.name + "(" + element.args.join(', ') + ");\n";
                         break;
@@ -164,12 +179,12 @@ function Interpreter(options, html) {
                         code += ' '.repeat(4 * identation) + '}\n'
                         break;
                     case 'repeat':
-                        code += ' '.repeat(4 * identation) + 'repeat(' + element.steps + ',[](){';
+                        code += ' '.repeat(4 * identation) + 'repeat(' + element.steps + ',[](){\n';
                         code += self.build(identation + 1, element.content);
                         code += ' '.repeat(4 * identation) + '});\n'
                         break;
                     case 'setter':
-                        code += ' '.repeat(4 * identation) + element.name + " = " + element.value + ";"
+                        code += ' '.repeat(4 * identation) + element.name + " = " + element.value + ";\n";
                         /*switch (element.type) {
                             case 'String':
                                 if (element.value) {
@@ -207,6 +222,11 @@ function Interpreter(options, html) {
                         code += self.build(identation + 1, element.content);
                         code += ' '.repeat(4 * identation) + '}\n'
                         break;
+                    case 'else':
+                        code += ' '.repeat(4 * identation) + 'else {\n';
+                        code += self.build(identation + 1, element.content);
+                        code += ' '.repeat(4 * identation) + '}\n'
+                        break;
                 }
             }
         )
@@ -219,7 +239,7 @@ function Interpreter(options, html) {
             code += "#include <" + element + ">\n";
         });
         code += "\n"
-        code += self._global;
+        code += self.build(0, self._global);
         code += "\nvoid repeat(int _NR, void (*_CR)()) {\n";
         code += "   for (int _IR = 0; _IR < _NR; _IR++) {\n";
         code += "       _CR();\n";
@@ -237,7 +257,7 @@ function Interpreter(options, html) {
         return code;
     }
 
-    self.init(options, html);
+    self.init(html, options);
     return self;
 }
 

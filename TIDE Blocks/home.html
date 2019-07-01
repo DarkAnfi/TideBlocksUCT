@@ -59,7 +59,8 @@
 						<li class="divider"></li>
 						<li><a id="rename-project" data-toggle="modal" data-target="#rename-modal" href=""> Cambiar
 								nombre</a></li>
-						<li><a  data-toggle="modal" data-target="#variables">Variables<span class="shortcut-tag"><i>Ctrl+Shift+V</i></span></a></li>
+						<li><a data-toggle="modal" data-target="#variables">Variables<span
+									class="shortcut-tag"><i>Ctrl+Shift+V</i></span></a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -79,15 +80,22 @@
 		</div>
 	</nav>
 	<div id="shortcuts-bar">
-		<span id="shortcut-file" class="shortcut glyphicon glyphicon-file" data-toggle="tooltip" data-placement="bottom" title="Nuevo Archivo (Ctrl + N)"></span>
-		<span id="shortcut-open" class="shortcut glyphicon glyphicon-folder-open" data-toggle="tooltip" data-placement="bottom" title="Abrir Archivo (Ctrl + O)"></span>
-		<span id="shortcut-save" class="shortcut glyphicon glyphicon-floppy-disk" data-toggle="tooltip" data-placement="bottom" title="Guardar Archivo (Ctrl + S)"></span>
-		<span id="shortcut-compile" class="shortcut glyphicon glyphicon-play-circle" data-toggle="tooltip" data-placement="bottom" title="Compilar Archivo (Ctrl + Shift + C)"></span>
-		<button id="shortcut-variable" class="btn btn-default btn-xs" type="button" data-toggle="modal" data-target="#variables">
-			<span id="plus-sign" class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="left" title="(Ctrl + Shift + V)"></span><span data-toggle="tooltip" data-placement="left" title="(Ctrl + Shift + V)">Variable</span>
+		<span id="shortcut-file" class="shortcut glyphicon glyphicon-file" data-toggle="tooltip" data-placement="bottom"
+			title="Nuevo Archivo (Ctrl + N)"></span>
+		<span id="shortcut-open" class="shortcut glyphicon glyphicon-folder-open" data-toggle="tooltip"
+			data-placement="bottom" title="Abrir Archivo (Ctrl + O)"></span>
+		<span id="shortcut-save" class="shortcut glyphicon glyphicon-floppy-disk" data-toggle="tooltip"
+			data-placement="bottom" title="Guardar Archivo (Ctrl + S)"></span>
+		<span id="shortcut-compile" class="shortcut glyphicon glyphicon-play-circle" data-toggle="tooltip"
+			data-placement="bottom" title="Compilar Archivo (Ctrl + Shift + C)"></span>
+		<button id="shortcut-variable" class="btn btn-default btn-xs" type="button" data-toggle="modal"
+			data-target="#variables">
+			<span id="plus-sign" class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="left"
+				title="(Ctrl + Shift + V)"></span><span data-toggle="tooltip" data-placement="left"
+				title="(Ctrl + Shift + V)">Variable</span>
 		</button>
 
-			
+
 	</div>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
@@ -103,21 +111,7 @@
 			</div>
 			<div id="block-content" class="tab-content">
 				<div class="scrollbar scrollbar-primary tab-pane fade active in block-section" id="vars">
-					<div class="value-container">
-						<div data-block="value" data-name="unnamed">
-							<div>Lorem</div>
-						</div>
-					</div>
-					<div class="value-container">
-						<div data-block="value" data-name="unnamed">
-							<div>Ipsum Dolor</div>
-						</div>
-					</div>
-					<div class="value-container">
-						<div data-block="value" data-name="unnamed">
-							<div>Sit Amet</div>
-						</div>
-					</div>
+
 				</div>
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="controls">
 					<ul class="block-container">
@@ -128,12 +122,61 @@
 										<tr>
 											<td>Si</td>
 											<td>
-												<div class="value-slot" data-name="time" data-default="1000"
-													data-type="unsigned long">
-													<input class="form-control input-sm" />
+												<div class="value-slot">
+													<input class="form-control input-sm" value="1" />
 												</div>
 											</td>
 											<td>entonces</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
+					<ul class="block-container">
+						<li data-block="else">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>De lo contrario entonces</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
+					<ul class="block-container">
+						<li data-block="while">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Repetir mientras</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="1" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
+					<ul class="block-container">
+						<li data-block="repeat">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Repetir</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="1" />
+												</div>
+											</td>
+											<td>veces</td>
 										</tr>
 									</tbody>
 								</table>
@@ -148,9 +191,31 @@
 										<tr>
 											<td>Esperar</td>
 											<td>
-												<div class="value-slot" data-name="time" data-default="1000"
-													data-type="unsigned long">
-													<input class="form-control input-sm" />
+												<div class="value-slot">
+													<input class="form-control input-sm" value="1000" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
+					<ul class="block-container">
+						<li data-block='setter' class="locked">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<select class="variableList form-control input-sm" value="_NULL">
+													<option value="_NULL" selected>Variable</option>
+												</select>
+											</td>
+											<td>=</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
 												</div>
 											</td>
 										</tr>
@@ -165,45 +230,82 @@
 				</div>
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="makers">
 					<ul class="block-container">
-						<li data-block='block-led-w-on' class="locked">
-							<div>Encender LED Blanco</div>
+						<li data-block='led-on' class="locked">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Encender LED</td>
+											<td>
+												<select class="form-control input-sm" value="13">
+													<option value="13" selected>Blanco</option>
+													<option value="6">Rojo</option>
+													<option value="5">Amarillo</option>
+													<option value="4">Verde</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</li>
 					</ul>
 					<ul class="block-container">
-						<li data-block='block-led-r-on' class="locked">
-							<div>Encender LED Rojo</div>
+						<li data-block='led-off' class="locked">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Apagar LED</td>
+											<td>
+												<select class="form-control input-sm" value="13">
+													<option value="13" selected>Blanco</option>
+													<option value="6">Rojo</option>
+													<option value="5">Amarillo</option>
+													<option value="4">Verde</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</li>
 					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-y-on' class="locked">
-							<div>Encender LED Amarillo</div>
-						</li>
-					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-g-on' class="locked">
-							<div>Encender LED Verde</div>
-						</li>
-					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-w-off' class="locked">
-							<div>Apagar LED Blanco</div>
-						</li>
-					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-r-off' class="locked">
-							<div>Apagar LED Rojo</div>
-						</li>
-					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-y-off' class="locked">
-							<div>Apagar LED Amarillo</div>
-						</li>
-					</ul>
-					<ul class="block-container">
-						<li data-block='block-led-g-off' class="locked">
-							<div>Apagar LED Verde</div>
-						</li>
-					</ul>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(3)">
+							<div>Sensor de Sonido</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(4)">
+							<div>Sensor de Luz</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(5)">
+							<div>Sensor de Temperatura</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="digitalRead(3)">
+							<div>Digital A</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(0)">
+							<div>Analogo B</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(1)">
+							<div>Analogo C</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="analogRead(2)">
+							<div>Analogo D</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -258,49 +360,38 @@
 		</div>
 	</main>
 	<div id="variables" class="modal fade">
-	 	<div class="modal-dialog">
-	    	<div class="modal-content">
-	      		<div class="modal-header">
-	        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        		<h4 class="modal-title">Variables</h4>
-	      		</div>
-	      		<div class="modal-body scrollbar scrollbar-default">
-	        		<table class="table table-striped table-hover ">
-						<thead>
-					    	<tr class="success">
-					    		<th>Nombre de la Variable</th>
-					    		<th>Tipo de dato</th>
-					    		<th>Acción</th>
-					    	</tr>
-					  	</thead>
-					  	<tbody id="variables-list">
-					    	<tr>
-					    		<td>
-					      			<input id="variable-name" type="text" class="form-control" placeholder="Nombre">
-					      		</td>
-					      		<td>
-							      	<select id="variable-type" class="form-control">
-								        <option id="default-option">Elige un tipo de variable</option>
-								        <option>Entero</option>
-								        <option>Char</option>
-								        <option>Texto</option>
-								        <option>Flotante</option>
-								        <option>Flotante Doble</option>
-								        <option>Booleano</option>
-							        </select>
-					      		</td>
-					      		<td>
-					      			<button id="variable-add" type="button" class="btn btn-info">Agregar</button>
-					      		</td>
-					    	</tr>
-					  	</tbody>
-					</table> 
-	      		</div>
-	      		<div class="modal-footer">
-	        		<button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
-	      		</div>
-	    	</div>
-	  	</div>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Variables</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="control-label" for="variable-name">Nombre de la variable</label>
+								<input id="variable-name" type="text" class="form-control" placeholder="Nombre">
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="control-label" for="variable-type">Tipo de dato</label>
+								<select id="variable-type" class="form-control" value="int">
+									<option value="int" selected>Entero</option>
+									<option value="float">Flotante</option>
+									<option value="bool">Booleano</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="variable-add" type="button" class="btn btn-info">Agregar</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Volver</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script>
 		/* Imports */
@@ -313,32 +404,33 @@
 		const Interpreter = require('./js/interpreter');
 
 		let idProject = 0;
+		let interpreter = new Interpreter();
 
 		/* General Functions */
 
 		function update_tabs() {
 			let active = null;
-			$.each($('#project-navegator').children(), function(indx, tab) {
-	    		if(((Math.floor((indx+1) * $(tab).width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) > $('#project-navegator').width()) || $('#project-navegator').children().length-1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])){
-	    			if ($(tab).hasClass('active') !== !active) {
-	    				active = tab;
-	    			}
-	    			$(tab).remove();
-	    			$('#list-projects').append($($(tab).clone().on('click', handlerTabActive)));
-	    		}
-	    	});
-	    	$.each($('#list-projects').children(), function(indx, tab) {
-	    		if($('#project-navegator > li[name="'+$(tab).attr('name')+'"]' ).attr('name') == null){
-	    			if(Math.floor(($('#project-navegator').children().length - 1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length-1 == 1) {
-	    				if ($(tab).hasClass('active') && !active) {
-	    					active = tab;
-	    				}
-	    				$(tab).remove();
-	    				$($(tab).clone().on('click', handlerTabActive)).insertBefore($('#add-project').parent());
-	    			}
-	    		}
-	    	});
-			if(active !== null){
+			$.each($('#project-navegator').children(), function (indx, tab) {
+				if (((Math.floor((indx + 1) * $(tab).width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) > $('#project-navegator').width()) || $('#project-navegator').children().length - 1 == 1) && (tab != $('#add-project').parent()[0] && tab != $('#list-projects').parent()[0])) {
+					if ($(tab).hasClass('active') !== !active) {
+						active = tab;
+					}
+					$(tab).remove();
+					$('#list-projects').append($($(tab).clone().on('click', handlerTabActive)));
+				}
+			});
+			$.each($('#list-projects').children(), function (indx, tab) {
+				if ($('#project-navegator > li[name="' + $(tab).attr('name') + '"]').attr('name') == null) {
+					if (Math.floor(($('#project-navegator').children().length - 1) * $('.tab-design').width() + $('#add-project-btn').width() + $('#hidden-projects-btn').width()) < $('#project-navegator').width() || $('#project-navegator').children().length - 1 == 1) {
+						if ($(tab).hasClass('active') && !active) {
+							active = tab;
+						}
+						$(tab).remove();
+						$($(tab).clone().on('click', handlerTabActive)).insertBefore($('#add-project').parent());
+					}
+				}
+			});
+			if (active !== null) {
 				$('#project-navegator .active').removeClass('in active');
 				$('#list-projects .active').removeClass('in active');
 				$('li[name="' + $(active).attr('name') + '"]').addClass('in active');
@@ -363,17 +455,7 @@
 						items: 'li',
 						toleranceElement: '> div',
 						cancel: "div[data-block='value'],input,textarea,button,select,option",
-						isAllowed: function (placeholder, placeholderParent, currentItem) {
-							if (placeholderParent) {
-								if (placeholderParent.hasClass('locked')) {
-									return false;
-								} else {
-									return true
-								}
-							} else {
-								return true;
-							}
-						}
+						isAllowed: sortableIsAllowed
 					})
 					.find('li')
 					.on('click', handlerBlockClick)
@@ -393,17 +475,7 @@
 						items: 'li',
 						toleranceElement: '> div',
 						cancel: "div[data-block='value'],input,textarea,button,select,option",
-						isAllowed: function (placeholder, placeholderParent, currentItem) {
-							if (placeholderParent) {
-								if (placeholderParent.hasClass('locked')) {
-									return false;
-								} else {
-									return true
-								}
-							} else {
-								return true;
-							}
-						}
+						isAllowed: sortableIsAllowed
 					})
 				);
 			}
@@ -542,23 +614,25 @@
 						let hex = original.charCodeAt(i).toString(16);
 						hex = "0x" + ("000" + hex).slice(-4);
 						result += hex == "0x0009" ? '' :
-								  hex == "0x000a" ? '' :
-								                    hex;
+							hex == "0x000a" ? '' :
+								hex;
 					}
 					let raw = ""
-					for (let i = 0; i < result.length - 5; i+=6) {
-						const hex = result[i+2]+result[i+3]+result[i+4]+result[i+5];
-						raw += String.fromCharCode(Number.parseInt(hex,16));
+					for (let i = 0; i < result.length - 5; i += 6) {
+						const hex = result[i + 2] + result[i + 3] + result[i + 4] + result[i + 5];
+						raw += String.fromCharCode(Number.parseInt(hex, 16));
 					}
-					console.log(raw);
 					html2json.parse(raw, function (data) {
-						console.log(data)
 						if (data.length) {
 							if (data[0].children) {
 								//$('#file-compile').parent().addClass('disabled');
 								$(function () {
-									const interpreter = new Interpreter(data[0].children);
+									interpreter.html(data[0].children);
+									const nodeHtml = interpreter.html();
+									const nodeCode = interpreter.prepare();
 									const txCode = interpreter.getCode();
+									console.log(nodeHtml);
+									console.log(nodeCode);
 									console.log(txCode);
 									//ipcRenderer.send('file:compile', txCode);
 								});
@@ -650,16 +724,18 @@
 		}
 
 		function handlerBlockClick(event) {
-			if (!$(this).parent().hasClass('block-container')) {
-				if (!$(this).parent().hasClass('value-container')) {
-					if ($(this).hasClass('selected')) {
-						$(this).removeClass('selected')
+			if (["input", "textarea", "button", "select", "option"].findIndex(value => value == event.target.tagName.toLowerCase()) == -1) {
+				if (!$(this).parent().hasClass('block-container')) {
+					if (!$(this).parent().hasClass('value-container')) {
+						if ($(this).hasClass('selected')) {
+							$(this).removeClass('selected')
+						}
+						else {
+							$(".selected").removeClass('selected')
+							$(this).addClass('selected');
+						}
+						event.stopPropagation();
 					}
-					else {
-						$(".selected").removeClass('selected')
-						$(this).addClass('selected');
-					}
-					event.stopPropagation();
 				}
 			}
 		}
@@ -679,62 +755,57 @@
 			input.attr('value', input.val());
 		}
 
-		function handlerRemoveVariable(event){
+		function handlerRemoveVariable(event) {
 			event.preventDefault();
-			if(window.confirm('¿Seguro que deseas eliminar esta variable?')){
+			if (window.confirm('¿Seguro que deseas eliminar esta variable?')) {
 				$('ul[name=' + $($(event.currentTarget).parent().parent().children()[0]).text() + ']').remove();
 				$(event.currentTarget).parent().parent().remove();
 			}
 		}
 
-		function handlerAddVariable(event){
-			event.preventDefault();
-			let temp = false;
-			$.each($(event.currentTarget).parent().parent().parent().children(), function(indx, value){
-				if($(value).attr('name') == $('#variable-name').val()){
-					temp = true;
-				}
-			});
-			if(!temp && $('#variable-name').val() !== '' && $('#variable-type').val() !== 'Elige un tipo de variable'){
-				$(event.currentTarget).parent().parent().before($(document.createElement('tr'))
-				.attr('name', $('#variable-name').val())
-				.append($(document.createElement('td'))
-					.text($('#variable-name').val()))
-				.append($(document.createElement('td'))
-					.text($('#variable-type').val()))
-				.append($(document.createElement('td'))
-					.append($(document.createElement('button'))
-						.attr('name', 'variable-remove')
-						.attr('class', 'variable-remove btn btn-danger')
-						.attr('type', 'button')
-						.on('click', handlerRemoveVariable)
-						.text('Remover'))
-					)
+		function handlerAddVariable(event) {
+			const varName = $('#variable-name');
+			const varType = $('#variable-type');
+			if (!varName.val()) return null;
+			if (!varType.val()) return null;
+
+			const newVar = $(document.createElement('div'))
+				.attr('data-block', 'value')
+				.attr('data-name', varName.val())
+				.append(
+					$(document.createElement('div'))
+						.text(varName.val())
 				);
-				$('#vars').append($(document.createElement('ul'))
-					.attr('class', 'block-container')
-					.attr('name', $('#variable-name').val())
-					.attr('data-toggle', 'tooltip')
-					.attr('data-placement', 'bottom')
-					.attr('title', 'Esta variable es de tipo: ' + $('#variable-type').val())
-					.append($(document.createElement('li'))
-						.attr('class', 'locked')
-						.attr('data-block', 'block-led-y-on')
-						.append($(document.createElement('div'))
-							.text($('#variable-name').val()))
-						)
-					);
-				$('#variable-name').val('');
-				$('#variable-type option[selected]').removeAttr('selected');
-				$('#default-option').attr('selected', 'selected');
-			}
+			newVar.draggable(
+				{
+					helper: "clone",
+					scroll: false,
+					zIndex: 100
+				}
+			)
+			$('#vars').append(newVar);
+			$('.variableList').append($(document.createElement('option'))
+				.val(varName.val())
+				.text(varName.val())
+			);
+			$('#variables').modal('hide');
+			interpreter.options(
+				{
+					global: [
+						...interpreter.options().global,
+						{ block: 'execute', command: varType.val() + ' ' + varName.val() }
+					]
+				}
+			);
+			varName.val('');
+			varType.val('int');
 		}
 
 		function handlerTabActive(event) {
 			event.preventDefault();
-			if($(event.currentTarget).parent().attr('id') == 'project-navegator'){
+			if ($(event.currentTarget).parent().attr('id') == 'project-navegator') {
 				$('#list-projects .active').removeClass('active in');
-			}else{
+			} else {
 				$('#project-navegator .active').removeClass('active in');
 			}
 		}
@@ -849,7 +920,7 @@
 		$("[data-block]")
 			.on('click', handlerBlockClick);
 
-		$("[data-block] input")
+		$("[data-block] input, [data-block] select")
 			.on('change', handlerUpdateArgs)
 			.on('keypress', handlerUpdateArgs);
 
@@ -859,22 +930,48 @@
 
 		/* ---------- Sortable Implementation ---------- */
 
+		function sortableIsAllowed(placeholder, placeholderParent, currentItem) {
+			if (placeholderParent) {
+				if (placeholderParent.hasClass('locked')) {
+					return false;
+				} else {
+					if (currentItem.attr('data-block') == "else") {
+						if (placeholder.prev().attr('data-block') != "if") {
+							return false;
+						} else {
+							return true;
+						}
+					} else {
+						if (placeholder.next().attr('data-block') == "else") {
+							return false;
+						} else {
+							return true;
+						}
+					}
+				}
+			} else {
+				if (currentItem.attr('data-block') == "else") {
+					if (placeholder.prev().attr('data-block') != "if") {
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					if (placeholder.next().attr('data-block') == "else") {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			}
+		}
+
 		$(".block-container").nestedSortable({
 			listType: 'ul',
 			handle: 'div',
 			items: 'li',
 			toleranceElement: '> div',
-			isAllowed: function (placeholder, placeholderParent, currentItem) {
-				if (placeholderParent) {
-					if (placeholderParent.hasClass('locked')) {
-						return false;
-					} else {
-						return true
-					}
-				} else {
-					return true;
-				}
-			},
+			isAllowed: sortableIsAllowed,
 			connectWith: ".sortable",
 			remove: function (event, ui) {
 				const item = $(ui.item.clone());
@@ -884,8 +981,8 @@
 						drop: valueSlotDrop
 					}
 				);
-				item.on('click', handlerBlockClick)
-					.find('input')
+				item.on('click', handlerBlockClick);
+				item.find('input')
 					.on('change', handlerUpdateArgs)
 					.on('keypress', handlerUpdateArgs);
 				$(this).html(item);
@@ -898,17 +995,7 @@
 			items: 'li',
 			toleranceElement: '> div',
 			cancel: "div[data-block='value'],input,textarea,button,select,option,input,textarea,button,select,option",
-			isAllowed: function (placeholder, placeholderParent, currentItem) {
-				if (placeholderParent) {
-					if (placeholderParent.hasClass('locked')) {
-						return false;
-					} else {
-						return true
-					}
-				} else {
-					return true;
-				}
-			}
+			isAllowed: sortableIsAllowed
 		});
 
 		/* --------------------------------------------- */
@@ -994,11 +1081,11 @@
 		ipcRenderer.on('log:end', handlerIpcRendererLogEnd);
 
 		//Keyboard Shortcuts
-		ipcRenderer.on('Shortcut:new', ()=>{$('#new-file').triggerHandler('click');});
-		ipcRenderer.on('Shortcut:open', ()=>{$('#open-files').triggerHandler('click');});
-		ipcRenderer.on('Shortcut:save', ()=>{$('#save-files').triggerHandler('click');});
-		ipcRenderer.on('Shortcut:compile', ()=>{$('#file-compile').triggerHandler('click');});
-		ipcRenderer.on('Shortcut:variables', ()=>{$('#variables').modal('show');});
+		ipcRenderer.on('Shortcut:new', () => { $('#new-file').triggerHandler('click'); });
+		ipcRenderer.on('Shortcut:open', () => { $('#open-files').triggerHandler('click'); });
+		ipcRenderer.on('Shortcut:save', () => { $('#save-files').triggerHandler('click'); });
+		ipcRenderer.on('Shortcut:compile', () => { $('#file-compile').triggerHandler('click'); });
+		ipcRenderer.on('Shortcut:variables', () => { $('#variables').modal('show'); });
 
 	</script>
 </body>
