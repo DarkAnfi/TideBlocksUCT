@@ -107,7 +107,7 @@ function Interpreter(options, html) {
                         tree.push({
                             block: 'if',
                             condition: e1.attribs['data-condition'],
-                            content: self.prepare(e1.children[3].children)
+                            content: e1.children[1] ? self.prepare(e1.children[1].children) : []
                         });
                 }
             }

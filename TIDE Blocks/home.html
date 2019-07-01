@@ -109,14 +109,17 @@
 				</div>
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="controls">
 					<ul class="block-container">
-						<li data-block="if" data-condition="1">
+						<li data-block="if">
 							<div>
 								<table>
 									<tbody>
 										<tr>
 											<td>Si</td>
 											<td>
-												<input class="form-control input-sm" type="text" data-arg="condition" />
+												<div class="value-slot" data-name="time" data-default="1000"
+													data-type="unsigned long">
+													<input class="form-control input-sm" />
+												</div>
 											</td>
 											<td>entonces</td>
 										</tr>
@@ -468,15 +471,31 @@
 			event.preventDefault();
 			if ($('#file-compile').parent().hasClass('disabled') == false) {
 				if ($("#" + $("#project-navegator .active").attr('name')).html()) {
-					html2json.parse($("#" + $("#project-navegator .active").attr('name')).html(), function (data) {
+					const original = $("#" + $("#project-navegator .active").attr('name')).html()
+					let result = "";
+					for (let i = 0; i < original.length; i++) {
+						let hex = original.charCodeAt(i).toString(16);
+						hex = "0x" + ("000" + hex).slice(-4);
+						result += hex == "0x0009" ? '' :
+								  hex == "0x000a" ? '' :
+								                    hex;
+					}
+					let raw = ""
+					for (let i = 0; i < result.length - 5; i+=6) {
+						const hex = result[i+2]+result[i+3]+result[i+4]+result[i+5];
+						raw += String.fromCharCode(Number.parseInt(hex,16));
+					}
+					console.log(raw);
+					html2json.parse(raw, function (data) {
+						console.log(data)
 						if (data.length) {
 							if (data[0].children) {
-								$('#file-compile').parent().addClass('disabled');
+								//$('#file-compile').parent().addClass('disabled');
 								$(function () {
 									const interpreter = new Interpreter(data[0].children);
 									const txCode = interpreter.getCode();
 									console.log(txCode);
-									ipcRenderer.send('file:compile', txCode);
+									//ipcRenderer.send('file:compile', txCode);
 								});
 							}
 						}
@@ -562,7 +581,6 @@
 		}
 
 		function handlerWindowResize(e) {
-			e.preventDefault();
 			update_tabs();
 		}
 
@@ -593,8 +611,7 @@
 
 		function handlerUpdateArgs(event) {
 			const input = $(this);
-			input.closest('[data-block]').attr('data-' + input.attr('data-arg'), input.val());
-			input.attr('value', input.closest('[data-block]').attr('data-' + input.attr('data-arg')));
+			input.attr('value', input.val());
 		}
 
 		/* Event Listeners */
