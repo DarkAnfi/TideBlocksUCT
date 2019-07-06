@@ -271,6 +271,42 @@
 							</div>
 						</li>
 					</ul>
+					<ul class="block-container">
+						<li data-block='servo1' class="locked">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Servo 1</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
+					<ul class="block-container">
+						<li data-block='servo2' class="locked">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>Servo 2</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</li>
+					</ul>
 					<div class="value-container">
 						<div data-block="value" data-name="analogRead(3)">
 							<div>Sensor de Sonido</div>
@@ -459,7 +495,7 @@
 					})
 					.find('li')
 					.on('click', handlerBlockClick)
-					.find('input')
+					.find('input, select')
 					.on('change', handlerUpdateArgs)
 					.on('keypress', handlerUpdateArgs);
 				newPath = $('#' + arg).attr('path');
@@ -625,7 +661,7 @@
 					html2json.parse(raw, function (data) {
 						if (data.length) {
 							if (data[0].children) {
-								//$('#file-compile').parent().addClass('disabled');
+								$('#file-compile').parent().addClass('disabled');
 								$(function () {
 									interpreter.html(data[0].children);
 									const nodeHtml = interpreter.html();
@@ -634,7 +670,7 @@
 									console.log(nodeHtml);
 									console.log(nodeCode);
 									console.log(txCode);
-									//ipcRenderer.send('file:compile', txCode);
+									ipcRenderer.send('file:compile', txCode);
 								});
 							}
 						}
@@ -982,7 +1018,7 @@
 					}
 				);
 				item.on('click', handlerBlockClick);
-				item.find('input')
+				item.find('input, select')
 					.on('change', handlerUpdateArgs)
 					.on('keypress', handlerUpdateArgs);
 				$(this).html(item);
