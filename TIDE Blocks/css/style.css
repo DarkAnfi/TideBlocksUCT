@@ -21,13 +21,13 @@
 }
 #workspace-container {
 	position: absolute;
-	top: 82px;
+	top: 92px;
 	bottom: 1px;
 	left: 311px;
 	right: 1px;
 	border-color: #1b2e40;
 	background-color: white;
-	padding: 15px 15px calc(100vh - 37px) 15px;
+	padding: 15px;
 }
 
 #block-menu{
@@ -81,11 +81,16 @@
 	top: 44px;
 	left: 326px;
 	right: 1px;
+	height: 48px;
+}
+
+#project-navegator a {
+	height: 48px;
 }
 
 .block-section{
 	padding: 15px;
-	height: calc(100vh - 80px);
+	height: calc(100vh - 104px);
 }
 
 .block-menu-option {
@@ -93,7 +98,9 @@
 }
 
 .tab-project{
-	height: 100vh;
+	min-height: calc(100vh - 123px);
+	margin: 0px;
+	padding: 0px;
 }
 .tab-design{
 	width: 164px;
