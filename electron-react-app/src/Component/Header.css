@@ -1,0 +1,7 @@
+.Header input#project-name {
+    padding: 5px 10px;
+    border: none;
+    height: 30px;
+    line-height: 20px;
+    font-size: 15px;
+}

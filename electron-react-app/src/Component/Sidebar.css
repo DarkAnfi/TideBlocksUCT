@@ -1,0 +1,27 @@
+.Sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    height: calc(100vh - 56px);
+    background: #007bff;
+    color: #f8f9fa;
+    padding: 15px;
+    transition: all 0.5s;
+}
+
+.Sidebar.left {
+    margin-left: -300px;
+}
+
+.Sidebar.right {
+    margin-right: -300px;
+}
+
+.Sidebar.left.is-open {
+    margin-left: 0;
+    transition: .5s;
+}
+
+.Sidebar.right.is-open {
+    margin-right: 0;
+    transition: .5s;
+}

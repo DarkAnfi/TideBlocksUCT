@@ -1,0 +1,19 @@
+.App main{
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+.App button#btn-toggle-sidebar {
+    padding: 0px 0px;
+    outline: none;
+    background: #007bff;
+    color: #f8f9fa;
+    border: none;
+    transition: all 0.5s;
+}
+
+.App button#btn-toggle-sidebar:hover {
+    background: #0069d9;
+    padding: 0px 5px;
+}
