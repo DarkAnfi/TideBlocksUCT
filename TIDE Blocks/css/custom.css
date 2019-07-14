@@ -182,7 +182,11 @@ ul.block-container td {
 }
 
 ul.sortable input,
-ul.block-container input {
+ul.sortable textarea,
+ul.sortable select,
+ul.block-container input,
+ul.block-container textarea,
+ul.block-container select {
 	border-radius: 15px;
 }
 
