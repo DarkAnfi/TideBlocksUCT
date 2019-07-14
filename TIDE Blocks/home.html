@@ -225,8 +225,8 @@
 						</li>
 					</ul>
 				</div>
-				
-				
+
+
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="operators">
 					<div class="value-container">
 						<div data-block="value" data-name="sum">
@@ -259,7 +259,7 @@
 										<tr>
 											<td>
 												<div class="value-slot">
-													<input class="form-control input-sm" value="0"  />
+													<input class="form-control input-sm" value="0" />
 												</div>
 											</td>
 											<td>
@@ -388,12 +388,10 @@
 												</div>
 											</td>
 											<td>
-												<
-											</td>
-											<td>
-												<div class="value-slot">
-													<input class="form-control input-sm" value="0" />
-												</div>
+												< </td> <td>
+													<div class="value-slot">
+														<input class="form-control input-sm" value="0" />
+													</div>
 											</td>
 										</tr>
 									</tbody>
@@ -401,10 +399,10 @@
 							</div>
 						</div>
 					</div>
-					
-					
+
+
 				</div>
-				
+
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="makers">
 					<ul class="block-container">
 						<li data-block='led-on' class="locked">
@@ -953,7 +951,7 @@
 					$(document.createElement('div'))
 						.text(varName.val())
 				);
-				
+
 			newVar.draggable(
 				{
 					helper: "clone",
@@ -977,7 +975,7 @@
 			);
 			varName.val('');
 			varType.val('int');
-			
+
 		}
 
 		function handlerTabActive(event) {
@@ -1113,9 +1111,9 @@
 			if (placeholderParent) {
 				event.stopPropagation();
 				if (placeholderParent.hasClass('locked')) {
-					
+
 					return false;
-					
+
 				} else {
 					if (currentItem.attr('data-block') == "else") {
 						if (placeholder.prev().attr('data-block') != "if") {
@@ -1196,15 +1194,19 @@
 					helper: 'original',
 					scroll: false,
 					revert: 'invalid',
-					revertDuration: 0 
-					
+					revertDuration: 0
 				}
 			);
-			console.log(ui.draggable);
-			console.log(droppedItem);
+			droppedItem.find('.value-slot').droppable(
+				{
+					accept: "div[data-block='value']",
+					drop: valueSlotDrop,
+					greedy: true,
+					tolerance: 'pointer'
+				}
+			);
 			droppedItem.on('click', handlerBlockClick)
 			$(this).html(droppedItem);
-			event.stopPropagation();
 		}
 
 		$("div[data-block='value']").draggable(
@@ -1213,16 +1215,18 @@
 				scroll: false,
 				zIndex: 100
 			}
-			
+
 		);
-		
+
 		$(".value-slot").droppable(
 			{
 				accept: "div[data-block='value']",
-				drop: valueSlotDrop
+				drop: valueSlotDrop,
+				greedy: true,
+				tolerance: 'pointer'
 			}
 		);
-		
+
 		/* ------------------------------------------ */
 
 		/* IPC Renderer Handlers */
