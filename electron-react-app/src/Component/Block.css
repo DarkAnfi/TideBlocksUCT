@@ -10,7 +10,6 @@ ul.block-container * {
 }
 
 li[data-block] {
-	color: rgba(0,0,0,0.5);
 	font-weight: bold;
 }
 
@@ -21,6 +20,7 @@ li[data-block] {
 li[data-block][color="default"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
 	background-image: url(./media/blocks/default/tl.png),url(./media/blocks/default/t.png),url(./media/blocks/default/tr.png),
 					  url(./media/blocks/default/bl.png),url(./media/blocks/default/b.png),url(./media/blocks/default/br.png);
 	background-position: left top, left 60px top, right top,
@@ -85,6 +85,7 @@ li[data-block][color="default"] > ul {
 li[data-block][color="primary"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
 	background-image: url(./media/blocks/primary/tl.png),url(./media/blocks/primary/t.png),url(./media/blocks/primary/tr.png),
 					  url(./media/blocks/primary/bl.png),url(./media/blocks/primary/b.png),url(./media/blocks/primary/br.png);
 	background-position: left top, left 60px top, right top,
@@ -149,6 +150,7 @@ li[data-block][color="primary"] ul {
 li[data-block][color="success"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
 	background-image: url(./media/blocks/success/tl.png),url(./media/blocks/success/t.png),url(./media/blocks/success/tr.png),
 					  url(./media/blocks/success/bl.png),url(./media/blocks/success/b.png),url(./media/blocks/success/br.png);
 	background-position: left top, left 60px top, right top,
@@ -213,6 +215,7 @@ li[data-block][color="success"] ul {
 li[data-block][color="info"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
 	background-image: url(./media/blocks/info/tl.png),url(./media/blocks/info/t.png),url(./media/blocks/info/tr.png),
 					  url(./media/blocks/info/bl.png),url(./media/blocks/info/b.png),url(./media/blocks/info/br.png);
 	background-position: left top, left 60px top, right top,
@@ -277,6 +280,7 @@ li[data-block][color="info"] ul {
 li[data-block][color="warning"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(0,0,0,0.5);
 	background-image: url(./media/blocks/warning/tl.png),url(./media/blocks/warning/t.png),url(./media/blocks/warning/tr.png),
 					  url(./media/blocks/warning/bl.png),url(./media/blocks/warning/b.png),url(./media/blocks/warning/br.png);
 	background-position: left top, left 60px top, right top,
@@ -341,6 +345,7 @@ li[data-block][color="warning"] ul {
 li[data-block][color="danger"] {
 	width: fit-content;
 	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
 	background-image: url(./media/blocks/danger/tl.png),url(./media/blocks/danger/t.png),url(./media/blocks/danger/tr.png),
 					  url(./media/blocks/danger/bl.png),url(./media/blocks/danger/b.png),url(./media/blocks/danger/br.png);
 	background-position: left top, left 60px top, right top,
@@ -417,7 +422,9 @@ ul.block-container td {
 	padding-right: 10px;
 }
 
-ul.sortable input,
-ul.block-container input {
-	border-radius: 15px;
+li[data-block] input,
+li[data-block] select,
+li[data-block] textarea,
+li[data-block] option {
+	border-radius: 100px;
 }

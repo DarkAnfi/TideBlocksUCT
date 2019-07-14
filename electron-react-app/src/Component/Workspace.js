@@ -6,14 +6,14 @@ class Workspace extends Component {
             if (placeholderParent.hasClass('locked')) {
                 return false;
             } else {
-                if (currentItem.attr('data-block') == "else") {
-                    if (placeholder.prev().attr('data-block') != "if") {
+                if (currentItem.attr('data-block') === "else") {
+                    if (placeholder.prev().attr('data-block') !== "if") {
                         return false;
                     } else {
                         return true;
                     }
                 } else {
-                    if (placeholder.next().attr('data-block') == "else") {
+                    if (placeholder.next().attr('data-block') === "else") {
                         return false;
                     } else {
                         return true;
@@ -21,14 +21,14 @@ class Workspace extends Component {
                 }
             }
         } else {
-            if (currentItem.attr('data-block') == "else") {
-                if (placeholder.prev().attr('data-block') != "if") {
+            if (currentItem.attr('data-block') === "else") {
+                if (placeholder.prev().attr('data-block') !== "if") {
                     return false;
                 } else {
                     return true;
                 }
             } else {
-                if (placeholder.next().attr('data-block') == "else") {
+                if (placeholder.next().attr('data-block') === "else") {
                     return false;
                 } else {
                     return true;
@@ -45,7 +45,7 @@ class Workspace extends Component {
             items: 'li',
             toleranceElement: '> div',
             cancel: "div[data-block='value'],input,textarea,button,select,option",
-            isAllowed: this.props.isAllowed
+            isAllowed: this.isAllowed
         });
     }
 

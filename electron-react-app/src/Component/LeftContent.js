@@ -13,7 +13,7 @@ class LeftContent extends React.Component {
         return (
             <Container fluid className="LeftContent">
                 <h2>TIDE Blocks</h2>
-                <Scrollbar color="primary" maxHeight="calc(100vh - 56px - 15px - 38px - 8px - 15px)">
+                <Scrollbar color="secondary">
                     <ControlsMenu />
                     <SensorsMenu />
                     <VariablesMenu />

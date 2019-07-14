@@ -5,12 +5,12 @@ import Block from './Block';
 class ControlsMenu extends React.Component {
     render() {
         return (
-            <BlockMenu className="ControlsMenu" color="warning" title="Contról">
+            <BlockMenu className="ControlsMenu" color="warning" title="Controles">
                 <Block color="warning" data-block="if" content={
                     [
                         "Si",
-                        <div class="value-slot">
-                            <input class="form-control input-sm" value="1" />
+                        <div className="value-slot">
+                            <input className="form-control input-sm" defaultValue="1" />
                         </div>,
                         "entonces"
                     ]
@@ -23,16 +23,16 @@ class ControlsMenu extends React.Component {
                 <Block color="warning" data-block="while" content={
                     [
                         "Repetir mientras",
-                        <div class="value-slot">
-                            <input class="form-control input-sm" value="1" />
+                        <div className="value-slot">
+                            <input className="form-control input-sm" defaultValue="1" />
                         </div>
                     ]
                 } />
                 <Block color="warning" data-block="repeat" content={
                     [
                         "Repetir",
-                        <div class="value-slot">
-                            <input class="form-control input-sm" value="1" />
+                        <div className="value-slot">
+                            <input className="form-control input-sm" defaultValue="1" />
                         </div>,
                         "veces"
                     ]
@@ -40,20 +40,20 @@ class ControlsMenu extends React.Component {
                 <Block color="warning" data-block="delay" locked content={
                     [
                         "Esperar",
-                        <div class="value-slot">
-                            <input class="form-control input-sm" value="1000" />
+                        <div className="value-slot">
+                            <input className="form-control input-sm" defaultValue="1000" />
                         </div>
                     ]
                 } />
 
                 <Block color="warning" data-block="delay" locked content={
                     [
-                        <select class="variableList form-control input-sm" value="_NULL">
-                            <option value="_NULL" selected>Variable</option>
+                        <select className="variableList form-control input-sm" defaultValue="_NULL">
+                            <option value="_NULL">Variable</option>
                         </select>,
                         "=",
-                        <div class="value-slot">
-                            <input class="form-control input-sm" value="1000" />
+                        <div className="value-slot">
+                            <input className="form-control input-sm" defaultValue="1000" />
                         </div>
                     ]
                 } />
