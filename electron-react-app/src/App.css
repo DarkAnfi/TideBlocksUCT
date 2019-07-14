@@ -4,16 +4,17 @@
     align-items: stretch;
 }
 
-.App button#btn-toggle-sidebar {
+.App #btn-toggle-sidebar {
+    background: #23272b;
     padding: 0px 0px;
-    outline: none;
-    background: #007bff;
-    color: #f8f9fa;
-    border: none;
+    outline: none !important;
+    border: none !important;
+    border-radius: 0px;
+    box-shadow: none !important;
     transition: all 0.5s;
 }
 
-.App button#btn-toggle-sidebar:hover {
-    background: #0069d9;
+.App #btn-toggle-sidebar:hover {
+    background: #1d2124;
     padding: 0px 5px;
 }

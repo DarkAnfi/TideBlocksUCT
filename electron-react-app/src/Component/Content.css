@@ -1,5 +1,10 @@
-.content {
-    padding: 20px;
+.Content {
+    padding: 0px;
     margin-left: 0;
     height: calc(100vh - 56px);
+}
+
+.Content .scrollbar {
+    padding: 15px;
+    max-height: calc(100vh - 56px);
 }

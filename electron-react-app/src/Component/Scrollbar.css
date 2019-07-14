@@ -1,0 +1,115 @@
+.scrollbar {
+    overflow: hidden auto;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar[color="blue"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--blue);
+}
+
+.scrollbar[color="indigo"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--indigo);
+}
+
+.scrollbar[color="purple"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--purple);
+}
+
+.scrollbar[color="pink"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--pink);
+}
+
+.scrollbar[color="red"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--red);
+}
+
+.scrollbar[color="orange"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--orange);
+}
+
+.scrollbar[color="yellow"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--yellow);
+}
+
+.scrollbar[color="green"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--green);
+}
+
+.scrollbar[color="teal"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--teal);
+}
+
+.scrollbar[color="cyan"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--cyan);
+}
+
+.scrollbar[color="white"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--white);
+}
+
+.scrollbar[color="gray"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--gray);
+}
+
+.scrollbar[color="gray-dark"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--gray-dark);
+}
+
+.scrollbar[color="primary"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--primary);
+}
+
+.scrollbar[color="secondary"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--secondary);
+}
+
+.scrollbar[color="success"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--success);
+}
+
+.scrollbar[color="info"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--info);
+}
+
+.scrollbar[color="warning"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--warning);
+}
+
+.scrollbar[color="danger"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--danger);
+}
+
+.scrollbar[color="light"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--light);
+}
+
+.scrollbar[color="dark"]::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--dark);
+}

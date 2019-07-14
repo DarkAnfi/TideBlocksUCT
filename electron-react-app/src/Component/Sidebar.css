@@ -1,19 +1,19 @@
 .Sidebar {
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 350px;
+    max-width: 350px;
     height: calc(100vh - 56px);
-    background: #007bff;
+    background:#23272b;
     color: #f8f9fa;
     padding: 15px;
     transition: all 0.5s;
 }
 
 .Sidebar.left {
-    margin-left: -300px;
+    margin-left: -350px;
 }
 
 .Sidebar.right {
-    margin-right: -300px;
+    margin-right: -350px;
 }
 
 .Sidebar.left.is-open {

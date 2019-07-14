@@ -15,7 +15,7 @@ import {
   Form,
   FormGroup
 } from 'reactstrap';
-import logo from './logo.svg';
+import logo from './media/logo.svg';
 import './Header.css';
 
 class Header extends Component {
@@ -38,7 +38,7 @@ class Header extends Component {
   render() {
     return (
       <div className="Header" >
-        <Navbar color="primary" dark expand="md">
+        <Navbar color="dark" dark expand="md">
           <NavbarBrand>
             <Form inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
