@@ -859,6 +859,8 @@
 
 		/* ---------- Sortable Implementation ---------- */
 
+		var array = [];
+
 		$(".block-container").nestedSortable({
 			listType: 'ul',
 			handle: 'div',
@@ -884,11 +886,15 @@
 						drop: valueSlotDrop
 					}
 				);
+
 				item.on('click', handlerBlockClick)
 					.find('input')
 					.on('change', handlerUpdateArgs)
 					.on('keypress', handlerUpdateArgs);
 				$(this).html(item);
+				array.push(ui);
+				console.log(array);
+				return array;
 			}
 		})
 
