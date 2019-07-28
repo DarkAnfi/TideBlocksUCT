@@ -20,17 +20,21 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.1.0",
+    "html-to-json": "^0.6.0",
+    "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "reactstrap": "^8.0.0"
+    "react-script": "^2.0.5",
+    "react-scripts": "^3.0.1",
+    "reactstrap": "^8.0.1",
+    "serialport": "^7.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "electron-dev": "concurrently \"set BROWSER=none && npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "postinstall": "electron-builder install-app-deps",
+    "install": "electron-rebuild -f",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
@@ -50,20 +54,42 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
-    "electron": "^5.0.2",
-    "electron-builder": "^20.43.0",
-    "wait-on": "^3.2.0",
-    "typescript": "^3.5.1"
+    "concurrently": "^4.1.1",
+    "electron": "^5.0.7",
+    "electron-builder": "^20.44.4",
+    "electron-rebuild": "^1.8.5",
+    "typescript": "^3.5.3",
+    "wait-on": "^3.3.0"
   },
   "build": {
     "appId": "com.example.electron-cra",
     "files": [
-      "build/**/*",
-      "node_modules/**/*"
+      "build/**/*"
     ],
-    "directories": {
-      "buildResources": "assets"
+    "asar": false,
+    "npmRebuild": false,
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS"
     }
   }
 }

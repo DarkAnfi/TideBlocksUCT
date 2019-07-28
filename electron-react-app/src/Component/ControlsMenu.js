@@ -1,60 +1,49 @@
 import React from 'react';
 import BlockMenu from "./BlockMenu";
 import Block from './Block';
+import Droppable from './Droppable';
 
 class ControlsMenu extends React.Component {
     render() {
         return (
             <BlockMenu className="ControlsMenu" color="warning" title="Controles">
-                <Block color="warning" data-block="if" content={
+                <Block app={this.props.app} color="warning" data-block="if" content={
                     [
                         "Si",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="1" />
-                        </div>,
+                        </Droppable>,
                         "entonces"
                     ]
                 } />
-                <Block color="warning" data-block="else" content={
+                <Block app={this.props.app} color="warning" data-block="else" content={
                     [
                         "De lo contrario entonces"
                     ]
                 } />
-                <Block color="warning" data-block="while" content={
+                <Block app={this.props.app} color="warning" data-block="while" content={
                     [
                         "Repetir mientras",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="1" />
-                        </div>
+                        </Droppable>
                     ]
                 } />
-                <Block color="warning" data-block="repeat" content={
+                <Block app={this.props.app} color="warning" data-block="repeat" content={
                     [
                         "Repetir",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="1" />
-                        </div>,
+                        </Droppable>,
                         "veces"
                     ]
                 } />
-                <Block color="warning" data-block="delay" locked content={
+                <Block app={this.props.app} color="warning" data-block="delay" locked content={
                     [
                         "Esperar",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="1000" />
-                        </div>
-                    ]
-                } />
-
-                <Block color="warning" data-block="delay" locked content={
-                    [
-                        <select className="variableList form-control input-sm" defaultValue="_NULL">
-                            <option value="_NULL">Variable</option>
-                        </select>,
-                        "=",
-                        <div className="value-slot">
-                            <input className="form-control input-sm" defaultValue="1000" />
-                        </div>
+                        </Droppable>
                     ]
                 } />
             </BlockMenu>

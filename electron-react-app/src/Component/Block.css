@@ -422,9 +422,14 @@ ul.block-container td {
 	padding-right: 10px;
 }
 
-li[data-block] input,
-li[data-block] select,
-li[data-block] textarea,
-li[data-block] option {
+[data-block] input,
+[data-block] select,
+[data-block] textarea,
+[data-block] option {
 	border-radius: 100px;
+}
+
+.value-slot input {
+	min-width: 12px;
+	text-align: center;
 }

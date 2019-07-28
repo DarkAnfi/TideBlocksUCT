@@ -12,6 +12,10 @@ body {
   margin: 0;
 }
 
+input, select, textarea, button, option {
+  box-shadow: none !important;
+}
+
 .logo {
   animation: App-logo-spin infinite 20s linear;
   height: 30px;
@@ -25,4 +29,8 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+
+* {
+  -webkit-user-drag: none;
 }

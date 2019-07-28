@@ -1,11 +1,15 @@
+:root {
+    --marginLeft: -350px;
+}
+
 .Sidebar {
     min-width: 350px;
     max-width: 350px;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 56px - 27px);
     background:#23272b;
     color: #f8f9fa;
     padding: 15px;
-    transition: all 0.5s;
+    transition: margin 0.5s;
 }
 
 .Sidebar.left {
@@ -17,11 +21,9 @@
 }
 
 .Sidebar.left.is-open {
-    margin-left: 0;
-    transition: .5s;
+    margin-left: 0px;
 }
 
 .Sidebar.right.is-open {
     margin-right: 0;
-    transition: .5s;
 }

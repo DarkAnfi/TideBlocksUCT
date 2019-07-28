@@ -5,3 +5,89 @@
     line-height: 20px;
     font-size: 15px;
 }
+
+.Header .window.navbar {
+    background: #23272b !important;
+    z-index: 1;
+    padding: 0px;
+    min-height: 27px;
+    height: 27px;
+    max-height: 27px;
+    margin-bottom: 0px;
+    -webkit-app-region: drag;
+}
+
+.Header .window.navbar *{
+    -webkit-app-region: no-drag;
+    font-size: 12px;
+}
+
+.Header .window .dropdown-menu {
+    padding: 0px;
+    margin: 0px;
+    border-radius: 0px;
+    border: none;
+    background: #1d2124;
+}
+
+.Header .window .dropdown-divider {
+    margin: 0px;
+    border-top-color: var(--dark);
+}
+
+.Header .window .nav-link {
+    padding: 4.5px 8px;
+}
+
+.Header .window .dropdown-item {
+    padding: 4.5px 8px;
+    color: var(--gray);
+    font-weight: bold;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+.Header .window .dropdown-item:hover,
+.Header .window .dropdown-menu .dropdown-toggle:hover {
+    background: var(--primary);
+    color: var(--light);
+}
+
+.Header .window .dropdown-item:focus,
+.Header .window .dropdown-item:active,
+.Header .window .dropdown-menu .dropdown-toggle:focus,
+.Header .window .dropdown-menu .dropdown-toggle:active,
+.Header .window .dropdown-menu .dropdown-toggle.nav-link {
+    background: none;
+    font-weight: bold;
+    color: var(--gray);
+}
+
+.Header .window .nav-item.window-control {
+    min-height: 27px;
+    height: 27px;
+    max-height: 27px;
+    display: table;
+}
+
+.Header .window .nav-item.window-control .nav-link {
+    box-shadow: none !important;
+    outline: none !important;
+    width: 45px;
+    color: var(--gray);
+    padding: 0px;
+    line-height: 10px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.Header .window .nav-item.window-control .nav-link:hover {
+    background-color: var(--gray);
+    color: var(--light);
+}
+
+.Header .window .nav-item.window-control .nav-link.window-close:hover {
+    background-color: var(--danger);
+    color: var(--light);
+}

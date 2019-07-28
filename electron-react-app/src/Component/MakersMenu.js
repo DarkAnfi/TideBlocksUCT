@@ -1,14 +1,14 @@
 import React from 'react';
 import BlockMenu from "./BlockMenu";
 import Block from "./Block";
+import Droppable from './Droppable';
 
 class MakersMenu extends React.Component {
-
 
     render() {
         return (
             <BlockMenu className="MakersMenu" color="primary" title="Makers">
-                <Block color="primary" data-block="led-on" locked content={
+                <Block app={this.props.app} color="primary" data-block="led-on" locked content={
                     [
                         "Encender LED",
                         <select className="form-control input-sm" defaultValue="13">
@@ -19,7 +19,7 @@ class MakersMenu extends React.Component {
                         </select>
                     ]
                 } />
-                <Block color="primary" data-block="led-off" locked content={
+                <Block app={this.props.app} color="primary" data-block="led-off" locked content={
                     [
                         "Apagar LED",
                         <select className="form-control input-sm" defaultValue="13">
@@ -30,20 +30,20 @@ class MakersMenu extends React.Component {
                         </select>
                     ]
                 } />
-                <Block color="primary" data-block="servo1" locked content={
+                <Block app={this.props.app} color="primary" data-block="servo1" locked content={
                     [
                         "Servo 1",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="0" />
-                        </div>
+                        </Droppable>
                     ]
                 } />
-                <Block color="primary" data-block="servo2" locked content={
+                <Block app={this.props.app} color="primary" data-block="servo2" locked content={
                     [
                         "Servo 2",
-                        <div className="value-slot">
+                        <Droppable app={this.props.app}>
                             <input className="form-control input-sm" defaultValue="0" />
-                        </div>
+                        </Droppable>
                     ]
                 } />
             </BlockMenu>

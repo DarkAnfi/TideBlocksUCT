@@ -1,41 +1,6 @@
 import React, { Component } from 'react';
 
 class Workspace extends Component {
-    isAllowed(placeholder, placeholderParent, currentItem) {
-        if (placeholderParent) {
-            if (placeholderParent.hasClass('locked')) {
-                return false;
-            } else {
-                if (currentItem.attr('data-block') === "else") {
-                    if (placeholder.prev().attr('data-block') !== "if") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else {
-                    if (placeholder.next().attr('data-block') === "else") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            }
-        } else {
-            if (currentItem.attr('data-block') === "else") {
-                if (placeholder.prev().attr('data-block') !== "if") {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                if (placeholder.next().attr('data-block') === "else") {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-    }
 
     componentDidMount() {
         this.$node = window.$(this.refs.nestedSortable);
@@ -45,7 +10,8 @@ class Workspace extends Component {
             items: 'li',
             toleranceElement: '> div',
             cancel: "div[data-block='value'],input,textarea,button,select,option",
-            isAllowed: this.isAllowed
+            isAllowed: this.props.app.isAllowed,
+            stop: this.props.app.stop
         });
     }
 
@@ -65,9 +31,7 @@ class Workspace extends Component {
     }
     render() {
         return (
-            <ul ref="nestedSortable" className="sortable" style={{minHeight: "calc(100vh - 86px)"}}>
-                {this.props.children}
-            </ul>
+            <ul ref="nestedSortable" className="sortable" id="workspace" style={{ minHeight: "calc(100vh - 86px)" }}/>
         );
     }
 
