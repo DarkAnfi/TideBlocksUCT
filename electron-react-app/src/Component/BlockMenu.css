@@ -1,0 +1,13 @@
+.BlockMenu .btn-collapse-block-menu {
+    cursor: pointer;
+    border-radius: 32px;
+    padding: 0px;
+    margin-bottom: 10px; 
+    vertical-align: middle;
+    width: 100%;
+    transition: all 0.5s;
+}
+
+.BlockMenu .btn-collapse-block-menu:hover {
+    background: rgba(0, 0, 0, 0.2);
+}

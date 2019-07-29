@@ -1,0 +1,95 @@
+{
+  "name": "electron-react-app",
+  "version": "0.1.0",
+  "private": true,
+  "author": "DarkAnfi",
+  "description": "Electron app powered by React JS and Bootstrap",
+  "homepage": "./",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkAnfi/electron-react-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DarkAnfi/electron-react-app/issues"
+  },
+  "main": "public/electron.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
+    "electron-is-dev": "^1.1.0",
+    "html-to-json": "^0.6.0",
+    "jquery": "^3.4.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-script": "^2.0.5",
+    "react-scripts": "^3.0.1",
+    "reactstrap": "^8.0.1",
+    "serialport": "^7.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "electron-dev": "concurrently \"set BROWSER=none && npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "install": "electron-rebuild -f",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "electron": "^5.0.7",
+    "electron-builder": "^20.44.4",
+    "electron-rebuild": "^1.8.5",
+    "typescript": "^3.5.3",
+    "wait-on": "^3.3.0"
+  },
+  "build": {
+    "appId": "com.example.electron-cra",
+    "files": [
+      "build/**/*"
+    ],
+    "asar": false,
+    "npmRebuild": false,
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS"
+    }
+  }
+}
