@@ -1,7 +1,14 @@
 #include <Servo.h>
 
+bool _NULL = 0;
 Servo SERVO1;
 Servo SERVO2;
+
+void repeat(int _NR, void (*_CR)()) {
+   for (int _IR = 0; _IR < _NR; _IR++) {
+       _CR();
+   }
+}
 
 void setup() {
     pinMode(4, OUTPUT);
@@ -13,19 +20,5 @@ void setup() {
 }
 
 void loop() {
-    if (analogRead(3) > 512) {
-        digitalWrite(4, HIGH);
-        digitalWrite(5, LOW);
-        digitalWrite(6, LOW);
-    }
-    if (analogRead(3) <=512 && analogRead(3) > 256) {
-        digitalWrite(4, LOW);
-        digitalWrite(5, HIGH);
-        digitalWrite(6, LOW);
-    }
-    if (analogRead(3) <= 256) {
-        digitalWrite(4, LOW);
-        digitalWrite(5, LOW);
-        digitalWrite(6, HIGH);
-    }
+    digitalWrite(13, LOW);
 }
