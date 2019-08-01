@@ -1,3 +1,13 @@
+:root {
+    --default-selected: #8c959d;
+    --primary-selected: #209bff;
+    --secondary-selected: #8c959d;
+    --success-selected: #48c765;
+    --info-selected: #37c2d8;
+    --warning-selected: #ffe127;
+    --danger-selected: #fc5565;
+}
+
 [data-block='value'] * {
     font-size: 12px;
     font-weight: bold;
@@ -82,6 +92,11 @@
     color: rgba(255, 255, 255, 0.9)
 }
 
+[data-block='value'][color='default'] {
+    background-color: var(--gray);
+    color: rgba(255, 255, 255, 0.9)
+}
+
 [data-block='value'][color='primary'] {
     background-color: var(--primary);
     color: rgba(255, 255, 255, 0.9)
@@ -109,6 +124,41 @@
 
 [data-block='value'][color='danger'] {
     background-color: var(--danger);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='default-selected'] {
+    background-color: var(--gray-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='primary-selected'] {
+    background-color: var(--primary-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='secondary-selected'] {
+    background-color: var(--secondary-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='success-selected'] {
+    background-color: var(--success-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='info-selected'] {
+    background-color: var(--info-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='warning-selected'] {
+    background-color: var(--warning-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='danger-selected'] {
+    background-color: var(--danger-selected);
     color: rgba(255, 255, 255, 0.9)
 }
 

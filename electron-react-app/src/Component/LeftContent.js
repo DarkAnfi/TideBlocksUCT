@@ -15,6 +15,17 @@ import OperatorsMenu from './OperatorsMenu';
 import './LeftContent.css';
 
 class LeftContent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.serialportList = this.serialportList.bind(this);
+    }
+
+    serialportList(event) {
+        event.preventDefault();
+        const { ipcRenderer } = this.props.app.electron;
+        ipcRenderer.send('serialport:list');
+        event.stopPropagation();
+    }
 
     render() {
         return (
@@ -23,10 +34,10 @@ class LeftContent extends React.Component {
                 <Form>
                     <FormGroup>
                         <Label>Puerto</Label>
-                        <Input type="select" bsSize="sm">
+                        <Input type="select" bsSize="sm" onInput={this.serialportList} onClick={this.serialportList} onChange={this.serialportList}>
                             {
                                 this.props.app.ports.map(
-                                    (value, index) => <option key={index} value={value.comName}>{value.comName}{value.manufacturer?": "+value.manufacturer:""}</option>
+                                    (value, index) => <option key={index} value={value.comName}>{value.comName}{value.manufacturer ? ": " + value.manufacturer : ""}</option>
                                 )
                             }
                         </Input>
