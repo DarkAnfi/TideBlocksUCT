@@ -15,11 +15,12 @@ class App extends Component {
     this.state = {
       sidebar: true,
       app: {
+        __projectList: {},
         idProjectCounter: 1,
         tooltipOpen: [false],
         currentProject: {
-          id:'project0', 
-          filename: 'Nuevo Proyecto', 
+          id: 'project0',
+          filename: 'Nuevo Proyecto',
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -38,9 +39,9 @@ class App extends Component {
           savedState: "",
           currentState: new LinkedListNode("")
         },
-        projectList:[{
-          id:'project0', 
-          filename: 'Nuevo Proyecto', 
+        projectList: [{
+          id: 'project0',
+          filename: 'Nuevo Proyecto',
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -59,9 +60,9 @@ class App extends Component {
           savedState: "",
           currentState: new LinkedListNode("")
         }],
-        projectListVisible:[{
-          id:'project0', 
-          filename: 'Nuevo Proyecto', 
+        projectListVisible: [{
+          id: 'project0',
+          filename: 'Nuevo Proyecto',
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -81,8 +82,8 @@ class App extends Component {
           currentState: new LinkedListNode("")
         }],
         LastVisibleProject: {
-          id:'project0', 
-          filename: 'Nuevo Proyecto', 
+          id: 'project0',
+          filename: 'Nuevo Proyecto',
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -102,8 +103,8 @@ class App extends Component {
           currentState: new LinkedListNode("")
         },
         FirstVisibleProject: {
-          id:'project0', 
-          filename: 'Nuevo Proyecto', 
+          id: 'project0',
+          filename: 'Nuevo Proyecto',
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -143,7 +144,7 @@ class App extends Component {
           savedState: "",
           currentState: new LinkedListNode("")
         },
-        
+
         isMaximized: false,
         ports: [],
         set: function (state, callback) {
@@ -366,6 +367,30 @@ class App extends Component {
     $('.value-slot input').trigger('input')
     $('[data-block] .value-slot input').trigger('change')
     $('[data-block] select').trigger('change')
+
+    const project = {
+      filename: 'Nuevo Proyecto',
+      imports: ["Servo.h"],
+      defaults: [
+        { block: 'execute', command: 'Servo SERVO1' },
+        { block: 'execute', command: 'Servo SERVO2' }
+      ],
+      setup: [
+        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
+        { block: 'execute', command: 'SERVO1.attach(12)' },
+        { block: 'execute', command: 'SERVO2.attach(11)' }
+      ],
+      loop: [],
+      variables: {},
+      savedState: "",
+      currentState: new LinkedListNode("")
+    };
+    const { __projectList, set } = this.state.app;
+    __projectList[project.filename] = project;
+    set({ __projectList });
   }
 
   toggle() {

@@ -11,8 +11,8 @@ class Content extends React.Component {
   render() {
     return (
       <Container fluid className={classNames('Content', { 'is-open': this.props.isOpen })}>
+        <ProjectNavegator app={this.props.app} />
         <Scrollbar>
-          <ProjectNavegator app={this.props.app} />
           <Workspace app={this.props.app} />
         </Scrollbar>
       </Container>
