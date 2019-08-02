@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import Workspace from './Workspace';
 import Scrollbar from './Scrollbar';
+import ProjectNavegator from './ProjectNavegator';
+import Workspace from './Workspace';
 import classNames from 'classnames';
 import './Content.css';
 
@@ -11,7 +12,8 @@ class Content extends React.Component {
     return (
       <Container fluid className={classNames('Content', { 'is-open': this.props.isOpen })}>
         <Scrollbar>
-          <Workspace app={this.props.app}></Workspace>
+          <ProjectNavegator app={this.props.app} />
+          <Workspace app={this.props.app} />
         </Scrollbar>
       </Container>
     );
