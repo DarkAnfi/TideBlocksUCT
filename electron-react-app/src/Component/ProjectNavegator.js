@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tooltip, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import { NavItem, NavLink, Button, Tooltip } from 'reactstrap';
 import LinkedListNode from '../Classes/LinkedListNode';
 import classnames from 'classnames';
 import './ProjectNavegator.css';
@@ -8,13 +8,13 @@ import Scrollbar from './Scrollbar';
 class ProjectNavegator extends Component {
     constructor(props) {
         super(props);
-        this.toggleTab = this.toggleTab.bind(this);
-        this.toggleTooltip = this.toggleTooltip.bind(this);
-        this.handlerCloseProject = this.handlerCloseProject.bind(this);
-        this.handlerAddProject = this.handlerAddProject.bind(this);
-        this.handlerScrollRight = this.handlerScrollRight.bind(this);
-        this.handlerScrollLeft = this.handlerScrollLeft.bind(this);
-        this.handlerResize = this.handlerResize.bind(this);
+        //this.toggleTab = this.toggleTab.bind(this);
+        //this.toggleTooltip = this.toggleTooltip.bind(this);
+        //this.handlerCloseProject = this.handlerCloseProject.bind(this);
+        //this.handlerAddProject = this.handlerAddProject.bind(this);
+        //this.handlerScrollRight = this.handlerScrollRight.bind(this);
+        //this.handlerScrollLeft = this.handlerScrollLeft.bind(this);
+        //this.handlerResize = this.handlerResize.bind(this);
     }
 
     toggleTooltip(indx) {
@@ -34,133 +34,8 @@ class ProjectNavegator extends Component {
     }
 
     handlerAddProject(event) {
-        /*let newTab = {};
-        let projectList = this.props.app.projectList;
-        let projectListVisible = this.props.app.projectListVisible;
-        let tooltipOpen = this.props.app.tooltipOpen;
-        let LastProject = this.props.app.LastVisibleProject;
-        let FirstVisibleProject = this.props.app.FirstVisibleProject;
-        if (170 * (this.props.app.projectList.length + 1) + 15 + 36.95 * 3 < window.innerWidth) {
-            if (tab.type && tab.type === 'click') {
-                newTab = {
-                    id: 'project' + this.props.app.idProjectCounter,
-                    filename: 'New Tab',
-                    imports: ["Servo.h"],
-                    defaults: [
-                        { block: 'execute', command: 'Servo SERVO1' },
-                        { block: 'execute', command: 'Servo SERVO2' }
-                    ],
-                    setup: [
-                        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-                        { block: 'execute', command: 'SERVO1.attach(12)' },
-                        { block: 'execute', command: 'SERVO2.attach(11)' }
-                    ],
-                    loop: [],
-                    variables: {},
-                    savedState: "",
-                    currentState: new LinkedListNode("")
-                };
-
-                projectList = projectList.push(newTab);
-                projectListVisible = projectListVisible.push(newTab);
-                tooltipOpen = tooltipOpen.push(false);
-                LastProject = newTab;
-                if (FirstVisibleProject === []) { FirstVisibleProject = newTab; }
-                this.props.app.set({
-                    projectList: projectList,
-                    projectListVisible: projectListVisible,
-                    tooltipOpen: tooltipOpen
-                },
-                    () => {
-                        const newId = this.props.app.idProjectCounter + 1;
-                        this.props.app.set({
-                            FirstVisibleProject: FirstVisibleProject,
-                            LastVisibleProject: LastProject,
-                            idProjectCounter: newId
-                        });
-                    });
-            } else {
-                newTab = tab;
-                newTab.id = 'project' + this.props.app.idProjectCounter;
-                projectList = projectList.push(newTab);
-                projectListVisible = projectListVisible.push(newTab);
-                tooltipOpen = tooltipOpen.push(false);
-                if (FirstVisibleProject === []) { FirstVisibleProject = newTab; }
-                LastProject = newTab;
-                this.props.app.set({
-                    projectList: projectList,
-                    projectListVisible: projectListVisible,
-                    tooltipOpen: tooltipOpen
-                },
-                    () => {
-                        const newId = this.props.app.idProjectCounter + 1;
-                        this.props.app.set({
-                            FirstVisibleProject: FirstVisibleProject,
-                            LastVisibleProject: LastProject,
-                            idProjectCounter: newId
-                        });
-                    });
-            }
-            this.props.app.set({
-                currentProject: newTab
-            });
-        } else if (170 * (this.props.app.projectList.length + 1) + 15 + 36.95 * 3 >= window.innerWidth) {
-            if (tab.type && tab.type === 'click') {
-                newTab = {
-                    id: 'project' + this.props.app.idProjectCounter,
-                    filename: 'New Tab',
-                    imports: ["Servo.h"],
-                    defaults: [
-                        { block: 'execute', command: 'Servo SERVO1' },
-                        { block: 'execute', command: 'Servo SERVO2' }
-                    ],
-                    setup: [
-                        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-                        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-                        { block: 'execute', command: 'SERVO1.attach(12)' },
-                        { block: 'execute', command: 'SERVO2.attach(11)' }
-                    ],
-                    loop: [],
-                    variables: {},
-                    savedState: "",
-                    currentState: new LinkedListNode("")
-                };
-
-                projectList = projectList.push(newTab);
-                tooltipOpen = tooltipOpen.push(false);
-                this.props.app.set({
-                    projectList: projectList,
-                    tooltipOpen: tooltipOpen
-                },
-                    () => {
-                        const newId = this.props.app.idProjectCounter + 1;
-                        this.props.app.set({
-                            idProjectCounter: newId
-                        });
-                    });
-            } else {
-                newTab = tab;
-                newTab.id = 'project' + this.props.app.idProjectCounter;
-                projectList = projectList.push(newTab);
-                tooltipOpen = tooltipOpen.push(false);
-                this.props.app.set({
-                    projectList: projectList,
-                    tooltipOpen: tooltipOpen
-                },
-                    () => {
-                        const newId = this.props.app.idProjectCounter + 1;
-                        this.props.app.set({
-                            idProjectCounter: newId
-                        });
-                    });
-            }
-        }*/
-        const newProject = {
+        console.log(event);     
+        /*const newProject = {
             filename: 'Nuevo Proyecto',
             imports: ["Servo.h"],
             defaults: [
@@ -182,10 +57,11 @@ class ProjectNavegator extends Component {
         }
         const { __projectList, set } = this.props.app;
         __projectList[newProject.filename] = newProject;
-        set({ __projectList })
+        set({ __projectList });*/
     }
 
     handlerCloseProject(event) {
+        console.log("asdas123");
         /*//validations to save projects if the user wishes (changes?)
         let indx = this.props.app.projectList.indexOf(tab);
         let tooltipOpen = this.props.app.tooltipOpen;
@@ -231,10 +107,10 @@ class ProjectNavegator extends Component {
                     });
                 }
             });*/
-        const { __projectList, set } = this.props.app;
+        /*const { __projectList, set } = this.props.app;
         const project = event.currentTarget.parentElement.parentElement.getAttribute('data-project');
         delete __projectList[project];
-        set({ __projectList });
+        set({ __projectList });*/
     }
 
     handlerScrollRight(e) {
@@ -302,28 +178,24 @@ class ProjectNavegator extends Component {
         });
     }
 
-    componentDidMount() {
-        window.addEventListener("resize", this.handlerResize);
-    }
-
-    /*shouldComponentUpdate(nextProps, nextState) {
-        return nextState !== this.props.app;
-    }*/
-
     getTabs() {
         const { __projectList } = this.props.app;
         return Object.values(__projectList).map(
             (value, index) =>
-                <NavItem key={index} data-project={value.filename}>
-                    <NavLink active={index === 0}>
-                        <span className='tab-label'>{value.filename}</span> <Button className='close' close onClick={this.handlerCloseProject} />
-                    </NavLink>
-                </NavItem>
+                <div key={index} className="tab tab-active" data-project={value.filename}>
+                    <div className="tab-label float-left">
+                        {value.filename}
+                    </div>
+                    <Button className='close float-right' onClick={()=>{this.handlerCloseProject();}} close />
+                </div>
         )
     }
 
     render() {
-        /*const TabsCreated = this.props.app.projectListVisible.map((project, indx)=>{
+        /*<Tooltip placement="bottom" isOpen={this.props.app.tooltipOpen[index]} autohide={false} target={value.filename} toggle={()=>{this.toggleTooltip(index)}}>
+                        {value.filename}
+                    </Tooltip>
+        const TabsCreated = this.props.app.projectListVisible.map((project, indx)=>{
             return (<div key={indx}>
                 <NavItem  className='tab'>
                     <NavLink id={project.id} className={classnames({ active: this.props.app.currentProject.id === project.id})} onClick={()=>{this.toggleTab(project);}}>
@@ -334,23 +206,16 @@ class ProjectNavegator extends Component {
                     </NavLink>
                 </NavItem>
             </div>);
+            
         });*/
         return (
-            <div className="ProjectNavegator">
+            <div>
                 <Button outline className='float-right add-project' onClick={this.handlerAddProject}>+</Button>
-                {/*<Button outline className='float-right add-project' onClick={this.handlerScrollRight}>{'>'}</Button>*/}
-                {/*<Button outline className='float-left add-project' onClick={this.handlerScrollLeft}> {'<'} </Button>*/}
-                {/*<Nav tabs className='project-navegator'>
-                    <div className='scrolling-wrapper '>  
-                        {
-                            TabsCreated
-                        }
-                    </div>
-                </Nav>*/}
-                <Nav tabs>
+                <div className="project-navegator">
                     {this.getTabs()}
-                </Nav>
+                </div>
             </div>
+            
         );
     }
 }
