@@ -24,6 +24,9 @@ class LeftContent extends React.Component {
         event.preventDefault();
         const { ipcRenderer } = this.props.app.electron;
         ipcRenderer.send('serialport:list');
+        this.props.app.set({
+            currentPort: event.currentTarget.value
+        });
         event.stopPropagation();
     }
 

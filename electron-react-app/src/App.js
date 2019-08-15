@@ -3,6 +3,7 @@ import Header from './Component/Header';
 import Sidebar from './Component/Sidebar';
 import Content from './Component/Content';
 import LeftContent from './Component/LeftContent';
+import MessageModal from './Component/MessageModal';
 import { Button } from 'reactstrap';
 import LinkedListNode from './Classes/LinkedListNode';
 import './App.css';
@@ -37,6 +38,7 @@ class App extends Component {
         },
         isMaximized: false,
         ports: [],
+        currentPort: "",
         set: function (state, callback) {
           const { set, electron, ...app } = this.state.app;
           this.setState(
@@ -129,7 +131,13 @@ class App extends Component {
             this.state.app.set({ project });
           }
           $('input').trigger('input')
-        }.bind(this)
+        }.bind(this),
+        MessageModal: {
+          isOpen: false,
+          title: "",
+          message: "",
+          done: false
+        }
       }
     }
     window.app = this;
@@ -213,7 +221,23 @@ class App extends Component {
       project.filename = filename;
       this.state.app.set({ project });
     });
-    ipcRenderer.on('log:write', (event, data) => console.log(data));
+    ipcRenderer.on('log:open', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.isOpen = true;
+      MessageModal.done = false;
+      MessageModal.title = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:write', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.message = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:end', (event) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.done = true;
+      set({ MessageModal });
+    });
     ipcRenderer.send('mainWindow:isMaximized');
     ipcRenderer.send('serialport:list');
   }
@@ -343,6 +367,7 @@ class App extends Component {
           </Button>
           <Content app={this.state.app} isOpen={this.state.sidebar} />
         </main>
+        <MessageModal app={this.state.app} />
       </div>
     );
   }
