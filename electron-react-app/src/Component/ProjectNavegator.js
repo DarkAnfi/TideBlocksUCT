@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavItem, NavLink, Button, Tooltip } from 'reactstrap';
+import { NavItem, NavLink, Button } from 'reactstrap';
 import LinkedListNode from '../Classes/LinkedListNode';
 import classnames from 'classnames';
 import './ProjectNavegator.css';
@@ -8,34 +8,24 @@ import Scrollbar from './Scrollbar';
 class ProjectNavegator extends Component {
     constructor(props) {
         super(props);
-        //this.toggleTab = this.toggleTab.bind(this);
-        //this.toggleTooltip = this.toggleTooltip.bind(this);
-        //this.handlerCloseProject = this.handlerCloseProject.bind(this);
-        //this.handlerAddProject = this.handlerAddProject.bind(this);
-        //this.handlerScrollRight = this.handlerScrollRight.bind(this);
-        //this.handlerScrollLeft = this.handlerScrollLeft.bind(this);
-        //this.handlerResize = this.handlerResize.bind(this);
+        this.handlerToggleProject = this.handlerToggleProject.bind(this);
+        this.handlerCloseProject = this.handlerCloseProject.bind(this);
+        this.handlerAddProject = this.handlerAddProject.bind(this);
     }
 
-    toggleTooltip(indx) {
-        const tooltipOpen = this.props.app.tooltipOpen;
-        tooltipOpen[indx] = !tooltipOpen[indx];
-        this.props.app.set({
-            tooltipOpen
-        });
-    }
-
-    toggleTab(tab) {
+    handlerToggleProject(tab) {
         if (this.props.app.currentProject !== tab) {
             this.props.app.set({
                 currentProject: tab
             });
+            //aquí cambiar el workspace
         }
     }
 
     handlerAddProject(event) {
         console.log(event);     
-        /*const newProject = {
+        const newProject = {
+            id: 'project' + this.props.app.idProjectCounter.toString(),
             filename: 'Nuevo Proyecto',
             imports: ["Servo.h"],
             defaults: [
@@ -54,13 +44,14 @@ class ProjectNavegator extends Component {
             variables: {},
             savedState: "",
             currentState: new LinkedListNode("")
-        }
+        };
+        const newId = this.props.app.idProjectCounter + 1;
         const { __projectList, set } = this.props.app;
-        __projectList[newProject.filename] = newProject;
-        set({ __projectList });*/
+        __projectList[newProject.id] = newProject;
+        set({ __projectList, idProjectCounter: newId, currentProject: newProject });
     }
 
-    handlerCloseProject(event) {
+    handlerCloseProject(project) {
         console.log("asdas123");
         /*//validations to save projects if the user wishes (changes?)
         let indx = this.props.app.projectList.indexOf(tab);
@@ -107,98 +98,31 @@ class ProjectNavegator extends Component {
                     });
                 }
             });*/
-        /*const { __projectList, set } = this.props.app;
-        const project = event.currentTarget.parentElement.parentElement.getAttribute('data-project');
-        delete __projectList[project];
-        set({ __projectList });*/
-    }
-
-    handlerScrollRight(e) {
-        if ((parseInt(this.props.app.LastVisibleProject.id.substr(7)) + 1 < this.props.app.projectList.length) && (170 * this.props.app.projectList.length + 15 > window.innerWidth)) {
-            const projectListVisible = this.props.app.projectList.slice(parseInt(this.props.app.FirstVisibleProject.id.substr(7)) + 1, parseInt(this.props.app.LastVisibleProject.id.substr(7)) + 2);
-            this.props.app.set({
-                projectListVisible
-            },
-                () => {
-                    this.updateVisibleTabs(this.props.app.projectListVisible[0], this.props.app.projectListVisible[this.props.app.projectListVisible.length - 1]);
-                });
-        }
-    }
-
-    handlerScrollLeft(e) {
-        if ((parseInt(this.props.app.FirstVisibleProject.id.substr(7)) - 1 >= 0) && (170 * this.props.app.projectList.length + 15 > window.innerWidth)) {
-            const projectListVisible = this.props.app.projectList.slice(parseInt(this.props.app.FirstVisibleProject.id.substr(7)) - 1, parseInt(this.props.app.LastVisibleProject.id.substr(7)));
-            this.props.app.set({
-                projectListVisible
-            },
-                () => {
-                    this.updateVisibleTabs(this.props.app.projectListVisible[0], this.props.app.projectListVisible[this.props.app.projectListVisible.length - 1]);
-                });
-        }
-    }
-
-    handlerResize(e) {//validar cuando no hay tab
-        //console.log(this.props.app.LastVisibleProject);
-        if (window.innerWidth >= (170 * (this.props.app.projectListVisible.length + 1) + 15 + 36.95 * 3) && this.props.app.LastVisibleProject !== {}) {
-            let LastVisibleProject = this.props.app.LastVisibleProject;
-            if (parseInt(LastVisibleProject.id.substr(7)) === parseInt(this.props.app.projectList[this.props.app.projectList.length - 1].id.substr(7))) {
-                const projectListVisible = this.props.app.projectList.slice(parseInt(this.props.app.FirstVisibleProject.id.substr(7)) - 1, parseInt(this.props.app.LastVisibleProject.id.substr(7)) + 1);
-                this.props.app.set({
-                    projectListVisible
-                },
-                    () => {
-                        this.updateVisibleTabs(this.props.app.projectListVisible[0], this.props.app.projectListVisible[this.props.app.projectListVisible.length - 1]);
-                    });
-            } else {
-                const projectListVisible = this.props.app.projectList.slice(parseInt(this.props.app.FirstVisibleProject.id.substr(7)), parseInt(this.props.app.LastVisibleProject.id.substr(7)) + 2);
-                this.props.app.set({
-                    projectListVisible
-                },
-                    () => {
-                        this.updateVisibleTabs(this.props.app.projectListVisible[0], this.props.app.projectListVisible[this.props.app.projectListVisible.length - 1]);
-                    });
-            }
-        } else {
-            if (window.innerWidth < (170 * (this.props.app.projectListVisible.length) + 15 + 36.95 * 3)) {
-                const projectListVisible = this.props.app.projectList.slice(parseInt(this.props.app.FirstVisibleProject.id.substr(7)), Math.trunc((window.innerWidth - 15 - 36.95 * 3) / 170));
-                this.props.app.set({
-                    projectListVisible
-                },
-                    () => {
-                        this.updateVisibleTabs(this.props.app.projectListVisible[0], this.props.app.projectListVisible[this.props.app.projectListVisible.length - 1]);
-                    });
-            }
-        }
-    }
-
-    updateVisibleTabs(first, last) {
-        this.props.app.set({
-            LastVisibleProject: last,
-            FirstVisibleProject: first
-        });
+        //se debe cambiar el current project!!
+        const { __projectList, set } = this.props.app;
+        delete __projectList[project.id];
+        set({ __projectList });
     }
 
     getTabs() {
         const { __projectList } = this.props.app;
         return Object.values(__projectList).map(
             (value, index) =>
-                <div key={index} className="tab tab-active" data-project={value.filename}>
+                <div key={index} id={value.id} className={classnames('tab', { 'tab-active': this.props.app.currentProject.id === value.id})} data-project={value.id} onClick={()=>{this.handlerToggleProject(value);}}>
                     <div className="tab-label float-left">
                         {value.filename}
                     </div>
-                    <Button className='close float-right' onClick={()=>{this.handlerCloseProject();}} close />
+                    <Button className='close float-right' onClick={()=>{this.handlerCloseProject(value);}} close />
                 </div>
         )
     }
 
     render() {
-        /*<Tooltip placement="bottom" isOpen={this.props.app.tooltipOpen[index]} autohide={false} target={value.filename} toggle={()=>{this.toggleTooltip(index)}}>
-                        {value.filename}
-                    </Tooltip>
+        /*
         const TabsCreated = this.props.app.projectListVisible.map((project, indx)=>{
             return (<div key={indx}>
                 <NavItem  className='tab'>
-                    <NavLink id={project.id} className={classnames({ active: this.props.app.currentProject.id === project.id})} onClick={()=>{this.toggleTab(project);}}>
+                    <NavLink id={project.id} className={classnames(, { active: this.props.app.currentProject.id === project.id})} onClick={()=>{this.handlerToggleProject(project);}}>
                         <span className='tab-label'>{project.filename}</span> <Button className='close' onClick={()=>{this.handlerCloseProject(project);}} close />
                         <Tooltip placement="bottom" isOpen={this.props.app.tooltipOpen[indx]} autohide={false} target={project.id} toggle={()=>{this.toggleTooltip(indx)}}>
                             {project.filename}

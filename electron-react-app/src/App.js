@@ -17,113 +17,7 @@ class App extends Component {
       app: {
         __projectList: {},
         idProjectCounter: 1,
-        tooltipOpen: [false],
-        currentProject: {
-          id: 'project0',
-          filename: 'Nuevo Proyecto',
-          imports: ["Servo.h"],
-          defaults: [
-            { block: 'execute', command: 'Servo SERVO1' },
-            { block: 'execute', command: 'Servo SERVO2' }
-          ],
-          setup: [
-            { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-            { block: 'execute', command: 'SERVO1.attach(12)' },
-            { block: 'execute', command: 'SERVO2.attach(11)' }
-          ],
-          loop: [],
-          variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
-        },
-        projectList: [{
-          id: 'project0',
-          filename: 'Nuevo Proyecto',
-          imports: ["Servo.h"],
-          defaults: [
-            { block: 'execute', command: 'Servo SERVO1' },
-            { block: 'execute', command: 'Servo SERVO2' }
-          ],
-          setup: [
-            { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-            { block: 'execute', command: 'SERVO1.attach(12)' },
-            { block: 'execute', command: 'SERVO2.attach(11)' }
-          ],
-          loop: [],
-          variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
-        }],
-        projectListVisible: [{
-          id: 'project0',
-          filename: 'Nuevo Proyecto',
-          imports: ["Servo.h"],
-          defaults: [
-            { block: 'execute', command: 'Servo SERVO1' },
-            { block: 'execute', command: 'Servo SERVO2' }
-          ],
-          setup: [
-            { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-            { block: 'execute', command: 'SERVO1.attach(12)' },
-            { block: 'execute', command: 'SERVO2.attach(11)' }
-          ],
-          loop: [],
-          variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
-        }],
-        LastVisibleProject: {
-          id: 'project0',
-          filename: 'Nuevo Proyecto',
-          imports: ["Servo.h"],
-          defaults: [
-            { block: 'execute', command: 'Servo SERVO1' },
-            { block: 'execute', command: 'Servo SERVO2' }
-          ],
-          setup: [
-            { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-            { block: 'execute', command: 'SERVO1.attach(12)' },
-            { block: 'execute', command: 'SERVO2.attach(11)' }
-          ],
-          loop: [],
-          variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
-        },
-        FirstVisibleProject: {
-          id: 'project0',
-          filename: 'Nuevo Proyecto',
-          imports: ["Servo.h"],
-          defaults: [
-            { block: 'execute', command: 'Servo SERVO1' },
-            { block: 'execute', command: 'Servo SERVO2' }
-          ],
-          setup: [
-            { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-            { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-            { block: 'execute', command: 'SERVO1.attach(12)' },
-            { block: 'execute', command: 'SERVO2.attach(11)' }
-          ],
-          loop: [],
-          variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
-        },
-
+        currentProject: {},
         project: {
           filename: null,
           imports: ["Servo.h"],
@@ -369,6 +263,7 @@ class App extends Component {
     $('[data-block] select').trigger('change')
 
     const project = {
+      id: 'project0',
       filename: 'Nuevo Proyecto',
       imports: ["Servo.h"],
       defaults: [
@@ -389,8 +284,8 @@ class App extends Component {
       currentState: new LinkedListNode("")
     };
     const { __projectList, set } = this.state.app;
-    __projectList[project.filename] = project;
-    set({ __projectList });
+    __projectList[project.id] = project;
+    set({ __projectList, currentProject: project });
   }
 
   toggle() {
