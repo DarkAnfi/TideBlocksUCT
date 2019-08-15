@@ -23,6 +23,4 @@ void setup() {
 void loop() {
     if (1) {
     }
-    else {
-    }
 }

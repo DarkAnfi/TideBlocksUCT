@@ -203,19 +203,45 @@ class Header extends Component {
 
   handlerCompile(event) {
     event.preventDefault();
-    const { project, electron } = this.props.app
+    const { project, electron, MessageModal, currentPort, set } = this.props.app
     const { ipcRenderer } = electron;
     html2json.parse(project.currentState.data, (data) => {
       if (data.length) {
         if (data[0].children.length) {
           if (data[0].children[0].children.length) {
-            project.loop = prepare(data[0].children[0].children);
-            this.props.app.set({ project });
-            const { imports, defaults, variables, setup, loop } = project;
-            const txCode = getCode(imports, defaults, variables, setup, loop);
-            ipcRenderer.send('compiler:send', txCode, 'COM3');
+            if (currentPort !== "") {
+              project.loop = prepare(data[0].children[0].children);
+              set({ project });
+              const { imports, defaults, variables, setup, loop } = project;
+              const txCode = getCode(imports, defaults, variables, setup, loop);
+              ipcRenderer.send('compiler:send', txCode, currentPort);
+            } else {
+              MessageModal.isOpen = true;
+              MessageModal.title = "Advertencia";
+              MessageModal.message = "No se ha seleccionado un puerto.";
+              MessageModal.done = true;
+              set({ MessageModal });
+            }
+          } else {
+            MessageModal.isOpen = true;
+            MessageModal.title = "Advertencia";
+            MessageModal.message = "No es necesario compilar código vacio.";
+            MessageModal.done = true;
+            set({ MessageModal });
           }
+        } else {
+          MessageModal.isOpen = true;
+          MessageModal.title = "Advertencia";
+          MessageModal.message = "No es necesario compilar código vacio.";
+          MessageModal.done = true;
+          set({ MessageModal });
         }
+      } else {
+        MessageModal.isOpen = true;
+        MessageModal.title = "Advertencia";
+        MessageModal.message = "No es necesario compilar código vacio.";
+        MessageModal.done = true;
+        set({ MessageModal });
       }
     });
     event.stopPropagation();

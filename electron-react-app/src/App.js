@@ -3,6 +3,7 @@ import Header from './Component/Header';
 import Sidebar from './Component/Sidebar';
 import Content from './Component/Content';
 import LeftContent from './Component/LeftContent';
+import MessageModal from './Component/MessageModal';
 import { Button } from 'reactstrap';
 import LinkedListNode from './Classes/LinkedListNode';
 import './App.css';
@@ -37,6 +38,7 @@ class App extends Component {
         },
         isMaximized: false,
         ports: [],
+        currentPort: "",
         set: function (state, callback) {
           const { set, electron, ...app } = this.state.app;
           this.setState(
@@ -129,7 +131,13 @@ class App extends Component {
             this.state.app.set({ project });
           }
           $('input').trigger('input')
-        }.bind(this)
+        }.bind(this),
+        MessageModal: {
+          isOpen: false,
+          title: "",
+          message: "",
+          done: false
+        }
       }
     }
     window.app = this;
@@ -213,7 +221,23 @@ class App extends Component {
       project.filename = filename;
       this.state.app.set({ project });
     });
-    ipcRenderer.on('log:write', (event, data) => console.log(data));
+    ipcRenderer.on('log:open', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.isOpen = true;
+      MessageModal.done = false;
+      MessageModal.title = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:write', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.message = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:end', (event) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.done = true;
+      set({ MessageModal });
+    });
     ipcRenderer.send('mainWindow:isMaximized');
     ipcRenderer.send('serialport:list');
   }
@@ -254,6 +278,73 @@ class App extends Component {
         this.state.app.set({ project });
       }
     });
+    $(document.body).on('click', '#workspace, #workspace [data-block]', (event) => {
+      let color;
+      const selected = $(
+        "[color='default-selected']," +
+        "[color='primary-selected']," +
+        "[color='success-selected']," +
+        "[color='info-selected']," +
+        "[color='warning-selected']," +
+        "[color='danger-selected']"
+      );
+      for (let index = 0; index < selected.length; index++) {
+        const element = $(selected[index]);
+        color = element.attr('color');
+        if (element[0] !== event.currentTarget) {
+          if (color.includes('-selected')) {
+            element.attr('color', color.slice(0, color.length - 9));
+          } else {
+            element.attr('color', color + '-selected');
+          }
+        }
+      }
+      if (["input", "textarea", "button", "select", "option"].findIndex(value => value === event.target.tagName.toLowerCase()) === -1) {
+        color = $(event.currentTarget).attr('color');
+        if (color) {
+          if (color.includes('-selected')) {
+            $(event.currentTarget).attr('color', color.slice(0, color.length - 9));
+          } else {
+            $(event.currentTarget).attr('color', color + '-selected');
+          }
+        }
+        const next = $(event.currentTarget).next();
+        if (next) {
+          if (next.attr('data-block') === "else") {
+            color = next.attr('color');
+            if (color) {
+              if (color.includes('-selected')) {
+                next.attr('color', color.slice(0, color.length - 9));
+              } else {
+                next.attr('color', color + '-selected');
+              }
+            }
+          }
+        }
+      }
+      event.stopPropagation();
+    })
+    $(document.body).on('keyup', (event) => {
+      if (event.keyCode === 46) {
+        const selected = $(
+          "[color='default-selected']," +
+          "[color='primary-selected']," +
+          "[color='success-selected']," +
+          "[color='info-selected']," +
+          "[color='warning-selected']," +
+          "[color='danger-selected']"
+        );
+        for (let index = 0; index < selected.length; index++) {
+          const element = $(selected[index]);
+          if (element.parent().hasClass('value-slot')) {
+            element.parent().html("<input class=\"form-control input-sm\"/>")
+          } else {
+            element.remove();
+          }
+        }
+      }
+      $('input').trigger('input')
+    })
     $('.value-slot input').trigger('input')
     $('[data-block] .value-slot input').trigger('change')
     $('[data-block] select').trigger('change')
@@ -276,6 +367,7 @@ class App extends Component {
           </Button>
           <Content app={this.state.app} isOpen={this.state.sidebar} />
         </main>
+        <MessageModal app={this.state.app} />
       </div>
     );
   }
