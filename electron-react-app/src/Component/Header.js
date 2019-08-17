@@ -40,6 +40,8 @@ class Header extends Component {
     this.handlerSaveAs = this.handlerSaveAs.bind(this);
     this.handlerExport = this.handlerExport.bind(this);
     this.handlerCompile = this.handlerCompile.bind(this);
+    this.handlerUndo = this.handlerUndo.bind(this);
+    this.handlerRedo = this.handlerRedo.bind(this);
   }
 
   handlerWindowMinimize(event) {
@@ -98,7 +100,11 @@ class Header extends Component {
         currentState: new LinkedListNode($("#workspace")[0].outerHTML)
       }
       this.props.app.set(
-        { project: newProject }
+        { project: newProject },
+        () => {
+          $('select.variableList').html('')
+          $('[data-block] select').trigger('change');
+        }
       );
     }
     event.stopPropagation();
@@ -247,6 +253,96 @@ class Header extends Component {
     event.stopPropagation();
   }
 
+  handlerUndo(event) {
+    event.preventDefault();
+    const { project, set } = this.props.app;
+    if (project.currentState.prev) {
+      project.currentState = project.currentState.prev
+      set(
+        { project },
+        () => {
+          const temp = $(project.currentState.data);
+          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          workspace.nestedSortable(
+            {
+              listType: 'ul',
+              handle: 'div',
+              items: 'li',
+              toleranceElement: '> div',
+              cancel: "div[data-block='value'],input,textarea,button,select,option",
+              isAllowed: this.props.app.isAllowed,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-draggable').draggable(
+            {
+              helper: 'original',
+              scroll: false,
+              revert: 'invalid',
+              revertDuration: 0,
+              zIndex: 100,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-droppable').droppable(
+            {
+              accept: "[data-block='operator'], [data-block='value']",
+              drop: this.props.app.drop,
+              greedy: true,
+              tolerance: 'pointer'
+            }
+          );
+        }
+      );
+    }
+    event.stopPropagation();
+  }
+
+  handlerRedo(event) {
+    event.preventDefault();
+    const { project, set } = this.props.app;
+    if (project.currentState.next) {
+      project.currentState = project.currentState.next
+      set(
+        { project },
+        () => {
+          const temp = $(project.currentState.data);
+          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          workspace.nestedSortable(
+            {
+              listType: 'ul',
+              handle: 'div',
+              items: 'li',
+              toleranceElement: '> div',
+              cancel: "div[data-block='value'],input,textarea,button,select,option",
+              isAllowed: this.props.app.isAllowed,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-draggable').draggable(
+            {
+              helper: 'original',
+              scroll: false,
+              revert: 'invalid',
+              revertDuration: 0,
+              zIndex: 100,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-droppable').droppable(
+            {
+              accept: "[data-block='operator'], [data-block='value']",
+              drop: this.props.app.drop,
+              greedy: true,
+              tolerance: 'pointer'
+            }
+          );
+        }
+      );
+    }
+    event.stopPropagation();
+  }
+
   render() {
     return (
       <div className="Header" >
@@ -255,23 +351,31 @@ class Header extends Component {
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>Archivo</DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={this.handlerNew}>Nuevo</DropdownItem>
-                <DropdownItem onClick={this.handlerOpen}>Abrir</DropdownItem>
-                <DropdownItem onClick={this.handlerSave}>Guardar</DropdownItem>
+                <DropdownItem onClick={this.handlerNew}>Nuevo<span style={{ float: 'right' }}>Ctrl+N</span></DropdownItem>
+                <DropdownItem onClick={this.handlerOpen}>Abrir<span style={{ float: 'right' }}>Ctrl+A</span></DropdownItem>
+                <DropdownItem onClick={this.handlerSave}>Guardar<span style={{ float: 'right' }}>Ctrl+G</span></DropdownItem>
                 <DropdownItem onClick={this.handlerSaveAs}>Guardar Como</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={this.handlerExport}>Exportar</DropdownItem>
-                <DropdownItem onClick={this.handlerCompile}>Compilar</DropdownItem>
+                <DropdownItem onClick={this.handlerExport}>Exportar<span style={{ float: 'right' }}>Ctrl+Shift+E</span></DropdownItem>
+                <DropdownItem onClick={this.handlerCompile}>Compilar<span style={{ float: 'right' }}>Ctrl+Shift+C</span></DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={this.handlerWindowClose}>Salir</DropdownItem>
+                <DropdownItem onClick={this.handlerWindowClose}>Salir<span style={{ float: 'right' }}>Alt+F4</span></DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <NavItem>
-              <NavLink href="#">Edit</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">View</NavLink>
-            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>Edición</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.handlerUndo}>Deshacer<span style={{ float: 'right' }}>Ctrl+Z</span></DropdownItem>
+                <DropdownItem onClick={this.handlerRedo}>Rehacer<span style={{ float: 'right' }}>Ctrl+Y</span></DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>Ver</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.props.app.toggle}>Menú de Bloques</DropdownItem>
+                <DropdownItem onClick={this.props.app.toggleCreateVariable}>Crear Variable</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             <NavItem>
               <NavLink href="#">Help</NavLink>
             </NavItem>
@@ -312,7 +416,7 @@ class Header extends Component {
             <Form inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <img src={logo} className="logo mr-sm-2" alt="logo" />
-                <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" />
+                <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" bsSize={'sm'} />
               </FormGroup>
             </Form>
           </NavbarBrand>
