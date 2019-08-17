@@ -1,0 +1,16 @@
+.Content {
+    padding: 0px;
+    margin-left: 0px;
+    height: calc(100vh - 56px - 27px);
+    width: calc(100vw - 20.95px);
+    transition: width 0.5s;
+}
+
+.Content.is-open {
+    width: calc(100vw - 350px - 20.95px);
+}
+
+.Content .scrollbar {
+    padding: 15px;
+    max-height: calc(100vh - 56px - 27px);
+}

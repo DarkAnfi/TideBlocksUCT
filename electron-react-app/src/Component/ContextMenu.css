@@ -1,0 +1,13 @@
+.ContextMenu .list-group-item {
+    padding: 4.5px 8px;
+    line-height: 12px;
+    font-size: 12px;
+    height: 25px;
+}
+
+.ContextMenu {
+    position: absolute;
+    top:5px;
+    left:5px;
+    z-index: 1000;
+}

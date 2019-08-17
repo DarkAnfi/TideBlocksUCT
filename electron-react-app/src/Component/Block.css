@@ -1,0 +1,825 @@
+ul.sortable,
+ul.block-container {
+	list-style: none;
+	padding: 0px;
+}
+
+ul.sortable *,
+ul.block-container * {
+	font-size: 12px;
+}
+
+li[data-block] {
+	font-weight: bold;
+}
+
+/* ---------- COLORED BLOCKS ---------- */
+
+/* ----- DEFAULT ----- */
+
+li[data-block][color="default"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/default/tl.png),url(./media/blocks/default/t.png),url(./media/blocks/default/tr.png),
+					  url(./media/blocks/default/bl.png),url(./media/blocks/default/b.png),url(./media/blocks/default/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="default"] > div{
+	background-image: url(./media/containers-blocks/default/hml.png),url(./media/containers-blocks/default/hm.png),url(./media/containers-blocks/default/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="default"].locked > div{
+	background-image: url(./media/blocks/default/tl.png),url(./media/blocks/default/t.png),url(./media/blocks/default/tr.png),
+					  url(./media/blocks/default/ml.png),url(./media/blocks/default/m.png),url(./media/blocks/default/mr.png),
+					  url(./media/blocks/default/bl.png),url(./media/blocks/default/b.png),url(./media/blocks/default/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="default"] > ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/default/btl.png),url(./media/containers-blocks/default/bt.png),url(./media/containers-blocks/default/btr.png),
+					  url(./media/containers-blocks/default/bml.png),url(./media/containers-blocks/default/bm.png),url(./media/containers-blocks/default/bmr.png),
+					  url(./media/containers-blocks/default/bbl.png),url(./media/containers-blocks/default/bb.png),url(./media/containers-blocks/default/bbr.png),
+					  url(./media/containers-blocks/default/fbl.png),url(./media/containers-blocks/default/fb.png),url(./media/containers-blocks/default/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- PRIMARY ----- */
+
+li[data-block][color="primary"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/primary/tl.png),url(./media/blocks/primary/t.png),url(./media/blocks/primary/tr.png),
+					  url(./media/blocks/primary/bl.png),url(./media/blocks/primary/b.png),url(./media/blocks/primary/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="primary"] > div {
+	background-image: url(./media/containers-blocks/primary/hml.png),url(./media/containers-blocks/primary/hm.png),url(./media/containers-blocks/primary/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="primary"].locked > div {
+	background-image: url(./media/blocks/primary/tl.png),url(./media/blocks/primary/t.png),url(./media/blocks/primary/tr.png),
+					  url(./media/blocks/primary/ml.png),url(./media/blocks/primary/m.png),url(./media/blocks/primary/mr.png),
+					  url(./media/blocks/primary/bl.png),url(./media/blocks/primary/b.png),url(./media/blocks/primary/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="primary"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/primary/btl.png),url(./media/containers-blocks/primary/bt.png),url(./media/containers-blocks/primary/btr.png),
+					  url(./media/containers-blocks/primary/bml.png),url(./media/containers-blocks/primary/bm.png),url(./media/containers-blocks/primary/bmr.png),
+					  url(./media/containers-blocks/primary/bbl.png),url(./media/containers-blocks/primary/bb.png),url(./media/containers-blocks/primary/bbr.png),
+					  url(./media/containers-blocks/primary/fbl.png),url(./media/containers-blocks/primary/fb.png),url(./media/containers-blocks/primary/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- SUCCESS ----- */
+
+li[data-block][color="success"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/success/tl.png),url(./media/blocks/success/t.png),url(./media/blocks/success/tr.png),
+					  url(./media/blocks/success/bl.png),url(./media/blocks/success/b.png),url(./media/blocks/success/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="success"] > div {
+	background-image: url(./media/containers-blocks/success/hml.png),url(./media/containers-blocks/success/hm.png),url(./media/containers-blocks/success/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="success"].locked > div {
+	background-image: url(./media/blocks/success/tl.png),url(./media/blocks/success/t.png),url(./media/blocks/success/tr.png),
+					  url(./media/blocks/success/ml.png),url(./media/blocks/success/m.png),url(./media/blocks/success/mr.png),
+					  url(./media/blocks/success/bl.png),url(./media/blocks/success/b.png),url(./media/blocks/success/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="success"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/success/btl.png),url(./media/containers-blocks/success/bt.png),url(./media/containers-blocks/success/btr.png),
+					  url(./media/containers-blocks/success/bml.png),url(./media/containers-blocks/success/bm.png),url(./media/containers-blocks/success/bmr.png),
+					  url(./media/containers-blocks/success/bbl.png),url(./media/containers-blocks/success/bb.png),url(./media/containers-blocks/success/bbr.png),
+					  url(./media/containers-blocks/success/fbl.png),url(./media/containers-blocks/success/fb.png),url(./media/containers-blocks/success/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- INFO ----- */
+
+li[data-block][color="info"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/info/tl.png),url(./media/blocks/info/t.png),url(./media/blocks/info/tr.png),
+					  url(./media/blocks/info/bl.png),url(./media/blocks/info/b.png),url(./media/blocks/info/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="info"] > div {
+	background-image: url(./media/containers-blocks/info/hml.png),url(./media/containers-blocks/info/hm.png),url(./media/containers-blocks/info/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="info"].locked > div {
+	background-image: url(./media/blocks/info/tl.png),url(./media/blocks/info/t.png),url(./media/blocks/info/tr.png),
+					  url(./media/blocks/info/ml.png),url(./media/blocks/info/m.png),url(./media/blocks/info/mr.png),
+					  url(./media/blocks/info/bl.png),url(./media/blocks/info/b.png),url(./media/blocks/info/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="info"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/info/btl.png),url(./media/containers-blocks/info/bt.png),url(./media/containers-blocks/info/btr.png),
+					  url(./media/containers-blocks/info/bml.png),url(./media/containers-blocks/info/bm.png),url(./media/containers-blocks/info/bmr.png),
+					  url(./media/containers-blocks/info/bbl.png),url(./media/containers-blocks/info/bb.png),url(./media/containers-blocks/info/bbr.png),
+					  url(./media/containers-blocks/info/fbl.png),url(./media/containers-blocks/info/fb.png),url(./media/containers-blocks/info/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- WARNING ----- */
+
+li[data-block][color="warning"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(0,0,0,0.5);
+	background-image: url(./media/blocks/warning/tl.png),url(./media/blocks/warning/t.png),url(./media/blocks/warning/tr.png),
+					  url(./media/blocks/warning/bl.png),url(./media/blocks/warning/b.png),url(./media/blocks/warning/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="warning"] > div {
+	background-image: url(./media/containers-blocks/warning/hml.png),url(./media/containers-blocks/warning/hm.png),url(./media/containers-blocks/warning/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="warning"].locked > div {
+	background-image: url(./media/blocks/warning/tl.png),url(./media/blocks/warning/t.png),url(./media/blocks/warning/tr.png),
+					  url(./media/blocks/warning/ml.png),url(./media/blocks/warning/m.png),url(./media/blocks/warning/mr.png),
+					  url(./media/blocks/warning/bl.png),url(./media/blocks/warning/b.png),url(./media/blocks/warning/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="warning"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/warning/btl.png),url(./media/containers-blocks/warning/bt.png),url(./media/containers-blocks/warning/btr.png),
+					  url(./media/containers-blocks/warning/bml.png),url(./media/containers-blocks/warning/bm.png),url(./media/containers-blocks/warning/bmr.png),
+					  url(./media/containers-blocks/warning/bbl.png),url(./media/containers-blocks/warning/bb.png),url(./media/containers-blocks/warning/bbr.png),
+					  url(./media/containers-blocks/warning/fbl.png),url(./media/containers-blocks/warning/fb.png),url(./media/containers-blocks/warning/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- DANGER ----- */
+
+li[data-block][color="danger"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/danger/tl.png),url(./media/blocks/danger/t.png),url(./media/blocks/danger/tr.png),
+					  url(./media/blocks/danger/bl.png),url(./media/blocks/danger/b.png),url(./media/blocks/danger/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="danger"] > div {
+	background-image: url(./media/containers-blocks/danger/hml.png),url(./media/containers-blocks/danger/hm.png),url(./media/containers-blocks/danger/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="danger"].locked > div {
+	background-image: url(./media/blocks/danger/tl.png),url(./media/blocks/danger/t.png),url(./media/blocks/danger/tr.png),
+					  url(./media/blocks/danger/ml.png),url(./media/blocks/danger/m.png),url(./media/blocks/danger/mr.png),
+					  url(./media/blocks/danger/bl.png),url(./media/blocks/danger/b.png),url(./media/blocks/danger/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="danger"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/danger/btl.png),url(./media/containers-blocks/danger/bt.png),url(./media/containers-blocks/danger/btr.png),
+					  url(./media/containers-blocks/danger/bml.png),url(./media/containers-blocks/danger/bm.png),url(./media/containers-blocks/danger/bmr.png),
+					  url(./media/containers-blocks/danger/bbl.png),url(./media/containers-blocks/danger/bb.png),url(./media/containers-blocks/danger/bbr.png),
+					  url(./media/containers-blocks/danger/fbl.png),url(./media/containers-blocks/danger/fb.png),url(./media/containers-blocks/danger/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- DEFAULT ----- */
+
+li[data-block][color="default-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/default-selected/tl.png),url(./media/blocks/default-selected/t.png),url(./media/blocks/default-selected/tr.png),
+					  url(./media/blocks/default-selected/bl.png),url(./media/blocks/default-selected/b.png),url(./media/blocks/default-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="default-selected"] > div{
+	background-image: url(./media/containers-blocks/default-selected/hml.png),url(./media/containers-blocks/default-selected/hm.png),url(./media/containers-blocks/default-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="default-selected"].locked > div{
+	background-image: url(./media/blocks/default-selected/tl.png),url(./media/blocks/default-selected/t.png),url(./media/blocks/default-selected/tr.png),
+					  url(./media/blocks/default-selected/ml.png),url(./media/blocks/default-selected/m.png),url(./media/blocks/default-selected/mr.png),
+					  url(./media/blocks/default-selected/bl.png),url(./media/blocks/default-selected/b.png),url(./media/blocks/default-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="default-selected"] > ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/default-selected/btl.png),url(./media/containers-blocks/default-selected/bt.png),url(./media/containers-blocks/default-selected/btr.png),
+					  url(./media/containers-blocks/default-selected/bml.png),url(./media/containers-blocks/default-selected/bm.png),url(./media/containers-blocks/default-selected/bmr.png),
+					  url(./media/containers-blocks/default-selected/bbl.png),url(./media/containers-blocks/default-selected/bb.png),url(./media/containers-blocks/default-selected/bbr.png),
+					  url(./media/containers-blocks/default-selected/fbl.png),url(./media/containers-blocks/default-selected/fb.png),url(./media/containers-blocks/default-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- PRIMARY ----- */
+
+li[data-block][color="primary-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/primary-selected/tl.png),url(./media/blocks/primary-selected/t.png),url(./media/blocks/primary-selected/tr.png),
+					  url(./media/blocks/primary-selected/bl.png),url(./media/blocks/primary-selected/b.png),url(./media/blocks/primary-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="primary-selected"] > div {
+	background-image: url(./media/containers-blocks/primary-selected/hml.png),url(./media/containers-blocks/primary-selected/hm.png),url(./media/containers-blocks/primary-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="primary-selected"].locked > div {
+	background-image: url(./media/blocks/primary-selected/tl.png),url(./media/blocks/primary-selected/t.png),url(./media/blocks/primary-selected/tr.png),
+					  url(./media/blocks/primary-selected/ml.png),url(./media/blocks/primary-selected/m.png),url(./media/blocks/primary-selected/mr.png),
+					  url(./media/blocks/primary-selected/bl.png),url(./media/blocks/primary-selected/b.png),url(./media/blocks/primary-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="primary-selected"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/primary-selected/btl.png),url(./media/containers-blocks/primary-selected/bt.png),url(./media/containers-blocks/primary-selected/btr.png),
+					  url(./media/containers-blocks/primary-selected/bml.png),url(./media/containers-blocks/primary-selected/bm.png),url(./media/containers-blocks/primary-selected/bmr.png),
+					  url(./media/containers-blocks/primary-selected/bbl.png),url(./media/containers-blocks/primary-selected/bb.png),url(./media/containers-blocks/primary-selected/bbr.png),
+					  url(./media/containers-blocks/primary-selected/fbl.png),url(./media/containers-blocks/primary-selected/fb.png),url(./media/containers-blocks/primary-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- SUCCESS ----- */
+
+li[data-block][color="success-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/success-selected/tl.png),url(./media/blocks/success-selected/t.png),url(./media/blocks/success-selected/tr.png),
+					  url(./media/blocks/success-selected/bl.png),url(./media/blocks/success-selected/b.png),url(./media/blocks/success-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="success-selected"] > div {
+	background-image: url(./media/containers-blocks/success-selected/hml.png),url(./media/containers-blocks/success-selected/hm.png),url(./media/containers-blocks/success-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="success-selected"].locked > div {
+	background-image: url(./media/blocks/success-selected/tl.png),url(./media/blocks/success-selected/t.png),url(./media/blocks/success-selected/tr.png),
+					  url(./media/blocks/success-selected/ml.png),url(./media/blocks/success-selected/m.png),url(./media/blocks/success-selected/mr.png),
+					  url(./media/blocks/success-selected/bl.png),url(./media/blocks/success-selected/b.png),url(./media/blocks/success-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="success-selected"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/success-selected/btl.png),url(./media/containers-blocks/success-selected/bt.png),url(./media/containers-blocks/success-selected/btr.png),
+					  url(./media/containers-blocks/success-selected/bml.png),url(./media/containers-blocks/success-selected/bm.png),url(./media/containers-blocks/success-selected/bmr.png),
+					  url(./media/containers-blocks/success-selected/bbl.png),url(./media/containers-blocks/success-selected/bb.png),url(./media/containers-blocks/success-selected/bbr.png),
+					  url(./media/containers-blocks/success-selected/fbl.png),url(./media/containers-blocks/success-selected/fb.png),url(./media/containers-blocks/success-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- INFO ----- */
+
+li[data-block][color="info-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/info-selected/tl.png),url(./media/blocks/info-selected/t.png),url(./media/blocks/info-selected/tr.png),
+					  url(./media/blocks/info-selected/bl.png),url(./media/blocks/info-selected/b.png),url(./media/blocks/info-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="info-selected"] > div {
+	background-image: url(./media/containers-blocks/info-selected/hml.png),url(./media/containers-blocks/info-selected/hm.png),url(./media/containers-blocks/info-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="info-selected"].locked > div {
+	background-image: url(./media/blocks/info-selected/tl.png),url(./media/blocks/info-selected/t.png),url(./media/blocks/info-selected/tr.png),
+					  url(./media/blocks/info-selected/ml.png),url(./media/blocks/info-selected/m.png),url(./media/blocks/info-selected/mr.png),
+					  url(./media/blocks/info-selected/bl.png),url(./media/blocks/info-selected/b.png),url(./media/blocks/info-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="info-selected"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/info-selected/btl.png),url(./media/containers-blocks/info-selected/bt.png),url(./media/containers-blocks/info-selected/btr.png),
+					  url(./media/containers-blocks/info-selected/bml.png),url(./media/containers-blocks/info-selected/bm.png),url(./media/containers-blocks/info-selected/bmr.png),
+					  url(./media/containers-blocks/info-selected/bbl.png),url(./media/containers-blocks/info-selected/bb.png),url(./media/containers-blocks/info-selected/bbr.png),
+					  url(./media/containers-blocks/info-selected/fbl.png),url(./media/containers-blocks/info-selected/fb.png),url(./media/containers-blocks/info-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- WARNING ----- */
+
+li[data-block][color="warning-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(0,0,0,0.5);
+	background-image: url(./media/blocks/warning-selected/tl.png),url(./media/blocks/warning-selected/t.png),url(./media/blocks/warning-selected/tr.png),
+					  url(./media/blocks/warning-selected/bl.png),url(./media/blocks/warning-selected/b.png),url(./media/blocks/warning-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="warning-selected"] > div {
+	background-image: url(./media/containers-blocks/warning-selected/hml.png),url(./media/containers-blocks/warning-selected/hm.png),url(./media/containers-blocks/warning-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="warning-selected"].locked > div {
+	background-image: url(./media/blocks/warning-selected/tl.png),url(./media/blocks/warning-selected/t.png),url(./media/blocks/warning-selected/tr.png),
+					  url(./media/blocks/warning-selected/ml.png),url(./media/blocks/warning-selected/m.png),url(./media/blocks/warning-selected/mr.png),
+					  url(./media/blocks/warning-selected/bl.png),url(./media/blocks/warning-selected/b.png),url(./media/blocks/warning-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="warning-selected"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/warning-selected/btl.png),url(./media/containers-blocks/warning-selected/bt.png),url(./media/containers-blocks/warning-selected/btr.png),
+					  url(./media/containers-blocks/warning-selected/bml.png),url(./media/containers-blocks/warning-selected/bm.png),url(./media/containers-blocks/warning-selected/bmr.png),
+					  url(./media/containers-blocks/warning-selected/bbl.png),url(./media/containers-blocks/warning-selected/bb.png),url(./media/containers-blocks/warning-selected/bbr.png),
+					  url(./media/containers-blocks/warning-selected/fbl.png),url(./media/containers-blocks/warning-selected/fb.png),url(./media/containers-blocks/warning-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ----- DANGER ----- */
+
+li[data-block][color="danger-selected"] {
+	width: fit-content;
+	margin-bottom: -5px;
+	color: rgba(255,255,255,0.7);
+	background-image: url(./media/blocks/danger-selected/tl.png),url(./media/blocks/danger-selected/t.png),url(./media/blocks/danger-selected/tr.png),
+					  url(./media/blocks/danger-selected/bl.png),url(./media/blocks/danger-selected/b.png),url(./media/blocks/danger-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+}
+
+li[data-block][color="danger-selected"] > div {
+	background-image: url(./media/containers-blocks/danger-selected/hml.png),url(./media/containers-blocks/danger-selected/hm.png),url(./media/containers-blocks/danger-selected/hmr.png);
+	background-position: left 10px, left 80px top 10px, right top 10px;
+	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
+	background-repeat: no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+}
+
+li[data-block][color="danger-selected"].locked > div {
+	background-image: url(./media/blocks/danger-selected/tl.png),url(./media/blocks/danger-selected/t.png),url(./media/blocks/danger-selected/tr.png),
+					  url(./media/blocks/danger-selected/ml.png),url(./media/blocks/danger-selected/m.png),url(./media/blocks/danger-selected/mr.png),
+					  url(./media/blocks/danger-selected/bl.png),url(./media/blocks/danger-selected/b.png),url(./media/blocks/danger-selected/br.png);
+	background-position: left top, left 60px top, right top,
+						 left 10px, left 60px top 10px, right top 10px,
+						 left bottom, 60px bottom, right bottom;
+	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px,
+					 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px),
+					 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding: 10px 10px 15px 10px;
+	min-height: 35px;
+}
+
+li[data-block][color="danger-selected"] ul {
+	margin-top: -15px;
+	padding-top: 10px; 
+	padding-left: 20px;
+	list-style: none;
+	background-image: url(./media/containers-blocks/danger-selected/btl.png),url(./media/containers-blocks/danger-selected/bt.png),url(./media/containers-blocks/danger-selected/btr.png),
+					  url(./media/containers-blocks/danger-selected/bml.png),url(./media/containers-blocks/danger-selected/bm.png),url(./media/containers-blocks/danger-selected/bmr.png),
+					  url(./media/containers-blocks/danger-selected/bbl.png),url(./media/containers-blocks/danger-selected/bb.png),url(./media/containers-blocks/danger-selected/bbr.png),
+					  url(./media/containers-blocks/danger-selected/fbl.png),url(./media/containers-blocks/danger-selected/fb.png),url(./media/containers-blocks/danger-selected/fbr.png);
+	background-position: left top, left 80px top, right top,
+						 left top 10px, left 80px top 10px, right top 10px,
+						 left bottom 15px, left 80px bottom 15px, right bottom 15px,
+						 left bottom, left 80px bottom, right bottom;
+	background-size: 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px calc(100% - 45px), calc(100% - 89.5px) calc(100% - 45px), 10px calc(100% - 45px),
+					 80px 20px, calc(100% - 89.5px) 20px, 10px 20px,
+					 80px 15px, calc(100% - 89.5px) 15px, 10px 15px;
+	background-repeat: no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat,
+					   no-repeat, no-repeat, no-repeat;
+	padding-bottom: 25px; 
+}
+
+/* ---------- END OF COLORED BLOCKS ---------- */
+
+ul.sortable li.ui-sortable-placeholder.mjs-nestedSortable-error,
+ul.sortable li.locked ul,
+ul.block-container li.ui-sortable-placeholder.mjs-nestedSortable-error,
+ul.block-container li.locked ul {
+	margin: 0px !important;
+	max-height: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+ul.sortable td,
+ul.block-container td {
+	padding-right: 10px;
+}
+
+[data-block] input,
+[data-block] select,
+[data-block] textarea,
+[data-block] option {
+	border-radius: 100px;
+}
+
+.value-slot input {
+	min-width: 12px;
+	text-align: center;
+}

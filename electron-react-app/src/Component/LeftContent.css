@@ -1,0 +1,9 @@
+.LeftContent {
+    padding-right: 0px;
+}
+
+.LeftContent .scrollbar {
+    padding-right: 15px;
+    min-height: calc(100vh - 56px - 15px - 38px - 8px - 15px - 63px - 16px - 27px);
+    max-height: calc(100vh - 56px - 15px - 38px - 8px - 15px - 63px - 16px - 27px);
+}

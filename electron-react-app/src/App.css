@@ -1,0 +1,23 @@
+:root {
+    --padding: 0px;
+}
+
+.App main {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+.App #btn-toggle-sidebar {
+    background: #23272b;
+    padding: 0px 5px;
+    outline: none !important;
+    border: none !important;
+    border-radius: 0px;
+    box-shadow: none !important;
+    transition: background-color 0.5s;
+}
+
+.App #btn-toggle-sidebar:hover {
+    background: #1d2124;
+}

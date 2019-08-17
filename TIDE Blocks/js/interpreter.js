@@ -101,10 +101,10 @@ function Interpreter(html, options) {
                         tree.push({
                             block: 'callFunction',
                             name: 'SERVO1.write',
-                            args: elements[0].name == "input" ?
+                            args: [elements[0].name == "input" ?
                                 (elements[0].attribs.value ? elements[0].attribs.value : 0)
                                 :
-                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)]
                         });
                         break;
                     case 'servo2':
@@ -112,10 +112,10 @@ function Interpreter(html, options) {
                         tree.push({
                             block: 'callFunction',
                             name: 'SERVO2.write',
-                            args: elements[0].name == "input" ?
+                            args: [elements[0].name == "input" ?
                                 (elements[0].attribs.value ? elements[0].attribs.value : 0)
                                 :
-                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)
+                                (elements[0].attribs["data-block"] == "value" ? elements[0].attribs["data-name"] : 0)]
                         });
                         break;
                     case 'while':
