@@ -40,6 +40,8 @@ class Header extends Component {
     this.handlerSaveAs = this.handlerSaveAs.bind(this);
     this.handlerExport = this.handlerExport.bind(this);
     this.handlerCompile = this.handlerCompile.bind(this);
+    this.handlerUndo = this.handlerUndo.bind(this);
+    this.handlerRedo = this.handlerRedo.bind(this);
   }
 
   handlerWindowMinimize(event) {
@@ -66,6 +68,14 @@ class Header extends Component {
   handlerWindowClose(event) {
     event.preventDefault();
     const { ipcRenderer } = this.props.app.electron;
+    const { app } = this.props;
+    const { project } = app;
+    if(project.currentState.data !== project.savedState){
+      if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
+        this.handlerSave(null);
+      } // este if debe ser sincrono es decir debe terminar el guardado del archivo antes de cerrar
+        // la app.
+    }
     ipcRenderer.send('mainWindow:close');
     event.stopPropagation();
   }
@@ -74,33 +84,42 @@ class Header extends Component {
     event.preventDefault();
     const { app } = this.props;
     const { project } = app;
-    if (project.savedState === project.currentState.data) {
-      $("#workspace").html('');
-      this.refs.projectName.refs.entry.value = "Nuevo Projecto"
-      const newProject = {
-        filename: null,
-        imports: ["Servo.h"],
-        defaults: [
-          { block: 'execute', command: 'Servo SERVO1' },
-          { block: 'execute', command: 'Servo SERVO2' }
-        ],
-        setup: [
-          { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-          { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-          { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-          { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-          { block: 'execute', command: 'SERVO1.attach(12)' },
-          { block: 'execute', command: 'SERVO2.attach(11)' }
-        ],
-        loop: [],
-        variables: {},
-        savedState: $("#workspace")[0].outerHTML,
-        currentState: new LinkedListNode($("#workspace")[0].outerHTML)
-      }
-      this.props.app.set(
-        { project: newProject }
-      );
+    if(project.currentState.data !== project.savedState){
+      if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
+        this.handlerSave(null);
+      } // este if debe ser sincrono es decir debe terminar el guardado del archivo antes de poner nuevo archivo
+        // de lo contrario primero actualiza el nombre a Nuevo Projecto y luego hace el guardado del archivo
+        // con ese nombre en vez del necesario.
     }
+    $("#workspace").html('');
+    this.refs.projectName.refs.entry.value = "Nuevo Projecto";
+    const newProject = {
+      filename: null,
+      imports: ["Servo.h"],
+      defaults: [
+        { block: 'execute', command: 'Servo SERVO1' },
+        { block: 'execute', command: 'Servo SERVO2' }
+      ],
+      setup: [
+        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
+        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
+        { block: 'execute', command: 'SERVO1.attach(12)' },
+        { block: 'execute', command: 'SERVO2.attach(11)' }
+      ],
+      loop: [],
+      variables: {},
+      savedState: $("#workspace")[0].outerHTML,
+      currentState: new LinkedListNode($("#workspace")[0].outerHTML)
+    }
+    this.props.app.set(
+        { project: newProject },
+        () => {
+          $('select.variableList').html('')
+          $('[data-block] select').trigger('change');
+        }
+      );
     event.stopPropagation();
   }
 
@@ -112,39 +131,48 @@ class Header extends Component {
   }
 
   handlerSave(event) {
-    event.preventDefault();
-    const { app } = this.props;
-    const { project, electron } = app;
-    const { ipcRenderer } = electron;
-    const path = electron.remote.require('path');
-    project.savedState = project.currentState.data;
-    app.set(
-      { project },
-      () => {
-        if (project.filename) {
-          const newFilename = path.join(path.dirname(project.filename.toString()), this.refs.projectName.refs.entry.value + ".ctb");
-          console.log(project.filename, path.dirname(project.filename), path.dirname("C:\\Users\\aflores\\Desktop\\Nuevo Proyecto.ctb"));
-          ipcRenderer.send('fs:save', newFilename, {
-            imports: project.imports,
-            defaults: project.defaults,
-            setup: project.setup,
-            variables: project.variables,
-            savedState: project.savedState
-          });
-        } else {
-          const newFilename = this.refs.projectName.refs.entry.value + ".ctb";
-          console.log(project.filename, newFilename);
-          ipcRenderer.send('fs:saveas', newFilename, {
-            imports: project.imports,
-            defaults: project.defaults,
-            setup: project.setup,
-            variables: project.variables,
-            savedState: project.savedState
-          });
+    const save = () => {
+      const { app } = this.props;
+      const { project, electron } = app;
+      const { ipcRenderer } = electron;
+      const path = electron.remote.require('path');
+      project.savedState = project.currentState.data;
+      app.set(
+        { project },
+        () => {
+          if (project.filename) {
+            const newFilename = path.join(path.dirname(project.filename.toString()), this.refs.projectName.refs.entry.value + ".ctb");
+            console.log(project.filename, path.dirname(project.filename), path.dirname("C:\\Users\\aflores\\Desktop\\Nuevo Proyecto.ctb"));
+            ipcRenderer.send('fs:save', newFilename, {
+              imports: project.imports,
+              defaults: project.defaults,
+              setup: project.setup,
+              variables: project.variables,
+              savedState: project.savedState
+            }, (event===null));
+          } else {
+            const newFilename = this.refs.projectName.refs.entry.value + ".ctb";
+            console.log(project.filename, newFilename);
+            ipcRenderer.send('fs:saveas', newFilename, {
+              imports: project.imports,
+              defaults: project.defaults,
+              setup: project.setup,
+              variables: project.variables,
+              savedState: project.savedState
+            }, (event===null));
+          }
         }
-      }
-    );
-    event.stopPropagation();
+      );
+    }
+    if(event === null){
+      save();
+      console.log('guardar');
+    } else {
+      event.preventDefault(); 
+      save();
+      event.stopPropagation();
+    }
+    
   }
 
   handlerSaveAs(event) {
@@ -203,21 +231,137 @@ class Header extends Component {
 
   handlerCompile(event) {
     event.preventDefault();
-    const { project, electron } = this.props.app
+    const { project, electron, MessageModal, currentPort, set } = this.props.app
     const { ipcRenderer } = electron;
     html2json.parse(project.currentState.data, (data) => {
       if (data.length) {
         if (data[0].children.length) {
           if (data[0].children[0].children.length) {
-            project.loop = prepare(data[0].children[0].children);
-            this.props.app.set({ project });
-            const { imports, defaults, variables, setup, loop } = project;
-            const txCode = getCode(imports, defaults, variables, setup, loop);
-            ipcRenderer.send('compiler:send', txCode, 'COM3');
+            if (currentPort !== "") {
+              project.loop = prepare(data[0].children[0].children);
+              set({ project });
+              const { imports, defaults, variables, setup, loop } = project;
+              const txCode = getCode(imports, defaults, variables, setup, loop);
+              ipcRenderer.send('compiler:send', txCode, currentPort);
+            } else {
+              MessageModal.isOpen = true;
+              MessageModal.title = "Advertencia";
+              MessageModal.message = "No se ha seleccionado un puerto.";
+              MessageModal.done = true;
+              set({ MessageModal });
+            }
+          } else {
+            MessageModal.isOpen = true;
+            MessageModal.title = "Advertencia";
+            MessageModal.message = "No es necesario compilar código vacio.";
+            MessageModal.done = true;
+            set({ MessageModal });
           }
+        } else {
+          MessageModal.isOpen = true;
+          MessageModal.title = "Advertencia";
+          MessageModal.message = "No es necesario compilar código vacio.";
+          MessageModal.done = true;
+          set({ MessageModal });
         }
+      } else {
+        MessageModal.isOpen = true;
+        MessageModal.title = "Advertencia";
+        MessageModal.message = "No es necesario compilar código vacio.";
+        MessageModal.done = true;
+        set({ MessageModal });
       }
     });
+    event.stopPropagation();
+  }
+
+  handlerUndo(event) {
+    event.preventDefault();
+    const { project, set } = this.props.app;
+    if (project.currentState.prev) {
+      project.currentState = project.currentState.prev
+      set(
+        { project },
+        () => {
+          const temp = $(project.currentState.data);
+          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          workspace.nestedSortable(
+            {
+              listType: 'ul',
+              handle: 'div',
+              items: 'li',
+              toleranceElement: '> div',
+              cancel: "div[data-block='value'],input,textarea,button,select,option",
+              isAllowed: this.props.app.isAllowed,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-draggable').draggable(
+            {
+              helper: 'original',
+              scroll: false,
+              revert: 'invalid',
+              revertDuration: 0,
+              zIndex: 100,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-droppable').droppable(
+            {
+              accept: "[data-block='operator'], [data-block='value']",
+              drop: this.props.app.drop,
+              greedy: true,
+              tolerance: 'pointer'
+            }
+          );
+        }
+      );
+    }
+    event.stopPropagation();
+  }
+
+  handlerRedo(event) {
+    event.preventDefault();
+    const { project, set } = this.props.app;
+    if (project.currentState.next) {
+      project.currentState = project.currentState.next
+      set(
+        { project },
+        () => {
+          const temp = $(project.currentState.data);
+          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          workspace.nestedSortable(
+            {
+              listType: 'ul',
+              handle: 'div',
+              items: 'li',
+              toleranceElement: '> div',
+              cancel: "div[data-block='value'],input,textarea,button,select,option",
+              isAllowed: this.props.app.isAllowed,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-draggable').draggable(
+            {
+              helper: 'original',
+              scroll: false,
+              revert: 'invalid',
+              revertDuration: 0,
+              zIndex: 100,
+              stop: this.props.app.stop
+            }
+          );
+          workspace.find('.ui-droppable').droppable(
+            {
+              accept: "[data-block='operator'], [data-block='value']",
+              drop: this.props.app.drop,
+              greedy: true,
+              tolerance: 'pointer'
+            }
+          );
+        }
+      );
+    }
     event.stopPropagation();
   }
 
@@ -229,23 +373,31 @@ class Header extends Component {
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>Archivo</DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={this.handlerNew}>Nuevo</DropdownItem>
-                <DropdownItem onClick={this.handlerOpen}>Abrir</DropdownItem>
-                <DropdownItem onClick={this.handlerSave}>Guardar</DropdownItem>
+                <DropdownItem onClick={this.handlerNew}>Nuevo<span style={{ float: 'right' }}>Ctrl+N</span></DropdownItem>
+                <DropdownItem onClick={this.handlerOpen}>Abrir<span style={{ float: 'right' }}>Ctrl+A</span></DropdownItem>
+                <DropdownItem onClick={this.handlerSave}>Guardar<span style={{ float: 'right' }}>Ctrl+G</span></DropdownItem>
                 <DropdownItem onClick={this.handlerSaveAs}>Guardar Como</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={this.handlerExport}>Exportar</DropdownItem>
-                <DropdownItem onClick={this.handlerCompile}>Compilar</DropdownItem>
+                <DropdownItem onClick={this.handlerExport}>Exportar<span style={{ float: 'right' }}>Ctrl+Shift+E</span></DropdownItem>
+                <DropdownItem onClick={this.handlerCompile}>Compilar<span style={{ float: 'right' }}>Ctrl+Shift+C</span></DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem onClick={this.handlerWindowClose}>Salir</DropdownItem>
+                <DropdownItem onClick={this.handlerWindowClose}>Salir<span style={{ float: 'right' }}>Alt+F4</span></DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <NavItem>
-              <NavLink href="#">Edit</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">View</NavLink>
-            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>Edición</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.handlerUndo}>Deshacer<span style={{ float: 'right' }}>Ctrl+Z</span></DropdownItem>
+                <DropdownItem onClick={this.handlerRedo}>Rehacer<span style={{ float: 'right' }}>Ctrl+Y</span></DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>Ver</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.props.app.toggle}>Menú de Bloques</DropdownItem>
+                <DropdownItem onClick={this.props.app.toggleCreateVariable}>Crear Variable</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             <NavItem>
               <NavLink href="#">Help</NavLink>
             </NavItem>
@@ -286,7 +438,7 @@ class Header extends Component {
             <Form inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <img src={logo} className="logo mr-sm-2" alt="logo" />
-                <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" />
+                <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" bsSize={'sm'} />
               </FormGroup>
             </Form>
           </NavbarBrand>
@@ -298,7 +450,7 @@ class Header extends Component {
               <NavLink onClick={this.handlerOpen} href="#"><FontAwesomeIcon icon={faFolderOpen} /> Abrir</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={this.handlerSave} href="#"><FontAwesomeIcon icon={faSave} /> Guardar</NavLink>
+              <NavLink id='saveClick' ref='saveClick' onClick={this.handlerSave} href="#"><FontAwesomeIcon icon={faSave} /> Guardar</NavLink>
             </NavItem>
             <NavItem>
               <NavLink onClick={this.handlerCompile} href="#" ><FontAwesomeIcon icon={faCogs} /> Compilar</NavLink>

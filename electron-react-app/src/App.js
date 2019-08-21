@@ -3,21 +3,20 @@ import Header from './Component/Header';
 import Sidebar from './Component/Sidebar';
 import Content from './Component/Content';
 import LeftContent from './Component/LeftContent';
+import MessageModal from './Component/MessageModal';
+import ContextMenu from './Component/ContextMenu';
 import { Button } from 'reactstrap';
 import LinkedListNode from './Classes/LinkedListNode';
+import Mousetrap from 'mousetrap';
 import './App.css';
 const { $, electron } = window;
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
     this.state = {
       sidebar: true,
       app: {
-        __projectList: {},
-        idProjectCounter: 1,
-        currentProject: {},
         project: {
           filename: null,
           imports: ["Servo.h"],
@@ -35,12 +34,12 @@ class App extends Component {
           ],
           loop: [],
           variables: {},
-          savedState: "",
-          currentState: new LinkedListNode("")
+          savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>",
+          currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>")
         },
-
         isMaximized: false,
         ports: [],
+        currentPort: "",
         set: function (state, callback) {
           const { set, electron, ...app } = this.state.app;
           this.setState(
@@ -60,7 +59,11 @@ class App extends Component {
                 if (placeholder.prev().attr('data-block') !== "if") {
                   return false;
                 } else {
-                  return true;
+                  if (placeholder.next().attr('data-block') === "else") {
+                    return false;
+                  } else {
+                    return true;
+                  }
                 }
               } else {
                 if (placeholder.next().attr('data-block') === "else") {
@@ -75,7 +78,11 @@ class App extends Component {
               if (placeholder.prev().attr('data-block') !== "if") {
                 return false;
               } else {
-                return true;
+                if (placeholder.next().attr('data-block') === "else") {
+                  return false;
+                } else {
+                  return true;
+                }
               }
             } else {
               if (placeholder.next().attr('data-block') === "else") {
@@ -133,7 +140,14 @@ class App extends Component {
             this.state.app.set({ project });
           }
           $('input').trigger('input')
-        }.bind(this)
+        }.bind(this),
+        MessageModal: {
+          isOpen: false,
+          title: "",
+          message: "",
+          done: false
+        },
+        toggle: this.toggle.bind(this)
       }
     }
     window.app = this;
@@ -149,6 +163,12 @@ class App extends Component {
     });
     ipcRenderer.on('fs:open', (event, filename, data) => {
       const { project } = this.state.app;
+      if(project.currentState.data !== project.savedState){
+        if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
+          this.refs.Header.handlerSave(null);
+        } // este if debe ser sincrono es decir debe terminar el guardado del archivo antes de abrir el 
+          // archivo.
+      }
       project.filename = filename;
       project.imports = data.imports;
       project.defaults = data.defaults;
@@ -161,7 +181,7 @@ class App extends Component {
         () => {
           const path = this.state.app.electron.remote.require('path')
           this.refs.Header.refs.projectName.refs.entry.value = path.basename(project.filename).slice(0, path.basename(project.filename).length - 4)
-          const temp = $(project.savedState);
+          const temp = $(project.currentState.data);
           const workspace = $("#workspace").parent().html(temp).find("#workspace");
           workspace.nestedSortable(
             {
@@ -212,12 +232,31 @@ class App extends Component {
       project.filename = filename;
       this.state.app.set({ project });
     });
-    ipcRenderer.on('fs:saveas', (event, filename) => {
+    ipcRenderer.on('fs:saveas', (event, filename, file_basename) => {
       const { project } = this.state.app;
       project.filename = filename;
-      this.state.app.set({ project });
+      this.state.app.set({ project },
+        () => {
+          this.refs.Header.refs.projectName.refs.entry.value = file_basename.substr(0, file_basename.length - 4);
+        });
     });
-    ipcRenderer.on('log:write', (event, data) => console.log(data));
+    ipcRenderer.on('log:open', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.isOpen = true;
+      MessageModal.done = false;
+      MessageModal.title = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:write', (event, data) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.message = data;
+      set({ MessageModal });
+    });
+    ipcRenderer.on('log:end', (event) => {
+      const { MessageModal, set } = this.state.app;
+      MessageModal.done = true;
+      set({ MessageModal });
+    });
     ipcRenderer.send('mainWindow:isMaximized');
     ipcRenderer.send('serialport:list');
   }
@@ -258,34 +297,152 @@ class App extends Component {
         this.state.app.set({ project });
       }
     });
+    $(document.body).on('click', '#workspace, #workspace [data-block]', (event) => {
+      this.refs.ContextMenu.setState({ isOpen: false });
+      let color;
+      const selected = $(
+        "[color='default-selected']," +
+        "[color='primary-selected']," +
+        "[color='success-selected']," +
+        "[color='info-selected']," +
+        "[color='warning-selected']," +
+        "[color='danger-selected']"
+      );
+      for (let index = 0; index < selected.length; index++) {
+        const element = $(selected[index]);
+        color = element.attr('color');
+        if (element[0] !== event.currentTarget) {
+          if (color.includes('-selected')) {
+            element.attr('color', color.slice(0, color.length - 9));
+          } else {
+            element.attr('color', color + '-selected');
+          }
+        }
+      }
+      if (["input", "textarea", "button", "select", "option"].findIndex(value => value === event.target.tagName.toLowerCase()) === -1) {
+        color = $(event.currentTarget).attr('color');
+        if (color) {
+          if (color.includes('-selected')) {
+            $(event.currentTarget).attr('color', color.slice(0, color.length - 9));
+          } else {
+            $(event.currentTarget).attr('color', color + '-selected');
+          }
+        }
+        const next = $(event.currentTarget).next();
+        if (next) {
+          if (next.attr('data-block') === "else") {
+            color = next.attr('color');
+            if (color) {
+              if (color.includes('-selected')) {
+                next.attr('color', color.slice(0, color.length - 9));
+              } else {
+                next.attr('color', color + '-selected');
+              }
+            }
+          }
+        }
+      }
+      event.stopPropagation();
+    })
+    $(document.body).on('keyup', (event) => {
+      if (event.keyCode === 46) {
+        const selected = $(
+          "[color='default-selected']," +
+          "[color='primary-selected']," +
+          "[color='success-selected']," +
+          "[color='info-selected']," +
+          "[color='warning-selected']," +
+          "[color='danger-selected']"
+        );
+        if (selected.length) {
+          for (let index = 0; index < selected.length; index++) {
+            const element = $(selected[index]);
+            if (element.parent().hasClass('value-slot')) {
+              element.parent().html("<input class=\"form-control input-sm\"/>")
+            } else {
+              const parent = element.parent();
+              element.remove();
+              if (!parent.is('#workspace')) {
+                if (parent.children().length === 0) {
+                  parent.remove()
+                }
+              }
+            }
+          }
+          const currentStateData = window.$('#workspace')[0].outerHTML;
+          if (this.state.app.project.currentState.data !== currentStateData) {
+            const nextState = new LinkedListNode(currentStateData);
+            nextState.prev = this.state.app.project.currentState;
+            nextState.prev.next = nextState;
+            const { project } = this.state.app;
+            project.currentState = nextState;
+            this.state.app.set({ project });
+          }
+        }
+      }
+      $('input').trigger('input')
+    })
+    $(document.body).on('contextmenu', '#workspace [data-block]',
+      (event) => {
+        event.preventDefault();
+        this.refs.ContextMenu.setState(
+          {
+            x: event.pageX,
+            y: event.pageY,
+            isOpen: true,
+            options: [
+              {
+                label: 'Eliminar',
+                lamda: () => {
+                  const element = $(event.currentTarget);
+                  const next = $(event.currentTarget).next();
+                  if (next) {
+                    if (next.attr('data-block') === "else") {
+                      next.remove();
+                    }
+                  }
+                  if (element.parent().hasClass('value-slot')) {
+                    element.parent().html("<input class=\"form-control input-sm\"/>")
+                  } else {
+                    element.remove();
+                  }
+                  const currentStateData = $('#workspace')[0].outerHTML;
+                  if (this.state.app.project.currentState.data !== currentStateData) {
+                    const nextState = new LinkedListNode(currentStateData);
+                    nextState.prev = this.state.app.project.currentState;
+                    nextState.prev.next = nextState;
+                    const { project } = this.state.app;
+                    project.currentState = nextState;
+                    this.state.app.set({ project });
+                  }
+                }
+              }
+            ]
+          }
+        );
+        event.stopPropagation();
+        return false;
+      }
+    ).on('contextmenu',
+      (event) => {
+        this.refs.ContextMenu.setState({ isOpen: false });
+      }
+    )
+    $(document.body).on('click',
+      (event) => {
+        this.refs.ContextMenu.setState({ isOpen: false });
+      }
+    );
     $('.value-slot input').trigger('input')
     $('[data-block] .value-slot input').trigger('change')
     $('[data-block] select').trigger('change')
-
-    const project = {
-      id: 'project0',
-      filename: 'Nuevo Proyecto',
-      imports: ["Servo.h"],
-      defaults: [
-        { block: 'execute', command: 'Servo SERVO1' },
-        { block: 'execute', command: 'Servo SERVO2' }
-      ],
-      setup: [
-        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-        { block: 'execute', command: 'SERVO1.attach(12)' },
-        { block: 'execute', command: 'SERVO2.attach(11)' }
-      ],
-      loop: [],
-      variables: {},
-      savedState: "",
-      currentState: new LinkedListNode("")
-    };
-    const { __projectList, set } = this.state.app;
-    __projectList[project.id] = project;
-    set({ __projectList, currentProject: project });
+    Mousetrap.bind('ctrl+n', this.refs.Header.handlerNew);
+    Mousetrap.bind('ctrl+a', this.refs.Header.handlerOpen);
+    Mousetrap.bind('ctrl+g', this.refs.Header.handlerSave);
+    Mousetrap.bind('ctrl+shift+e', this.refs.Header.handlerExport);
+    Mousetrap.bind('ctrl+shift+c', this.refs.Header.handlerCompile);
+    Mousetrap.bind('ctrl+z', this.refs.Header.handlerUndo);
+    Mousetrap.bind('ctrl+y', this.refs.Header.handlerRedo);
   }
 
   toggle() {
@@ -300,11 +457,13 @@ class App extends Component {
           <Sidebar isOpen={this.state.sidebar}>
             <LeftContent app={this.state.app} />
           </Sidebar>
-          <Button onClick={this.toggle} id="btn-toggle-sidebar">
+          <Button onClick={this.state.app.toggle} id="btn-toggle-sidebar">
             {this.state.sidebar ? '<' : '>'}
           </Button>
           <Content app={this.state.app} isOpen={this.state.sidebar} />
         </main>
+        <MessageModal app={this.state.app} />
+        <ContextMenu ref="ContextMenu" />
       </div>
     );
   }

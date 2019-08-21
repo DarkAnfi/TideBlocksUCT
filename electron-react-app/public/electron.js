@@ -144,7 +144,7 @@ ipcMain.on('fs:open', (event) => {
     );
 });
 
-ipcMain.on('fs:save', (event, filename, data) => {
+ipcMain.on('fs:save', (event, filename, data, triggered) => {
     if (filename) {
         fs.writeFile(filename, JSON.stringify(data),
             (error) => {
@@ -156,14 +156,16 @@ ipcMain.on('fs:save', (event, filename, data) => {
                     mainWindow.webContents.send("log:open", "Listo");
                     mainWindow.webContents.send("log:write", "El archivo ha sido guardado satisfactoriamente.");
                     mainWindow.webContents.send("log:end");
-                    mainWindow.webContents.send("fs:save", path.resolve(filename));
+                    if(triggered === false){
+                        mainWindow.webContents.send("fs:save", path.resolve(filename));
+                    }
                 }
             }
         );
     }
 });
 
-ipcMain.on('fs:saveas', (event, filename, data) => {
+ipcMain.on('fs:saveas', (event, filename, data, triggered) => {
     dialog.showSaveDialog(
         mainWindow,
         {
@@ -184,7 +186,9 @@ ipcMain.on('fs:saveas', (event, filename, data) => {
                             mainWindow.webContents.send("log:open", "Listo");
                             mainWindow.webContents.send("log:write", "El archivo ha sido guardado satisfactoriamente.");
                             mainWindow.webContents.send("log:end");
-                            mainWindow.webContents.send("fs:saveas", path.resolve(filename));
+                            if(triggered === false){
+                                mainWindow.webContents.send("fs:saveas", path.resolve(filename), path.basename(filename));
+                            }
                         }
                     }
                 );

@@ -5,7 +5,13 @@ names = [
 	"success",
 	"info",
 	"warning",
-	"danger"
+	"danger",
+	"default-selected",
+	"primary-selected",
+	"success-selected",
+	"info-selected",
+	"warning-selected",
+	"danger-selected"
 ]
 
 imgs = [(Image.open(name+".png"), name) for name in names]
