@@ -217,6 +217,10 @@ class App extends Component {
             const element = $('select.variableList')[index];
             element.value = element.dataset.value ? element.dataset.value : element.length ? element[0].value : undefined;
           }
+          for (let index = 0; index < $('#workspace [data-value]').length; index++) {
+            const element = $('#workspace [data-value]')[index];
+            element.value = element.getAttribute('data-value');
+          }
           $('[data-block] select').trigger('change');
         }
       );

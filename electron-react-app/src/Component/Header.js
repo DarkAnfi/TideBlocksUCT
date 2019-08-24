@@ -292,6 +292,10 @@ class Header extends Component {
               tolerance: 'pointer'
             }
           );
+          for (let index = 0; index < $('#workspace [data-value]').length; index++) {
+            const element = $('#workspace [data-value]')[index];
+            element.value = element.getAttribute('data-value');
+          }
         }
       );
     }
@@ -337,6 +341,10 @@ class Header extends Component {
               tolerance: 'pointer'
             }
           );
+          for (let index = 0; index < $('#workspace [data-value]').length; index++) {
+            const element = $('#workspace [data-value]')[index];
+            element.value = element.getAttribute('data-value');
+          }
         }
       );
     }
