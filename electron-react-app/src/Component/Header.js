@@ -261,8 +261,15 @@ class Header extends Component {
       set(
         { project },
         () => {
+          const workspaceParent = $("#workspace").parent()
+          $("#workspace").remove();
           const temp = $(project.currentState.data);
-          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          for (let index = 0; index < temp.find('[data-value]').length; index++) {
+            const element = temp.find('[data-value]')[index];
+            element.value = element.getAttribute('data-value');
+          }
+          workspaceParent.html(temp)
+          const workspace = workspaceParent.find("#workspace");
           workspace.nestedSortable(
             {
               listType: 'ul',
@@ -292,10 +299,6 @@ class Header extends Component {
               tolerance: 'pointer'
             }
           );
-          for (let index = 0; index < $('#workspace [data-value]').length; index++) {
-            const element = $('#workspace [data-value]')[index];
-            element.value = element.getAttribute('data-value');
-          }
         }
       );
     }
@@ -310,8 +313,15 @@ class Header extends Component {
       set(
         { project },
         () => {
+          const workspaceParent = $("#workspace").parent()
+          $("#workspace").remove();
           const temp = $(project.currentState.data);
-          const workspace = $("#workspace").parent().html(temp).find("#workspace");
+          for (let index = 0; index < temp.find('[data-value]').length; index++) {
+            const element = temp.find('[data-value]')[index];
+            element.value = element.getAttribute('data-value');
+          }
+          workspaceParent.html(temp)
+          const workspace = workspaceParent.find("#workspace");
           workspace.nestedSortable(
             {
               listType: 'ul',
@@ -341,10 +351,6 @@ class Header extends Component {
               tolerance: 'pointer'
             }
           );
-          for (let index = 0; index < $('#workspace [data-value]').length; index++) {
-            const element = $('#workspace [data-value]')[index];
-            element.value = element.getAttribute('data-value');
-          }
         }
       );
     }

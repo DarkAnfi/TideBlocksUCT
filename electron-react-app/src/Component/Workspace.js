@@ -34,10 +34,6 @@ class Workspace extends Component {
             <ul ref="nestedSortable" className="sortable" id="workspace" style={{ minHeight: "calc(100vh - 86px)" }}/>
         );
     }
-
-    componentWillUnmount() {
-        this.$node.nestedSortable('destroy');
-    }
 }
 
 export default Workspace;

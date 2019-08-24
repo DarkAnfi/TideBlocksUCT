@@ -39,10 +39,6 @@ class Draggable extends Component {
             </div>
         );
     }
-
-    componentWillUnmount() {
-        this.$node.draggable('destroy');
-    }
 }
 
 export default Draggable;

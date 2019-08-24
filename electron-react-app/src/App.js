@@ -94,7 +94,11 @@ class App extends Component {
           }
         },
         stop: function () {
-          const currentStateData = $('#workspace')[0].outerHTML;
+          const outer = $($('#workspace')[0].outerHTML);
+          outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+          outer.find('.ui-sortable-placeholder').remove()
+          outer.find('ul:empty').remove()
+          const currentStateData = outer[0].outerHTML;
           if (this.state.app.project.currentState.data !== currentStateData) {
             const nextState = new LinkedListNode(currentStateData);
             nextState.prev = this.state.app.project.currentState;
@@ -130,7 +134,11 @@ class App extends Component {
               tolerance: 'pointer'
             }
           );
-          const currentStateData = window.$('#workspace')[0].outerHTML;
+          const outer = $($('#workspace')[0].outerHTML);
+          outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+          outer.find('.ui-sortable-placeholder').remove()
+          outer.find('ul:empty').remove()
+          const currentStateData = outer[0].outerHTML;
           if (this.state.app.project.currentState.data !== currentStateData) {
             const nextState = new LinkedListNode(currentStateData);
             nextState.prev = this.state.app.project.currentState;
@@ -269,7 +277,11 @@ class App extends Component {
       input.attr('data-value', input.val());
     })
     $(document.body).on('change', '[data-block] .value-slot input', event => {
-      const currentStateData = window.$('#workspace')[0].outerHTML;
+      const outer = $($('#workspace')[0].outerHTML);
+      outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+      outer.find('.ui-sortable-placeholder').remove()
+      outer.find('ul:empty').remove()
+      const currentStateData = outer[0].outerHTML;
       if (this.state.app.project.currentState.data !== currentStateData) {
         const nextState = new LinkedListNode(currentStateData);
         nextState.prev = this.state.app.project.currentState;
@@ -282,7 +294,11 @@ class App extends Component {
     $(document.body).on('change', '[data-block] select', event => {
       const select = $(event.currentTarget);
       select.attr('data-value', select.val());
-      const currentStateData = window.$('#workspace')[0].outerHTML;
+      const outer = $($('#workspace')[0].outerHTML);
+      outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+      outer.find('.ui-sortable-placeholder').remove()
+      outer.find('ul:empty').remove()
+      const currentStateData = outer[0].outerHTML;
       if (this.state.app.project.currentState.data !== currentStateData) {
         const nextState = new LinkedListNode(currentStateData);
         nextState.prev = this.state.app.project.currentState;
@@ -364,7 +380,11 @@ class App extends Component {
               }
             }
           }
-          const currentStateData = window.$('#workspace')[0].outerHTML;
+          const outer = $($('#workspace')[0].outerHTML);
+          outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+          outer.find('.ui-sortable-placeholder').remove()
+          outer.find('ul:empty').remove()
+          const currentStateData = outer[0].outerHTML;
           if (this.state.app.project.currentState.data !== currentStateData) {
             const nextState = new LinkedListNode(currentStateData);
             nextState.prev = this.state.app.project.currentState;
@@ -401,7 +421,11 @@ class App extends Component {
                   } else {
                     element.remove();
                   }
-                  const currentStateData = $('#workspace')[0].outerHTML;
+                  const outer = $($('#workspace')[0].outerHTML);
+                  outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+                  outer.find('.ui-sortable-placeholder').remove()
+                  outer.find('ul:empty').remove()
+                  const currentStateData = outer[0].outerHTML;
                   if (this.state.app.project.currentState.data !== currentStateData) {
                     const nextState = new LinkedListNode(currentStateData);
                     nextState.prev = this.state.app.project.currentState;

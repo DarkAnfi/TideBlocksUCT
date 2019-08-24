@@ -24,10 +24,6 @@ class Droppable extends Component {
             </div>
         );
     }
-
-    componentWillUnmount() {
-        this.$node.droppable('destroy');
-    }
 }
 
 export default Droppable;

@@ -34,10 +34,6 @@ class NestedSortable extends Component {
             </ul>
         );
     }
-
-    componentWillUnmount() {
-        this.$node.nestedSortable('destroy');
-    }
 }
 
 export default NestedSortable;
