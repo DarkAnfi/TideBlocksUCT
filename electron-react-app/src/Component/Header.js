@@ -72,11 +72,13 @@ class Header extends Component {
     const { project } = app;
     if(project.currentState.data !== project.savedState){
       if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
-        this.handlerSave(null);
-      } // este if debe ser sincrono es decir debe terminar el guardado del archivo antes de cerrar
-        // la app.
+        this.handlerSave(null, "close");
+      } else {
+        ipcRenderer.send('mainWindow:close');
+      }
+    } else {
+      ipcRenderer.send('mainWindow:close');
     }
-    ipcRenderer.send('mainWindow:close');
     event.stopPropagation();
   }
 
@@ -84,42 +86,47 @@ class Header extends Component {
     event.preventDefault();
     const { app } = this.props;
     const { project } = app;
+    const newFile = () => {
+      $("#workspace").html('');
+      this.refs.projectName.refs.entry.value = "Nuevo Projecto";
+      const newProject = {
+        filename: null,
+        imports: ["Servo.h"],
+        defaults: [
+          { block: 'execute', command: 'Servo SERVO1' },
+          { block: 'execute', command: 'Servo SERVO2' }
+        ],
+        setup: [
+          { block: 'execute', command: 'pinMode(4, OUTPUT)' },
+          { block: 'execute', command: 'pinMode(5, OUTPUT)' },
+          { block: 'execute', command: 'pinMode(6, OUTPUT)' },
+          { block: 'execute', command: 'pinMode(13, OUTPUT)' },
+          { block: 'execute', command: 'SERVO1.attach(12)' },
+          { block: 'execute', command: 'SERVO2.attach(11)' }
+        ],
+        loop: [],
+        variables: {},
+        savedState: $("#workspace")[0].outerHTML,
+        currentState: new LinkedListNode($("#workspace")[0].outerHTML)
+      }
+      this.props.app.set(
+          { project: newProject },
+          () => {
+            $('select.variableList').html('')
+            $('[data-block] select').trigger('change');
+          }
+        );
+    }
     if(project.currentState.data !== project.savedState){
       if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
-        this.handlerSave(null);
-      } // este if debe ser sincrono es decir debe terminar el guardado del archivo antes de poner nuevo archivo
-        // de lo contrario primero actualiza el nombre a Nuevo Projecto y luego hace el guardado del archivo
-        // con ese nombre en vez del necesario.
+        this.handlerSave(null, "newfile");
+      }else{
+        newFile();
+      }
+    }else{
+      newFile();
     }
-    $("#workspace").html('');
-    this.refs.projectName.refs.entry.value = "Nuevo Projecto";
-    const newProject = {
-      filename: null,
-      imports: ["Servo.h"],
-      defaults: [
-        { block: 'execute', command: 'Servo SERVO1' },
-        { block: 'execute', command: 'Servo SERVO2' }
-      ],
-      setup: [
-        { block: 'execute', command: 'pinMode(4, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(5, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(6, OUTPUT)' },
-        { block: 'execute', command: 'pinMode(13, OUTPUT)' },
-        { block: 'execute', command: 'SERVO1.attach(12)' },
-        { block: 'execute', command: 'SERVO2.attach(11)' }
-      ],
-      loop: [],
-      variables: {},
-      savedState: $("#workspace")[0].outerHTML,
-      currentState: new LinkedListNode($("#workspace")[0].outerHTML)
-    }
-    this.props.app.set(
-        { project: newProject },
-        () => {
-          $('select.variableList').html('')
-          $('[data-block] select').trigger('change');
-        }
-      );
+    
     event.stopPropagation();
   }
 
@@ -130,7 +137,7 @@ class Header extends Component {
     event.stopPropagation();
   }
 
-  handlerSave(event) {
+  handlerSave(event, protocolType="null", opendata=null) {
     const save = () => {
       const { app } = this.props;
       const { project, electron } = app;
@@ -149,7 +156,7 @@ class Header extends Component {
               setup: project.setup,
               variables: project.variables,
               savedState: project.savedState
-            }, (event===null));
+            }, (event!==null), { protocol: "fs:next", type : protocolType }, opendata);
           } else {
             const newFilename = this.refs.projectName.refs.entry.value + ".ctb";
             console.log(project.filename, newFilename);
@@ -159,7 +166,7 @@ class Header extends Component {
               setup: project.setup,
               variables: project.variables,
               savedState: project.savedState
-            }, (event===null));
+            }, (event!==null), { protocol: "fs:next", type : protocolType }, opendata);
           }
         }
       );
