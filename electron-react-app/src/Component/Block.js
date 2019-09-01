@@ -32,7 +32,10 @@ class Block extends Component {
                 isAllowed: this.props.app.isAllowed,
                 connectWith: ".sortable",
                 remove: this.remove,
-                stop: this.props.app.stop
+                stop: this.props.app.stop,
+                start: this.props.app.start,
+            update: this.props.app.update,
+                update: this.props.app.update
             }
         ).disableSelection();
     }

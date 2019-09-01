@@ -9,7 +9,10 @@ class NestedSortable extends Component {
             items: 'li',
             toleranceElement: '> div',
             cancel: "div[data-block='value'],input,textarea,button,select,option",
-            isAllowed: this.props.isAllowed
+            isAllowed: this.props.isAllowed,
+            start: this.props.app.start,
+            update: this.props.app.update,
+            update: this.props.app.update
         });
     }
 

@@ -78,9 +78,9 @@ class Header extends Component {
     const { project } = app;
     if (project.savedState === project.currentState.data) {
       $("#workspace").html('');
-      this.refs.projectName.refs.entry.value = "Nuevo Projecto"
+      this.refs.projectName.refs.entry.value = "Nuevo Proyecto"
       const newProject = {
-        filename: null,
+        filename: 'Nuevo Proyecto',
         imports: ["Servo.h"],
         defaults: [
           { block: 'execute', command: 'Servo SERVO1' },
@@ -278,7 +278,10 @@ class Header extends Component {
               toleranceElement: '> div',
               cancel: "div[data-block='value'],input,textarea,button,select,option",
               isAllowed: this.props.app.isAllowed,
-              stop: this.props.app.stop
+              stop: this.props.app.stop,
+              start: this.props.app.start,
+            update: this.props.app.update,
+              update: this.props.app.update
             }
           );
           workspace.find('.ui-draggable').draggable(
@@ -330,7 +333,10 @@ class Header extends Component {
               toleranceElement: '> div',
               cancel: "div[data-block='value'],input,textarea,button,select,option",
               isAllowed: this.props.app.isAllowed,
-              stop: this.props.app.stop
+              stop: this.props.app.stop,
+              start: this.props.app.start,
+            update: this.props.app.update,
+              update: this.props.app.update
             }
           );
           workspace.find('.ui-draggable').draggable(

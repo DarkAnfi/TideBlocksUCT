@@ -11,7 +11,9 @@ class Workspace extends Component {
             toleranceElement: '> div',
             cancel: "div[data-block='value'],input,textarea,button,select,option",
             isAllowed: this.props.app.isAllowed,
-            stop: this.props.app.stop
+            stop: this.props.app.stop,
+            start: this.props.app.start,
+            update: this.props.app.update
         });
     }
 
