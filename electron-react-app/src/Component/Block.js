@@ -34,7 +34,6 @@ class Block extends Component {
                 remove: this.remove,
                 stop: this.props.app.stop,
                 start: this.props.app.start,
-            update: this.props.app.update,
                 update: this.props.app.update
             }
         ).disableSelection();

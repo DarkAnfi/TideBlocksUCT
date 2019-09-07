@@ -190,16 +190,17 @@ class Header extends Component {
 
   handlerExport(event) {
     event.preventDefault();
-    const { project } = this.props.app
+    const { project, electron } = this.props.app
+    const { ipcRenderer } = electron;
     html2json.parse(project.currentState.data, (data) => {
       if (data.length) {
         if (data[0].children.length) {
           if (data[0].children[0].children.length) {
             project.loop = prepare(data[0].children[0].children);
             this.props.app.set({ project });
-            const { imports, defaults, variables, setup, loop } = project;
+            const { imports, defaults, variables, setup, loop, filename } = project;
             const txCode = getCode(imports, defaults, variables, setup, loop);
-            console.log(txCode);
+            ipcRenderer.send('fs:export', filename, txCode);
           }
         }
       }
@@ -280,7 +281,6 @@ class Header extends Component {
               isAllowed: this.props.app.isAllowed,
               stop: this.props.app.stop,
               start: this.props.app.start,
-            update: this.props.app.update,
               update: this.props.app.update
             }
           );
@@ -335,7 +335,6 @@ class Header extends Component {
               isAllowed: this.props.app.isAllowed,
               stop: this.props.app.stop,
               start: this.props.app.start,
-            update: this.props.app.update,
               update: this.props.app.update
             }
           );

@@ -95,13 +95,14 @@ class App extends Component {
         },
         stop: function (e, ui) {
           if (ui.item) {
+            ui.item.removeAttr('style')
             if (ui.item.hasClass('multidrag')) {
-              ui.item.after(ui.item.children('ul').children()).detach();
+              ui.item.after(ui.item.children('ul').children().removeAttr('style')).detach();
               ui.item.data('next').detach()
             }
           }
           const outer = $($('#workspace')[0].outerHTML);
-          outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+          outer.find('.ui-sortable-helper').removeAttr('style').removeClass('ui-sortable-helper')
           outer.find('.ui-sortable-placeholder').remove()
           outer.find('ul:empty').remove()
           const currentStateData = outer[0].outerHTML;
@@ -116,7 +117,7 @@ class App extends Component {
           $('input').trigger('input');
         }.bind(this),
         drop: function (event, ui) {
-          const helper = ui.helper.clone().attr('style', null).removeClass('ui-draggable-dragging');
+          const helper = ui.helper.clone().removeAttr('style').removeClass('ui-draggable-dragging');
           if (ui.draggable.parent().hasClass('value-slot')) {
             ui.draggable.parent().html("<input class=\"form-control input-sm\"/>")
           }
@@ -141,7 +142,7 @@ class App extends Component {
             }
           );
           const outer = $($('#workspace')[0].outerHTML);
-          outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
+          outer.find('.ui-sortable-helper').removeAttr('style').removeClass('ui-sortable-helper')
           outer.find('.ui-sortable-placeholder').remove()
           outer.find('ul:empty').remove()
           const currentStateData = outer[0].outerHTML;
@@ -167,7 +168,7 @@ class App extends Component {
             if (ui.placeholder.next()) {
               if (ui.placeholder.next().attr('data-block') === 'else') {
                 const item = ui.item.clone().removeAttr('style')
-                const next = ui.placeholder.next().clone();
+                const next = ui.placeholder.next().clone().removeAttr('style');
                 item.find('.ui-draggable').draggable(
                   {
                     helper: 'original',

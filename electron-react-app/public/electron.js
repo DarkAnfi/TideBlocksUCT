@@ -192,3 +192,32 @@ ipcMain.on('fs:saveas', (event, filename, data) => {
         }
     );
 });
+
+ipcMain.on('fs:export', (event, filename, data) => {
+    dialog.showSaveDialog(
+        mainWindow,
+        {
+            defaultPath: filename,
+            filters: [
+                { name: 'Arduino Code', extensions: ['ino'] }
+            ]
+        },
+        (filename) => {
+            if (filename) {
+                fs.writeFile(path.join(path.dirname(filename), path.basename(filename).replace(/ /g, '_')), data,
+                    (error) => {
+                        if (error) {
+                            mainWindow.webContents.send("log:open", "Error");
+                            mainWindow.webContents.send("log:write", "Ha ocurrido un error creando el archivo: " + err.message);
+                            mainWindow.webContents.send("log:end");
+                        } else {
+                            mainWindow.webContents.send("log:open", "Listo");
+                            mainWindow.webContents.send("log:write", "Se ha exportado exitosamente.");
+                            mainWindow.webContents.send("log:end");
+                        }
+                    }
+                );
+            }
+        }
+    );
+});
