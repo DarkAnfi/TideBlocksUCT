@@ -49,7 +49,7 @@ class LeftContent extends React.Component {
                 <Scrollbar color="secondary">
                     <ControlsMenu app={this.props.app} />
                     <OperatorsMenu app={this.props.app} />
-                    <VariablesMenu app={this.props.app} />
+                    <VariablesMenu app={this.props.app}  ref="MenuVariables"/>
                     <SensorsMenu app={this.props.app} />
                     <MakersMenu app={this.props.app} />
                 </Scrollbar>

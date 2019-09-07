@@ -39,6 +39,7 @@ class VariablesMenu extends React.Component {
                     .text(value)
                 )
         )
+        
         $('[data-block] select').trigger('change');
         this.props.app.set(
             { project },
@@ -67,7 +68,13 @@ class VariablesMenu extends React.Component {
                                 <Col xs="4">
                                     <FormGroup>
                                         <Label>Tipo</Label>
-                                        <Input type="text" ref="type" innerRef="entry" />
+                                        <Input type="select" ref="type" innerRef="entry">
+                                            <option>String</option>
+                                            <option>Float</option>
+                                            <option>Int</option>
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </Input>
                                     </FormGroup>
                                 </Col>
                                 <Col xs="8">
