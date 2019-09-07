@@ -147,7 +147,8 @@ class App extends Component {
           message: "",
           done: false
         },
-        toggle: this.toggle.bind(this)
+        toggle: this.toggle.bind(this),
+        toggleCreateVariable: null
       }
     }
     window.app = this;
@@ -434,6 +435,11 @@ class App extends Component {
     Mousetrap.bind('ctrl+shift+c', this.refs.Header.handlerCompile);
     Mousetrap.bind('ctrl+z', this.refs.Header.handlerUndo);
     Mousetrap.bind('ctrl+y', this.refs.Header.handlerRedo);
+    this.state.app.set({
+      toggleCreateVariable: ()=>{
+       this.refs.LeftContent.refs.MenuVariables.toggle();   
+      }
+    });
   }
 
   toggle() {
@@ -446,7 +452,7 @@ class App extends Component {
         <Header app={this.state.app} ref="Header" />
         <main>
           <Sidebar isOpen={this.state.sidebar}>
-            <LeftContent app={this.state.app} />
+            <LeftContent app={this.state.app} ref="LeftContent"/>
           </Sidebar>
           <Button onClick={this.state.app.toggle} id="btn-toggle-sidebar">
             {this.state.sidebar ? '<' : '>'}
