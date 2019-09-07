@@ -225,9 +225,184 @@
 						</li>
 					</ul>
 				</div>
+
+
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="operators">
+					<div class="value-container">
+						<div data-block="value" data-name="sum">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>+</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="rest">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												-
+											</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="mult">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												*
+											</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="div">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												/
+											</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="igual">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												=
+											</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="mayor">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												>
+											</td>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="value-container">
+						<div data-block="value" data-name="menor">
+							<div>
+								<table>
+									<tbody>
+										<tr>
+											<td>
+												<div class="value-slot">
+													<input class="form-control input-sm" value="0" />
+												</div>
+											</td>
+											<td>
+												< </td> <td>
+													<div class="value-slot">
+														<input class="form-control input-sm" value="0" />
+													</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
 
 				</div>
+
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="makers">
 					<ul class="block-container">
 						<li data-block='led-on' class="locked">
@@ -812,6 +987,7 @@
 					$(document.createElement('div'))
 						.text(varName.val())
 				);
+
 			newVar.draggable(
 				{
 					helper: "clone",
@@ -835,6 +1011,7 @@
 			);
 			varName.val('');
 			varType.val('int');
+
 		}
 
 		function handlerTabActive(event) {
@@ -968,8 +1145,11 @@
 
 		function sortableIsAllowed(placeholder, placeholderParent, currentItem) {
 			if (placeholderParent) {
+				event.stopPropagation();
 				if (placeholderParent.hasClass('locked')) {
+
 					return false;
+
 				} else {
 					if (currentItem.attr('data-block') == "else") {
 						if (placeholder.prev().attr('data-block') != "if") {
@@ -1000,6 +1180,7 @@
 					}
 				}
 			}
+			event.stopPropagation();
 		}
 
 		$(".block-container").nestedSortable({
@@ -1052,6 +1233,14 @@
 					revertDuration: 0
 				}
 			);
+			droppedItem.find('.value-slot').droppable(
+				{
+					accept: "div[data-block='value']",
+					drop: valueSlotDrop,
+					greedy: true,
+					tolerance: 'pointer'
+				}
+			);
 			droppedItem.on('click', handlerBlockClick)
 			$(this).html(droppedItem);
 		}
@@ -1062,13 +1251,18 @@
 				scroll: false,
 				zIndex: 100
 			}
+
 		);
+
 		$(".value-slot").droppable(
 			{
 				accept: "div[data-block='value']",
-				drop: valueSlotDrop
+				drop: valueSlotDrop,
+				greedy: true,
+				tolerance: 'pointer'
 			}
 		);
+
 		/* ------------------------------------------ */
 
 		/* IPC Renderer Handlers */

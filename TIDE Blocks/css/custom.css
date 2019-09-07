@@ -197,7 +197,7 @@ div[data-block='value'] {
 	font-size: 12px;
 	background-color: green;
 	line-height: 12px;
-	border-radius: 16px;
+	border-radius: 100px;
 	width: fit-content;
 }
 
