@@ -68,7 +68,17 @@ class Header extends Component {
   handlerWindowClose(event) {
     event.preventDefault();
     const { ipcRenderer } = this.props.app.electron;
-    ipcRenderer.send('mainWindow:close');
+    const { app } = this.props;
+    const { project } = app;
+    if (project.currentState.data !== project.savedState) {
+      if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
+        this.handlerSave(null, "close");
+      } else {
+        ipcRenderer.send('mainWindow:close');
+      }
+    } else {
+      ipcRenderer.send('mainWindow:close');
+    }
     event.stopPropagation();
   }
 
@@ -76,9 +86,9 @@ class Header extends Component {
     event.preventDefault();
     const { app } = this.props;
     const { project } = app;
-    if (project.savedState === project.currentState.data) {
+    const newFile = () => {
       $("#workspace").html('');
-      this.refs.projectName.refs.entry.value = "Nuevo Proyecto"
+      this.refs.projectName.refs.entry.value = "Nuevo Projecto";
       const newProject = {
         filename: 'Nuevo Proyecto',
         imports: ["Servo.h"],
@@ -107,6 +117,16 @@ class Header extends Component {
         }
       );
     }
+    if (project.currentState.data !== project.savedState) {
+      if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
+        this.handlerSave(null, "newfile");
+      } else {
+        newFile();
+      }
+    } else {
+      newFile();
+    }
+
     event.stopPropagation();
   }
 
@@ -117,40 +137,49 @@ class Header extends Component {
     event.stopPropagation();
   }
 
-  handlerSave(event) {
-    event.preventDefault();
-    const { app } = this.props;
-    const { project, electron } = app;
-    const { ipcRenderer } = electron;
-    const path = electron.remote.require('path');
-    project.savedState = project.currentState.data;
-    app.set(
-      { project },
-      () => {
-        if (project.filename) {
-          const newFilename = path.join(path.dirname(project.filename.toString()), this.refs.projectName.refs.entry.value + ".ctb");
-          console.log(project.filename, path.dirname(project.filename), path.dirname("C:\\Users\\aflores\\Desktop\\Nuevo Proyecto.ctb"));
-          ipcRenderer.send('fs:save', newFilename, {
-            imports: project.imports,
-            defaults: project.defaults,
-            setup: project.setup,
-            variables: project.variables,
-            savedState: project.savedState
-          });
-        } else {
-          const newFilename = this.refs.projectName.refs.entry.value + ".ctb";
-          console.log(project.filename, newFilename);
-          ipcRenderer.send('fs:saveas', newFilename, {
-            imports: project.imports,
-            defaults: project.defaults,
-            setup: project.setup,
-            variables: project.variables,
-            savedState: project.savedState
-          });
+  handlerSave(event, protocolType = "null", opendata = null) {
+    const save = () => {
+      const { app } = this.props;
+      const { project, electron } = app;
+      const { ipcRenderer } = electron;
+      const path = electron.remote.require('path');
+      project.savedState = project.currentState.data;
+      app.set(
+        { project },
+        () => {
+          if (project.filename) {
+            const newFilename = path.join(path.dirname(project.filename.toString()), this.refs.projectName.refs.entry.value + ".ctb");
+            console.log(project.filename, path.dirname(project.filename), path.dirname("C:\\Users\\aflores\\Desktop\\Nuevo Proyecto.ctb"));
+            ipcRenderer.send('fs:save', newFilename, {
+              imports: project.imports,
+              defaults: project.defaults,
+              setup: project.setup,
+              variables: project.variables,
+              savedState: project.savedState
+            }, (event !== null), { protocol: "fs:next", type: protocolType }, opendata);
+          } else {
+            const newFilename = this.refs.projectName.refs.entry.value + ".ctb";
+            console.log(project.filename, newFilename);
+            ipcRenderer.send('fs:saveas', newFilename, {
+              imports: project.imports,
+              defaults: project.defaults,
+              setup: project.setup,
+              variables: project.variables,
+              savedState: project.savedState
+            }, (event !== null), { protocol: "fs:next", type: protocolType }, opendata);
+          }
         }
-      }
-    );
-    event.stopPropagation();
+      );
+    }
+    if (event === null) {
+      save();
+      console.log('guardar');
+    } else {
+      event.preventDefault();
+      save();
+      event.stopPropagation();
+    }
+
   }
 
   handlerSaveAs(event) {
@@ -447,7 +476,7 @@ class Header extends Component {
               <NavLink onClick={this.handlerOpen} href="#"><FontAwesomeIcon icon={faFolderOpen} /> Abrir</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={this.handlerSave} href="#"><FontAwesomeIcon icon={faSave} /> Guardar</NavLink>
+              <NavLink id='saveClick' ref='saveClick' onClick={this.handlerSave} href="#"><FontAwesomeIcon icon={faSave} /> Guardar</NavLink>
             </NavItem>
             <NavItem>
               <NavLink onClick={this.handlerCompile} href="#" ><FontAwesomeIcon icon={faCogs} /> Compilar</NavLink>

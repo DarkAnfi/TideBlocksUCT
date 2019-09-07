@@ -94,8 +94,6 @@
 				title="(Ctrl + Shift + V)"></span><span data-toggle="tooltip" data-placement="left"
 				title="(Ctrl + Shift + V)">Variable</span>
 		</button>
-
-
 	</div>
 	<main class="scrollbar scrollbar-default">
 		<div id="blocks-container">
@@ -111,7 +109,6 @@
 			</div>
 			<div id="block-content" class="tab-content">
 				<div class="scrollbar scrollbar-primary tab-pane fade active in block-section" id="vars">
-
 				</div>
 				<div class="scrollbar scrollbar-primary tab-pane fade block-section" id="controls">
 					<ul class="block-container">
@@ -613,9 +610,24 @@
 		const path = require('path');
 		const serialport = require('serialport');
 		const Interpreter = require('./js/interpreter');
+		const Mousetrap = require('mousetrap');
 
+		/*global vars*/
+
+		let aProjects = {};
 		let idProject = 0;
 		let interpreter = new Interpreter();
+
+		/*clase project de testeo*/
+
+		class Project {
+			constructor(pName='', path='', variables=[], changed=false){
+				this.path = path;
+				this.pName = pName;
+				this.variables = variables;
+				this.changed = changed;
+			}
+		}
 
 		/* General Functions */
 
@@ -646,11 +658,16 @@
 				$('#list-projects .active').removeClass('in active');
 				$('li[name="' + $(active).attr('name') + '"]').addClass('in active');
 			}
+			if($('#project-navegator .active').attr('name')){
+				updateVariableList(aProjects[$('#project-navegator .active').attr('name')]);
+			}
+			
 		}
 
 		$("[data-toggle=tooltip").tooltip();
 
 		function add_project(arg, isNew, filecontent = null) {
+			var variables = [];
 			nameProject = arg;
 			newPath = ' '
 			arg = arg.replace('.', 'punto');
@@ -658,7 +675,11 @@
 			$('#project-content .active').removeClass('active in');
 			$('#project-navegator .active').removeClass('active in');
 			if (filecontent) {
-				$('#project-content').append($($.parseHTML(filecontent))
+				var data = JSON.parse(filecontent);
+				variables = data.variables;
+				var code = data.html;
+				aProjects[arg]= new Project(arg, '', variables);
+				$('#project-content').append($($.parseHTML(code))
 					.addClass('active in'))
 					.find('.sortable').nestedSortable({
 						listType: 'ul',
@@ -690,6 +711,7 @@
 					})
 				);
 			}
+			aProjects[arg]= new Project(arg, newPath, variables);
 			$('#add-project').parent().before($(document.createElement('li'))
 				.attr('name', arg)
 				.attr('class', 'tab-design active in')
@@ -711,17 +733,39 @@
 						.attr('type', 'button')
 						.text(' x')
 					)
+					.on('click', HandlerOnActiveTabChange)
 				)
 				.on('click', handlerTabActive)
 			);
 			update_tabs();
 		}
 
+		function HandlerOnActiveTabChange(){
+			updateVariableList(aProjects[$(this).parent().attr('name')]);
+		}
+
 		function remove_project(event) {
+			console.log($(event.currentTarget).parent().attr('href').substr(1));
+			if(aProjects[$(event.currentTarget).parent().attr('href').substr(1)].changed){
+				if(window.confirm('Se han realizado cambios en el proyecto que deseas cerrar, ¿Deseas guardar los cambios del proyecto antes de cerrarlo?')){
+					$('#save-files').triggerHandler('click');
+				}
+			}
+			$('#variables-list').children().each(function( indx, child  ) {
+			 	if($(child).attr('id') !== 'variable-add-form'){
+					$(child).remove();
+				}
+			});
+			$('#vars').children().each(function( indx, child  ) {
+			 	if($(child).attr('id') !== 'shortcut-variable'){
+					$(child).remove();
+				}
+			});
 			$($(event.currentTarget).parent().attr('href')).remove();
 			$.each($('li[name="' + $(event.currentTarget).parent().attr('href').substr(1) + '"]'), function (indx, tab) {
 				tab.remove();
 			});
+			delete aProjects[$(event.currentTarget).parent().attr('href').substr(1)];
 			update_tabs();
 		}
 
@@ -732,6 +776,8 @@
 			} else {
 				newPath = path.dirname(filepath);
 			}
+			aProjects[newId.replace('.', 'punto')] = new Project(newId.replace('.', 'punto'), newPath, aProjects[$('#project-navegator .active').attr('name')].variables);			
+			delete aProjects[$('#project-navegator .active').attr('name')];
 			$("#" + $('#project-navegator .active').attr('name')).attr('path', newPath);
 			$("li[name='" + $('#project-navegator .active').attr('name') + "']").attr('path', newPath);
 			$("li[name='" + $('#project-navegator .active').attr('name') + "']").attr('title', newId);
@@ -739,6 +785,17 @@
 			$("li[name='" + $('#project-navegator .active').attr('name') + "'] a").attr('href', '#' + newId.replace('.', 'punto'));
 			$("li[name='" + $('#project-navegator .active').attr('name') + "'] a span").text(newId);
 			$("li[name='" + $('#project-navegator .active').attr('name') + "']").attr('name', newId.replace('.', 'punto'));
+			updateVariableList(aProjects[newId.replace('.', 'punto')]);
+		}
+
+		function DisplayVariablesModal(){
+			if($('#project-navegator .active').attr('name')){
+				$('#variables').modal('show');
+			}else{
+				handlerIpcRendererLogOpen(null, 'Error');
+				handlerIpcRendererLogWrite(null, 'Debes tener un proyecto abierto para poder añadir variables a dicho proyecto.');
+				handlerIpcRendererLogEnd(null);
+			}
 		}
 
 		/* Event Handlers */
@@ -810,7 +867,10 @@
 				if ($('#project-navegator .active').attr('path') == ' ') {
 					ipcRenderer.send('saveas:files');
 				} else {
-					ipcRenderer.send('ready:tosave', ($("#" + $('#project-navegator .active').attr('name')).clone()).prop('outerHTML'), path.resolve($("#" + $('#project-navegator .active').attr('name')).attr('path'), $('#project-navegator .active a').text().slice(0, -2)));
+					var data = { 'variables': aProjects[$('#project-navegator .active').attr('name')].variables, 'html' : ($("#" + $('#project-navegator .active').attr('name')).clone()).prop('outerHTML') };
+					console.log(data);
+					ipcRenderer.send('ready:tosave',  JSON.stringify(data)  , path.resolve($("#" + $('#project-navegator .active').attr('name')).attr('path'), $('#project-navegator .active a').text().slice(0, -2)));
+					aProjects[$('#project-navegator .active').attr('name')].changed = false;
 				}
 			}
 		}
@@ -970,10 +1030,16 @@
 			event.preventDefault();
 			if (window.confirm('¿Seguro que deseas eliminar esta variable?')) {
 				$('ul[name=' + $($(event.currentTarget).parent().parent().children()[0]).text() + ']').remove();
+				for(var indx in aProjects[$('#project-navegator .active').attr('name')].variables){
+					if(aProjects[$('#project-navegator .active').attr('name')].variables[indx].name == $($(event.currentTarget).parent().parent().children()[0]).text()){
+						aProjects[$('#project-navegator .active').attr('name')].variables.splice(indx, 1);
+					}
+				}
 				$(event.currentTarget).parent().parent().remove();
+				aProjects[$('#project-navegator .active').attr('name')].changed = true;
 			}
+			updateVariableList(aProjects[$('#project-navegator .active').attr('name')]);
 		}
-
 		function handlerAddVariable(event) {
 			const varName = $('#variable-name');
 			const varType = $('#variable-type');
@@ -1023,6 +1089,11 @@
 			}
 		}
 
+		function handlerProjectContentChanged(event){
+			event.preventDefault();
+			aProjects[$(event.currentTarget).attr('id')].changed = true;
+		}
+
 		/* Event Listeners */
 		// List Ports
 		serialport.list(handlerListPorts);
@@ -1053,6 +1124,14 @@
 		// Edit Menu Click
 		$('#edit-menu')
 			.on('click', handlerEditMenuClick);
+
+		// Dispaly Variable Modal
+
+		$('#menu-variable')
+			.on('click', DisplayVariablesModal);
+
+		$('#shortcut-variable')
+			.on('click', DisplayVariablesModal);
 
 		// Edit New File Click
 		$('#new-file')
@@ -1140,6 +1219,8 @@
 		$('#variable-add')
 			.on('click', handlerAddVariable);
 
+		$("body")
+			.on('DOMSubtreeModified', '.tab-project', handlerProjectContentChanged);
 
 		/* ---------- Sortable Implementation ---------- */
 
@@ -1276,13 +1357,16 @@
 		function handlerIpcRendererContentData(event, data, filepath) {
 			newId = path.basename(filepath);
 			if ($('li[name="' + newId.replace('.', 'punto') + '"]').length == 0) {
-				add_project(newId, true, data);
+				add_project(newId, true, data, false);
 			}
 		}
 
 		function handlerIpcRendererUpdateNameProject(event, filepath) {
 			update_nameProject(filepath);
-			ipcRenderer.send('ready:tosave', ($("#" + $('#project-navegator .active').attr('name')).clone().removeClass('active').removeClass('in')).prop('outerHTML'), filepath);
+			var data = { 'variables': aProjects[$('#project-navegator .active').attr('name')].variables, 'html' : ($("#" + $('#project-navegator .active').attr('name')).clone()).prop('outerHTML') };
+					console.log(data);
+			ipcRenderer.send('ready:tosave',  JSON.stringify(data)  , filepath);
+			aProjects[$('#project-navegator .active').attr('name')].changed = false;
 		}
 
 		function handlerIpcRendererLogOpen(event, title) {
@@ -1311,11 +1395,11 @@
 		ipcRenderer.on('log:end', handlerIpcRendererLogEnd);
 
 		//Keyboard Shortcuts
-		ipcRenderer.on('Shortcut:new', () => { $('#new-file').triggerHandler('click'); });
-		ipcRenderer.on('Shortcut:open', () => { $('#open-files').triggerHandler('click'); });
-		ipcRenderer.on('Shortcut:save', () => { $('#save-files').triggerHandler('click'); });
-		ipcRenderer.on('Shortcut:compile', () => { $('#file-compile').triggerHandler('click'); });
-		ipcRenderer.on('Shortcut:variables', () => { $('#variables').modal('show'); });
+		Mousetrap.bind('ctrl+n', ()=>{$('#new-file').triggerHandler('click'); });
+		Mousetrap.bind('ctrl+o', ()=>{$('#open-files').triggerHandler('click');});
+		Mousetrap.bind('ctrl+s', ()=>{$('#save-files').triggerHandler('click');});
+		Mousetrap.bind('ctrl+shift+c', ()=>{$('#file-compile').triggerHandler('click');});
+		Mousetrap.bind('ctrl+shift+v', ()=>{DisplayVariablesModal();});
 
 	</script>
 </body>
