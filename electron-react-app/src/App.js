@@ -251,90 +251,9 @@ class App extends Component {
         project.savedState = data.savedState;
         project.currentState = new LinkedListNode(data.savedState);
         this.state.app.set(
-          { project },
-          () => {
-            const path = this.state.app.electron.remote.require('path')
-            this.refs.Header.refs.projectName.refs.entry.value = path.basename(project.filename).slice(0, path.basename(project.filename).length - 4)
-            const temp = $(project.currentState.data);
-            const workspace = $("#workspace").parent().html(temp).find("#workspace");
-            workspace.nestedSortable(
-              {
-                listType: 'ul',
-                handle: 'div',
-                items: 'li',
-                toleranceElement: '> div',
-                cancel: "div[data-block='value'],input,textarea,button,select,option",
-                isAllowed: this.state.app.isAllowed,
-                stop: this.state.app.stop
-              }
-            );
-            workspace.find('.ui-draggable').draggable(
-              {
-                helper: 'original',
-                scroll: false,
-                revert: 'invalid',
-                revertDuration: 0,
-                zIndex: 100,
-                stop: this.state.app.stop
-              }
-            );
-            workspace.find('.ui-droppable').droppable(
-              {
-                accept: "[data-block='operator'], [data-block='value']",
-                drop: this.state.app.drop,
-                greedy: true,
-                tolerance: 'pointer'
-              }
-            );
-            $('select.variableList').html('')
-            Object.keys(project.variables).forEach(
-              value => $('select.variableList')
-                .append($(document.createElement('option'))
-                  .text(value)
-                )
-            )
-            for (let index = 0; index < $('select.variableList').length; index++) {
-              const element = $('select.variableList')[index];
-              element.value = element.dataset.value ? element.dataset.value : element.length ? element[0].value : undefined;
-            }
-            $('[data-block] select').trigger('change');
-          }
-        );
-      }
-      if(project.currentState.data !== project.savedState){
-        if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) { 
-          this.refs.Header.handlerSave(null, "openfile", { filename: filename, data: data});
-        } else {
-          openfile(filename, data);
-        }
-      } else {
-        openfile(filename, data);
-      }
-    });
-    ipcRenderer.on('fs:save', (event, filename) => {
-      const { project } = this.state.app;
-      project.filename = filename;
-      this.state.app.set({ project });
-    });
-    ipcRenderer.on('fs:saveas', (event, filename, file_basename) => {
-      const { project } = this.state.app;
-      project.filename = filename;
-      this.state.app.set({ project },
-        () => {
-          this.refs.Header.refs.projectName.refs.entry.value = file_basename.substr(0, file_basename.length - 4);
-        });
-    });
-    ipcRenderer.on('fs:next', (event, type, data) => {
-      console.log(type);
-      switch(type){
-        case "close":
-            ipcRenderer.send('mainWindow:close');
-            break;
-        case "newfile":
-            $("#workspace").html('');
-            this.refs.Header.refs.projectName.refs.entry.value = "Nuevo Projecto";
-            const newProject = {
-              filename: null,
+          {
+            project: {
+              filename: 'Nuevo Proyecto',
               imports: ["Servo.h"],
               defaults: [
                 { block: 'execute', command: 'Servo SERVO1' },
@@ -350,33 +269,24 @@ class App extends Component {
               ],
               loop: [],
               variables: {},
-              savedState: $("#workspace")[0].outerHTML,
-              currentState: new LinkedListNode($("#workspace")[0].outerHTML)
+              savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>",
+              currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>")
             }
-            this.state.app.set(
-                { project: newProject },
-                () => {
-                  $('select.variableList').html('')
-                  $('[data-block] select').trigger('change');
-                }
-              );
-            break;
-        case "openfile":
-          const { project } = this.state.app;
-          project.filename = data.filename;
-          project.imports = data.data.imports;
-          project.defaults = data.data.defaults;
-          project.setup = data.data.setup;
-          project.variables = data.data.variables;
-          project.savedState = data.data.savedState;
-          project.currentState = new LinkedListNode(data.data.savedState);
-          this.state.app.set(
+          },
+          () => this.state.app.set(
             { project },
             () => {
               const path = this.state.app.electron.remote.require('path')
               this.refs.Header.refs.projectName.refs.entry.value = path.basename(project.filename).slice(0, path.basename(project.filename).length - 4)
+              const workspaceParent = $("#workspace").parent()
+              $("#workspace").remove();
               const temp = $(project.currentState.data);
-              const workspace = $("#workspace").parent().html(temp).find("#workspace");
+              for (let index = 0; index < temp.find('[data-value]').length; index++) {
+                const element = temp.find('[data-value]')[index];
+                element.value = element.getAttribute('data-value');
+              }
+              workspaceParent.html(temp)
+              const workspace = workspaceParent.find("#workspace");
               workspace.nestedSortable(
                 {
                   listType: 'ul',
@@ -385,7 +295,9 @@ class App extends Component {
                   toleranceElement: '> div',
                   cancel: "div[data-block='value'],input,textarea,button,select,option",
                   isAllowed: this.state.app.isAllowed,
-                  stop: this.state.app.stop
+                  stop: this.state.app.stop,
+                  start: this.state.app.start,
+                  update: this.state.app.update
                 }
               );
               workspace.find('.ui-draggable').draggable(
@@ -419,7 +331,69 @@ class App extends Component {
               }
               $('[data-block] select').trigger('change');
             }
+          )
+        )
+      }
+      if (project.currentState.data !== project.savedState) {
+        if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
+          this.refs.Header.handlerSave(null, "openfile", { filename: filename, data: data });
+        }
+      } else {
+        openfile(filename, data);
+      }
+    });
+    ipcRenderer.on('fs:save', (event, filename) => {
+      const { project } = this.state.app;
+      project.filename = filename;
+      this.state.app.set({ project });
+    });
+    ipcRenderer.on('fs:saveas', (event, filename, file_basename) => {
+      const { project } = this.state.app;
+      project.filename = filename;
+      this.state.app.set({ project },
+        () => {
+          this.refs.Header.refs.projectName.refs.entry.value = file_basename.substr(0, file_basename.length - 4);
+        });
+    });
+    ipcRenderer.on('fs:next', (event, type, data) => {
+      console.log(type);
+      switch (type) {
+        case "close":
+          ipcRenderer.send('mainWindow:close');
+          break;
+        case "newfile":
+          $("#workspace").html('');
+          this.refs.Header.refs.projectName.refs.entry.value = "Nuevo Projecto";
+          const newProject = {
+            filename: null,
+            imports: ["Servo.h"],
+            defaults: [
+              { block: 'execute', command: 'Servo SERVO1' },
+              { block: 'execute', command: 'Servo SERVO2' }
+            ],
+            setup: [
+              { block: 'execute', command: 'pinMode(4, OUTPUT)' },
+              { block: 'execute', command: 'pinMode(5, OUTPUT)' },
+              { block: 'execute', command: 'pinMode(6, OUTPUT)' },
+              { block: 'execute', command: 'pinMode(13, OUTPUT)' },
+              { block: 'execute', command: 'SERVO1.attach(12)' },
+              { block: 'execute', command: 'SERVO2.attach(11)' }
+            ],
+            loop: [],
+            variables: {},
+            savedState: $("#workspace")[0].outerHTML,
+            currentState: new LinkedListNode($("#workspace")[0].outerHTML)
+          }
+          this.state.app.set(
+            { project: newProject },
+            () => {
+              $('select.variableList').html('')
+              $('[data-block] select').trigger('change');
+            }
           );
+          break;
+        case "openfile":
+          ipcRenderer.send('fs:open')
           break;
         default:
           console.log('default');

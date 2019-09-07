@@ -11,6 +11,10 @@ li[data-block] {
 	font-weight: bold;
 }
 
+li[data-block]>div {
+	padding: 10px 10px 15px 10px;
+}
+
 /* ---------- COLORED BLOCKS ---------- */
 
 /* ----- DEFAULT ----- */
@@ -30,7 +34,7 @@ li[data-block][color="default"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
+	
 }
 
 li[data-block][color="default"].locked>div {
@@ -38,7 +42,6 @@ li[data-block][color="default"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -71,7 +74,6 @@ li[data-block][color="primary"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="primary"].locked>div {
@@ -79,7 +81,6 @@ li[data-block][color="primary"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -112,7 +113,6 @@ li[data-block][color="success"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="success"].locked>div {
@@ -120,7 +120,6 @@ li[data-block][color="success"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -153,7 +152,6 @@ li[data-block][color="info"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="info"].locked>div {
@@ -161,7 +159,6 @@ li[data-block][color="info"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -194,7 +191,6 @@ li[data-block][color="warning"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="warning"].locked>div {
@@ -202,7 +198,6 @@ li[data-block][color="warning"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -235,7 +230,6 @@ li[data-block][color="danger"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="danger"].locked>div {
@@ -243,7 +237,6 @@ li[data-block][color="danger"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -276,7 +269,6 @@ li[data-block][color="default-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="default-selected"].locked>div {
@@ -284,7 +276,6 @@ li[data-block][color="default-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -317,7 +308,6 @@ li[data-block][color="primary-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="primary-selected"].locked>div {
@@ -325,7 +315,6 @@ li[data-block][color="primary-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -358,7 +347,6 @@ li[data-block][color="success-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="success-selected"].locked>div {
@@ -366,7 +354,6 @@ li[data-block][color="success-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -399,7 +386,6 @@ li[data-block][color="info-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="info-selected"].locked>div {
@@ -407,7 +393,6 @@ li[data-block][color="info-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -440,7 +425,6 @@ li[data-block][color="warning-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="warning-selected"].locked>div {
@@ -448,7 +432,6 @@ li[data-block][color="warning-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -481,7 +464,6 @@ li[data-block][color="danger-selected"]>div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="danger-selected"].locked>div {
@@ -489,7 +471,6 @@ li[data-block][color="danger-selected"].locked>div {
 	background-position: left top, left 60px top, right top, left 10px, left 60px top 10px, right top 10px, left bottom, 60px bottom, right bottom;
 	background-size: 60px 10px, calc(100% - 69.5px) 10px, 10px 10px, 60px calc(100% - 24.5px), calc(100% - 69.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px), 60px 15px, calc(100% - 69.5px) 15px, 10px 15px;
 	background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -526,7 +507,6 @@ li[data-block][color="default-selected"] > div{
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="default-selected"].locked > div{
@@ -542,7 +522,6 @@ li[data-block][color="default-selected"].locked > div{
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -591,7 +570,6 @@ li[data-block][color="primary-selected"] > div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="primary-selected"].locked > div {
@@ -607,7 +585,6 @@ li[data-block][color="primary-selected"].locked > div {
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -656,7 +633,6 @@ li[data-block][color="success-selected"] > div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="success-selected"].locked > div {
@@ -672,7 +648,6 @@ li[data-block][color="success-selected"].locked > div {
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -721,7 +696,6 @@ li[data-block][color="info-selected"] > div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="info-selected"].locked > div {
@@ -737,7 +711,6 @@ li[data-block][color="info-selected"].locked > div {
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -786,7 +759,6 @@ li[data-block][color="warning-selected"] > div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="warning-selected"].locked > div {
@@ -802,7 +774,6 @@ li[data-block][color="warning-selected"].locked > div {
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -851,7 +822,6 @@ li[data-block][color="danger-selected"] > div {
 	background-position: left 10px, left 80px top 10px, right top 10px;
 	background-size: 80px calc(100% - 24.5px), calc(100% - 89.5px) calc(100% - 24.5px), 10px calc(100% - 24.5px);
 	background-repeat: no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 }
 
 li[data-block][color="danger-selected"].locked > div {
@@ -867,7 +837,6 @@ li[data-block][color="danger-selected"].locked > div {
 	background-repeat: no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat,
 					   no-repeat, no-repeat, no-repeat;
-	padding: 10px 10px 15px 10px;
 	min-height: 35px;
 }
 
@@ -910,6 +879,9 @@ ul.sortable td, ul.block-container td {
 
 [data-block] input, [data-block] select, [data-block] textarea, [data-block] option {
 	border-radius: 100px;
+	padding: 0px 5px;
+	height: 20px;
+	line-height: 20px;
 }
 
 .value-slot input {
@@ -921,4 +893,5 @@ li.multidrag>ul {
 	background: none !important;
 	list-style: none;
 	padding: 0px;
+	margin-left:-15px;
 }

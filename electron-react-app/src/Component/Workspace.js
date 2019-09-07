@@ -33,7 +33,7 @@ class Workspace extends Component {
     }
     render() {
         return (
-            <ul ref="nestedSortable" className="sortable" id="workspace" style={{ minHeight: "calc(100vh - 86px)" }}/>
+            <ul ref="nestedSortable" className="sortable" id="workspace" style={{ paddingBottom: "calc(100vh - 57px - 27px - 30px)", margin: '0px' }} />
         );
     }
 }

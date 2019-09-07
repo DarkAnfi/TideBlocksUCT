@@ -73,8 +73,6 @@ class Header extends Component {
     if (project.currentState.data !== project.savedState) {
       if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
         this.handlerSave(null, "close");
-      } else {
-        ipcRenderer.send('mainWindow:close');
       }
     } else {
       ipcRenderer.send('mainWindow:close');
@@ -120,8 +118,6 @@ class Header extends Component {
     if (project.currentState.data !== project.savedState) {
       if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
         this.handlerSave(null, "newfile");
-      } else {
-        newFile();
       }
     } else {
       newFile();
@@ -133,7 +129,14 @@ class Header extends Component {
   handlerOpen(event) {
     event.preventDefault();
     const { ipcRenderer } = this.props.app.electron;
-    ipcRenderer.send('fs:open')
+    const { project } = this.props.app;
+    if (project.currentState.data !== project.savedState) {
+      if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
+        this.handlerSave(null, "openfile");
+      }
+    } else {
+      ipcRenderer.send('fs:open')
+    }
     event.stopPropagation();
   }
 
