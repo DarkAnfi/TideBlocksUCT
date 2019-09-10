@@ -88,7 +88,7 @@ class Header extends Component {
       $("#workspace").html('');
       this.refs.projectName.refs.entry.value = "Nuevo Projecto";
       const newProject = {
-        filename: 'Nuevo Proyecto',
+        filename: null,
         imports: ["Servo.h"],
         defaults: [
           { block: 'execute', command: 'Servo SERVO1' },

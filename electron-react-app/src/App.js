@@ -18,7 +18,7 @@ class App extends Component {
       sidebar: true,
       app: {
         project: {
-          filename: 'Nuevo Proyecto',
+          filename: null,
           imports: ["Servo.h"],
           defaults: [
             { block: 'execute', command: 'Servo SERVO1' },
@@ -34,8 +34,8 @@ class App extends Component {
           ],
           loop: [],
           variables: {},
-          savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>",
-          currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>")
+          savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>",
+          currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>")
         },
         isMaximized: false,
         ports: [],
@@ -254,7 +254,7 @@ class App extends Component {
         this.state.app.set(
           {
             project: {
-              filename: 'Nuevo Proyecto',
+              filename: null,
               imports: ["Servo.h"],
               defaults: [
                 { block: 'execute', command: 'Servo SERVO1' },
@@ -270,8 +270,8 @@ class App extends Component {
               ],
               loop: [],
               variables: {},
-              savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>",
-              currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"min-height: calc(100vh - 86px);\"></ul>")
+              savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>27px) - 30px); margin: 0px;\"></ul>",
+              currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>")
             }
           },
           () => this.state.app.set(
@@ -418,23 +418,6 @@ class App extends Component {
       MessageModal.done = true;
       set({ MessageModal });
     });
-    ipcRenderer.on('log:open', (event, data) => {
-      const { MessageModal, set } = this.state.app;
-      MessageModal.isOpen = true;
-      MessageModal.done = false;
-      MessageModal.title = data;
-      set({ MessageModal });
-    });
-    ipcRenderer.on('log:write', (event, data) => {
-      const { MessageModal, set } = this.state.app;
-      MessageModal.message = data;
-      set({ MessageModal });
-    });
-    ipcRenderer.on('log:end', (event) => {
-      const { MessageModal, set } = this.state.app;
-      MessageModal.done = true;
-      set({ MessageModal });
-    });
     ipcRenderer.send('mainWindow:isMaximized');
     ipcRenderer.send('serialport:list');
   }
@@ -449,9 +432,31 @@ class App extends Component {
       const inputWidth = $(event.currentTarget).textWidth();
       const input = $(event.currentTarget);
       input.css({ width: inputWidth });
-      input.attr('data-value', input.val());
+      var num;
+      input.attr('data-value', ((num = Number.parseFloat(input.val())) && true ? num : 0.0).toString());
     })
+    $(document.body).on('keypress', '.value-slot input', event => {
+      const re = /[0-9]/g;
+      if (!re.test(event.key)) {
+        if (event.key === '.') {
+          if (event.currentTarget.value.indexOf('.') !== -1) {
+            event.preventDefault();
+          }
+        } else {
+          if (event.key === '-') {
+            if (event.currentTarget.value.indexOf('-') !== -1) {
+              event.preventDefault();
+            }
+          } else {
+            event.preventDefault();
+          }
+        }
+      }
+    });
     $(document.body).on('change', '[data-block] .value-slot input', event => {
+      const input = $(event.currentTarget);
+      input.val(input.attr('data-value'));
+      input.trigger('input')
       const outer = $($('#workspace')[0].outerHTML);
       outer.find('.ui-sortable-helper').attr('style', '').removeClass('ui-sortable-helper')
       outer.find('.ui-sortable-placeholder').remove()
@@ -638,8 +643,8 @@ class App extends Component {
     Mousetrap.bind('ctrl+z', this.refs.Header.handlerUndo);
     Mousetrap.bind('ctrl+y', this.refs.Header.handlerRedo);
     this.state.app.set({
-      toggleCreateVariable: ()=>{
-       this.refs.LeftContent.refs.MenuVariables.toggle();   
+      toggleCreateVariable: () => {
+        this.refs.LeftContent.refs.MenuVariables.toggle();
       }
     });
   }
@@ -654,7 +659,7 @@ class App extends Component {
         <Header app={this.state.app} ref="Header" />
         <main>
           <Sidebar isOpen={this.state.sidebar}>
-            <LeftContent app={this.state.app} ref="LeftContent"/>
+            <LeftContent app={this.state.app} ref="LeftContent" />
           </Sidebar>
           <Button onClick={this.state.app.toggle} id="btn-toggle-sidebar">
             {this.state.sidebar ? '<' : '>'}

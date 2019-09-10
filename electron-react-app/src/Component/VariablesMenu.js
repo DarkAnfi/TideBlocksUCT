@@ -31,20 +31,22 @@ class VariablesMenu extends React.Component {
     handlerCreateVariable() {
         const { project } = this.props.app;
         const { type, name } = this.refs;
-        project.variables[name.refs.entry.value] = type.refs.entry.value;
-        $('select.variableList').html('')
-        Object.keys(project.variables).forEach(
-            value => $('select.variableList')
-                .append($(document.createElement('option'))
-                    .text(value)
-                )
-        )
-        
-        $('[data-block] select').trigger('change');
-        this.props.app.set(
-            { project },
-            () => this.toggle()
-        )
+        if (name.refs.entry.value.replace(/ /g,'') !== '') {
+            project.variables[name.refs.entry.value] = type.refs.entry.value;
+            $('select.variableList').html('')
+            Object.keys(project.variables).forEach(
+                value => $('select.variableList')
+                    .append($(document.createElement('option'))
+                        .text(value)
+                    )
+            )
+
+            $('[data-block] select').trigger('change');
+            this.props.app.set(
+                { project },
+                () => this.toggle()
+            )
+        }
     }
 
     toggle() {
@@ -69,11 +71,8 @@ class VariablesMenu extends React.Component {
                                     <FormGroup>
                                         <Label>Tipo</Label>
                                         <Input type="select" ref="type" innerRef="entry">
-                                            <option>String</option>
-                                            <option>Float</option>
-                                            <option>Int</option>
-                                            <option>True</option>
-                                            <option>False</option>
+                                            <option value="int">Entero</option>
+                                            <option value="float">Decimal</option>
                                         </Input>
                                     </FormGroup>
                                 </Col>

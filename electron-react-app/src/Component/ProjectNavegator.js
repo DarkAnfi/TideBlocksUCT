@@ -26,7 +26,7 @@ class ProjectNavegator extends Component {
         console.log(event);     
         const newProject = {
             id: 'project' + this.props.app.idProjectCounter.toString(),
-            filename: 'Nuevo Proyecto',
+            filename: null,
             imports: ["Servo.h"],
             defaults: [
                 { block: 'execute', command: 'Servo SERVO1' },

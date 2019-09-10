@@ -5,14 +5,15 @@
 
 Servo SERVO1;
 Servo SERVO2;
+int sonido;
 
-#line 6 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
+#line 7 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
 void repeat(int _NR, void (*_CR)());
-#line 12 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
+#line 13 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
 void setup();
-#line 21 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
+#line 22 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
 void loop();
-#line 6 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
+#line 7 "C:\\Users\\aflores\\Documents\\GitHub\\TideBlocksUCT\\electron-react-app\\public\\temp\\temp.ino"
 void repeat(int _NR, void (*_CR)()) {
    for (int _IR = 0; _IR < _NR; _IR++) {
        _CR();
@@ -29,7 +30,23 @@ void setup() {
 }
 
 void loop() {
-    if (1) {
+    sonido = analogRead(0);
+    if ((sonido > 1000)) {
+        digitalWrite(4, HIGH);
+        digitalWrite(5, LOW);
+        digitalWrite(6, LOW);
+    }
+    else {
+        if ((sonido > 100)) {
+            digitalWrite(4, LOW);
+            digitalWrite(5, HIGH);
+            digitalWrite(6, LOW);
+        }
+        else {
+            digitalWrite(4, LOW);
+            digitalWrite(5, LOW);
+            digitalWrite(6, HIGH);
+        }
     }
 }
 
