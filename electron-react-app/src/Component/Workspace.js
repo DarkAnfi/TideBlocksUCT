@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Workspace.css';
 
 class Workspace extends Component {
 
@@ -33,7 +34,7 @@ class Workspace extends Component {
     }
     render() {
         return (
-            <ul ref="nestedSortable" className="sortable" id="workspace" style={{ paddingBottom: "calc(100vh - 57px - 27px - 30px)", margin: '0px' }} />
+            <ul ref="nestedSortable" className="sortable" id="workspace" />
         );
     }
 }

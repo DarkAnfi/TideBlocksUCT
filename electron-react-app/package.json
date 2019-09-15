@@ -1,16 +1,16 @@
 {
-  "name": "electron-react-app",
-  "version": "0.1.0",
+  "name": "CTBlocks",
+  "version": "1.9.1",
   "private": true,
   "author": "DarkAnfi",
-  "description": "Electron app powered by React JS and Bootstrap",
+  "description": "Costa Digital TIDE Blocks para tarjeta TIDE Makers Mini.",
   "homepage": "./",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DarkAnfi/electron-react-app.git"
+    "url": "git+https://github.com/DarkAnfi/TideBlocksUCT.git"
   },
   "bugs": {
-    "url": "https://github.com/DarkAnfi/electron-react-app/issues"
+    "url": "https://github.com/DarkAnfi/TideBlocksUCT/issues"
   },
   "main": "public/electron.js",
   "dependencies": {
@@ -63,7 +63,7 @@
     "wait-on": "^3.3.0"
   },
   "build": {
-    "appId": "com.example.electron-cra",
+    "appId": "com.tide.ctblocks",
     "files": [
       "build/**/*"
     ],
@@ -90,7 +90,8 @@
       ]
     },
     "win": {
-      "target": "NSIS"
+      "target": "NSIS",
+      "icon": "public/makers.ico"
     }
   }
 }

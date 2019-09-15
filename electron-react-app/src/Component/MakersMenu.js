@@ -7,7 +7,7 @@ class MakersMenu extends React.Component {
 
     render() {
         return (
-            <BlockMenu className="MakersMenu" color="primary" title="Makers">
+            <BlockMenu ref="BlockMenu" className="MakersMenu" color="primary" title="Makers" onToggle={this.props.onToggle}>
                 <Block app={this.props.app} color="primary" data-block="led-on" locked content={
                     [
                         "Encender LED",

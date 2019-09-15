@@ -9,7 +9,7 @@
 }
 
 [data-block='value'] * {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -29,147 +29,147 @@
 
 [data-block='value'][color='blue'] {
     background-color: var(--blue);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='indigo'] {
     background-color: var(--indigo);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='purple'] {
     background-color: var(--purple);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='pink'] {
     background-color: var(--pink);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='red'] {
     background-color: var(--red);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='orange'] {
     background-color: var(--orange);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='yellow'] {
     background-color: var(--yellow);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='green'] {
     background-color: var(--green);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='teal'] {
     background-color: var(--teal);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='cyan'] {
     background-color: var(--cyan);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='white'] {
     background-color: var(--white);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='gray'] {
     background-color: var(--gray);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='gray-dark'] {
     background-color: var(--gray-dark);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='default'] {
     background-color: var(--gray);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='primary'] {
     background-color: var(--primary);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='secondary'] {
     background-color: var(--secondary);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='success'] {
     background-color: var(--success);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='info'] {
     background-color: var(--info);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='warning'] {
     background-color: var(--warning);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='danger'] {
     background-color: var(--danger);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='default-selected'] {
     background-color: var(--gray-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='primary-selected'] {
     background-color: var(--primary-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='secondary-selected'] {
     background-color: var(--secondary-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='success-selected'] {
     background-color: var(--success-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='info-selected'] {
     background-color: var(--info-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='warning-selected'] {
     background-color: var(--warning-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='danger-selected'] {
     background-color: var(--danger-selected);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='light'] {
     background-color: var(--light);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 [data-block='value'][color='dark'] {
     background-color: var(--dark);
-    color: rgba(255, 255, 255, 0.9)
+    color: rgba(255, 255, 255, 0.7)
 }
 
 .value-container {

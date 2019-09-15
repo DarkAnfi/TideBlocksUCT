@@ -8,7 +8,7 @@ class OperatorsMenu extends React.Component {
 
     render() {
         return (
-            <BlockMenu className="OperatorsMenu" color="success" title="Operadores">
+            <BlockMenu ref="BlockMenu" className="OperatorsMenu" color="success" title="Operadores" onToggle={this.props.onToggle}>
                 <Draggable app={this.props.app} data-block="value" operator operation="+" color="success" content={[
                     <Droppable app={this.props.app}>
                         <input className="form-control input-sm" defaultValue="0" />

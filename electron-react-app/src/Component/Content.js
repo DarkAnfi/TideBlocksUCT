@@ -11,7 +11,8 @@ class Content extends React.Component {
     return (
       <Container fluid className={classNames('Content', { 'is-open': this.props.isOpen })}>
         <Scrollbar>
-          <Workspace app={this.props.app}></Workspace>
+          <div id="loop-header">Ciclo principal</div>
+          <Workspace app={this.props.app}/>
         </Scrollbar>
       </Container>
     );

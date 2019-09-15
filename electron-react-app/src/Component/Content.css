@@ -11,6 +11,16 @@
 }
 
 .Content .scrollbar {
-    padding: 15px;
     max-height: calc(100vh - 56px - 27px);
+}
+
+.Content #loop-header {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 10px 0px 10px;
+    font-size: 12px;
+    font-weight: bold;
+	background-image: url(./media/containers-blocks/default/hml.png), url(./media/containers-blocks/default/hm.png), url(./media/containers-blocks/default/hmr.png);
+	background-position: left top, left 80px top, right top;
+	background-size: 80px 100%, calc(100% - 89.5px) 100%, 10px 100%;
+	background-repeat: no-repeat, no-repeat, no-repeat;
 }

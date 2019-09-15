@@ -31,7 +31,7 @@ class VariablesMenu extends React.Component {
     handlerCreateVariable() {
         const { project } = this.props.app;
         const { type, name } = this.refs;
-        if (name.refs.entry.value.replace(/ /g,'') !== '') {
+        if (name.refs.entry.value.replace(/ /g, '') !== '') {
             project.variables[name.refs.entry.value] = type.refs.entry.value;
             $('select.variableList').html('')
             Object.keys(project.variables).forEach(
@@ -60,7 +60,7 @@ class VariablesMenu extends React.Component {
     render() {
         const { variables } = this.props.app.project;
         return (
-            <BlockMenu className="VariablesMenu" color="danger" title="Variables">
+            <BlockMenu ref="BlockMenu" className="VariablesMenu" color="danger" title="Variables" onToggle={this.props.onToggle}>
                 <Button className="mb-2" onClick={this.toggle}>Crear variable</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Crear variable</ModalHeader>

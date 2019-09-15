@@ -11,12 +11,16 @@ class BlockMenu extends React.Component {
     }
 
     toggle() {
-        this.setState(state => ({ collapse: !state.collapse }));
+        this.setState(
+            { collapse: !this.state.collapse },
+            () => this.props.onToggle ? this.props.onToggle({ state: this.state, component: this }) : null
+        );
+
     }
 
     render() {
         return (
-            <div className={classNames('BlockMenu',this.props.className)}>
+            <div className={classNames('BlockMenu', this.props.className)}>
                 <div className="btn-collapse-block-menu" onClick={this.toggle}>
                     <Badge color={this.props.color} pill>&nbsp;</Badge>
                     &nbsp;{this.props.title}
