@@ -20,11 +20,12 @@ import {
   faFile,
   faFolderOpen,
   faSave
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 import { prepare, getCode } from '../Classes/Interpreter';
 import html2json from 'html-to-json';
 import LinkedListNode from '../Classes/LinkedListNode';
 import './Header.css';
+import ConnectModal from './ConnectModal';
 const { $ } = window;
 
 class Header extends Component {
@@ -42,6 +43,7 @@ class Header extends Component {
     this.handlerCompile = this.handlerCompile.bind(this);
     this.handlerUndo = this.handlerUndo.bind(this);
     this.handlerRedo = this.handlerRedo.bind(this);
+    this.handlerHelp = this.handlerHelp.bind(this);
   }
 
   handlerWindowMinimize(event) {
@@ -69,13 +71,17 @@ class Header extends Component {
     event.preventDefault();
     const { ipcRenderer } = this.props.app.electron;
     const { app } = this.props;
-    const { project } = app;
+    const { project, Arduino } = app;
     if (project.currentState.data !== project.savedState) {
       if (window.confirm("¡Hay un archivo en uso no guardado!, ¿Deseas guardar los cambios antes de salir?")) {
         this.handlerSave(null, "close");
       }
     } else {
       ipcRenderer.send('mainWindow:close');
+      if (Arduino.isOpen) {
+        Arduino.close();
+      }
+      Arduino.destroy();
     }
     event.stopPropagation();
   }
@@ -95,6 +101,7 @@ class Header extends Component {
           { block: 'execute', command: 'Servo SERVO2' }
         ],
         setup: [
+          { block: 'execute', command: 'Serial.begin(9600)' },
           { block: 'execute', command: 'pinMode(4, OUTPUT)' },
           { block: 'execute', command: 'pinMode(5, OUTPUT)' },
           { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -242,7 +249,7 @@ class Header extends Component {
 
   handlerCompile(event) {
     event.preventDefault();
-    const { project, electron, MessageModal, currentPort, set } = this.props.app
+    const { project, electron, MessageModal, Arduino, currentPort, set } = this.props.app
     const { ipcRenderer } = electron;
     html2json.parse(project.currentState.data, (data) => {
       if (data.length) {
@@ -253,6 +260,9 @@ class Header extends Component {
               set({ project });
               const { imports, defaults, variables, setup, loop } = project;
               const txCode = getCode(imports, defaults, variables, setup, loop);
+              if (Arduino.isOpen) {
+                Arduino.close()
+              }
               ipcRenderer.send('compiler:send', txCode, currentPort);
             } else {
               MessageModal.isOpen = true;
@@ -394,6 +404,13 @@ class Header extends Component {
     event.stopPropagation();
   }
 
+  handlerHelp(event) {
+    event.preventDefault();
+    const { electron } = this.props.app
+    electron.shell.openExternal("https://www.makers.tide.cl/");
+    event.stopPropagation();
+  }
+
   render() {
     return (
       <div className="Header" >
@@ -428,7 +445,7 @@ class Header extends Component {
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <NavLink href="#">Help</NavLink>
+              <NavLink href="#" onClick={this.handlerHelp}>Help</NavLink>
             </NavItem>
           </Nav>
           <Nav className="ml-auto" navbar>
@@ -464,7 +481,7 @@ class Header extends Component {
         </Navbar>
         <Navbar color="dark" dark expand="md">
           <NavbarBrand>
-            <Form inline>
+            <Form onSubmit={(e) => e.preventDefault()} inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <img src={logo} className="logo mr-sm-2" alt="logo" />
                 <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" bsSize={'sm'} />
@@ -472,6 +489,9 @@ class Header extends Component {
             </Form>
           </NavbarBrand>
           <Nav className="ml-auto" navbar>
+            <NavItem>
+              <ConnectModal app={this.props.app} />
+            </NavItem>
             <NavItem>
               <NavLink onClick={this.handlerNew} href="#"><FontAwesomeIcon icon={faFile} /> Nuevo</NavLink>
             </NavItem>

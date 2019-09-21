@@ -5,7 +5,7 @@ import Content from './Component/Content';
 import LeftContent from './Component/LeftContent';
 import MessageModal from './Component/MessageModal';
 import ContextMenu from './Component/ContextMenu';
-import { Button } from 'reactstrap';
+import { Button, Row, Col, Label } from 'reactstrap';
 import LinkedListNode from './Classes/LinkedListNode';
 import Mousetrap from 'mousetrap';
 import './App.css';
@@ -15,8 +15,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebar: true,
+      leftbar: true,
+      rightbar: false,
       app: {
+        monitor: {},
+        Arduino: null,
         project: {
           filename: null,
           imports: ["Servo.h"],
@@ -25,6 +28,7 @@ class App extends Component {
             { block: 'execute', command: 'Servo SERVO2' }
           ],
           setup: [
+            { block: 'execute', command: 'Serial.begin(9600)' },
             { block: 'execute', command: 'pinMode(4, OUTPUT)' },
             { block: 'execute', command: 'pinMode(5, OUTPUT)' },
             { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -34,8 +38,8 @@ class App extends Component {
           ],
           loop: [],
           variables: {},
-          savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>",
-          currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>")
+          savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\"></ul>",
+          currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\"></ul>")
         },
         isMaximized: false,
         ports: [],
@@ -94,11 +98,48 @@ class App extends Component {
           }
         },
         stop: function (e, ui) {
+          const $lc = $('.LeftContent')
+          if ($lc.parent().is('.is-open')) {
+            const pos = {
+              top: $lc.offset().top,
+              left: $lc.offset().left,
+              right: $lc.offset().left + $lc.width(),
+              bottom: $lc.offset().top + $lc.height()
+            }
+            const { originalPosition } = ui;
+            const position = {
+              left: e.pageX,
+              top: e.pageY
+            }
+            var isOverLeft = false
+            if (pos.left <= position.left && position.left <= pos.right) {
+              if (pos.top <= position.top && position.top <= pos.bottom) {
+                isOverLeft = true
+              }
+            }
+            var didOverLeft = false
+            if (pos.left <= originalPosition.left && originalPosition.left <= pos.right) {
+              if (pos.top <= originalPosition.top && originalPosition.top <= pos.bottom) {
+                didOverLeft = true
+              }
+            }
+            console.log({ isOverLeft, didOverLeft })
+            if (isOverLeft && !didOverLeft) {
+              if (ui.item) {
+                ui.item.detach()
+              } else if (ui.helper){
+                if (ui.helper.is('.ui-draggable')) {
+                  ui.helper.parent().html("<input class=\"form-control input-sm\"/>")
+                  ui.helper.detach()
+                }
+              }
+            }
+          }
           if (ui.item) {
             ui.item.removeAttr('style')
             if (ui.item.hasClass('multidrag')) {
               ui.item.after(ui.item.children('ul').children().removeAttr('style')).detach();
-              ui.item.data('next').detach()
+              ui.item.data('next').detach();
             }
           }
           const outer = $($('#workspace')[0].outerHTML);
@@ -162,7 +203,8 @@ class App extends Component {
           message: "",
           done: false
         },
-        toggle: this.toggle.bind(this),
+        toggleLeft: this.toggleLeft.bind(this),
+        toggleRight: this.toggleRight.bind(this),
         start: function (event, ui) {
           if (ui.item.attr('data-block') === 'if') {
             if (ui.placeholder.next()) {
@@ -234,7 +276,31 @@ class App extends Component {
   }
 
   componentWillMount() {
+    this.monitor = {}
+    this.oldTime1 = (new Date()).getTime();
+    this.oldTime2 = (new Date()).getTime();
+    this.reset = true;
     const { ipcRenderer } = this.state.app.electron;
+    ipcRenderer.on('file:compile', (event) => {
+      if (this.state.app.Arduino) {
+        if (this.state.app.Arduino.open) {
+          this.state.app.set(
+            { monitor: {} },
+            () => {
+              if (this.state.app.Arduino.isOpen) {
+                this.state.app.Arduino.close();
+              }
+              this.state.app.Arduino.open(() => {
+                this.monitor = {}
+                this.oldTime1 = (new Date()).getTime();
+                this.oldTime2 = (new Date()).getTime();
+                this.reset = true;
+              })
+            }
+          );
+        }
+      }
+    })
     ipcRenderer.on('mainWindow:isMaximized', (event, isMaximized) => {
       this.state.app.set({ isMaximized });
     });
@@ -261,6 +327,7 @@ class App extends Component {
                 { block: 'execute', command: 'Servo SERVO2' }
               ],
               setup: [
+                { block: 'execute', command: 'Serial.begin(9600)' },
                 { block: 'execute', command: 'pinMode(4, OUTPUT)' },
                 { block: 'execute', command: 'pinMode(5, OUTPUT)' },
                 { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -270,8 +337,8 @@ class App extends Component {
               ],
               loop: [],
               variables: {},
-              savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>27px) - 30px); margin: 0px;\"></ul>",
-              currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\" style=\"padding-bottom: calc(((100vh - 57px) - 27px) - 30px); margin: 0px;\"></ul>")
+              savedState: "<ul class=\"sortable ui-sortable\" id=\"workspace\"></ul>",
+              currentState: new LinkedListNode("<ul class=\"sortable ui-sortable\" id=\"workspace\"></ul>")
             }
           },
           () => this.state.app.set(
@@ -357,10 +424,14 @@ class App extends Component {
         });
     });
     ipcRenderer.on('fs:next', (event, type, data) => {
-      console.log(type);
       switch (type) {
         case "close":
+          const { Arduino } = this.state.app;
           ipcRenderer.send('mainWindow:close');
+          if (Arduino.isOpen) {
+            Arduino.close();
+          }
+          Arduino.destroy();
           break;
         case "newfile":
           $("#workspace").html('');
@@ -373,6 +444,7 @@ class App extends Component {
               { block: 'execute', command: 'Servo SERVO2' }
             ],
             setup: [
+              { block: 'execute', command: 'Serial.begin(9600)' },
               { block: 'execute', command: 'pinMode(4, OUTPUT)' },
               { block: 'execute', command: 'pinMode(5, OUTPUT)' },
               { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -397,7 +469,6 @@ class App extends Component {
           ipcRenderer.send('fs:open')
           break;
         default:
-          console.log('default');
           break;
       }
     });
@@ -428,12 +499,29 @@ class App extends Component {
       $.fn.textWidth.fakeEl.text(text || this.val() || this.text() || this.attr('placeholder')).css('font', font || this.css('font')).css('padding', this.css('padding'));
       return $.fn.textWidth.fakeEl.width() + 32;
     };
-    $(document.body).on('input', '.value-slot input', event => {
+    $(document.body).on('input', '.value-slot input, .String', event => {
       const inputWidth = $(event.currentTarget).textWidth();
       const input = $(event.currentTarget);
       input.css({ width: inputWidth });
-      var num;
-      input.attr('data-value', ((num = Number.parseFloat(input.val())) && true ? num : 0.0).toString());
+      var num, min, max;
+      if (!input.is(".String")) {
+        num = (num = Number.parseFloat(input.val())) && true ? num : 0.0
+        if (input.parent().attr('min')) {
+          min = (min = Number.parseFloat(input.parent().attr('min'))) && true ? min : 0.0
+          if (num < min) {
+            num = min;
+          }
+        }
+        if (input.parent().attr('max')) {
+          max = (max = Number.parseFloat(input.parent().attr('max'))) && true ? max : 0.0
+          if (num > max) {
+            num = max;
+          }
+        }
+        input.attr('data-value', num.toString());
+      } else {
+        input.attr('data-value', input.val());
+      }
     })
     $(document.body).on('keypress', '.value-slot input', event => {
       const re = /[0-9]/g;
@@ -453,7 +541,7 @@ class App extends Component {
         }
       }
     });
-    $(document.body).on('change', '[data-block] .value-slot input', event => {
+    $(document.body).on('change', '[data-block] .value-slot input, .String', event => {
       const input = $(event.currentTarget);
       input.val(input.attr('data-value'));
       input.trigger('input')
@@ -649,8 +737,61 @@ class App extends Component {
     });
   }
 
-  toggle() {
-    this.setState({ sidebar: !this.state.sidebar });
+  componentDidUpdate(prevProps, prevState) {
+    const prevPort = prevState.app.currentPort
+    const { currentPort, Arduino, electron, set } = this.state.app;
+    if (prevPort !== currentPort) {
+      const SerialPort = electron.remote.require('serialport');
+      if (Arduino) {
+        if (Arduino.isOpen) {
+          Arduino.close()
+        }
+        Arduino.destroy()
+      };
+      set(
+        { Arduino: new SerialPort(currentPort, { baudRate: 9600, autoOpen: false }) },
+        () => {
+          const Readline = electron.remote.require('@serialport/parser-readline');
+          const parser = this.state.app.Arduino.pipe(new Readline({ delimiter: ';' }));
+          parser.on('data', data => {
+            const newTime = (new Date()).getTime();
+            if (newTime - this.oldTime2 >= 2500 && this.reset) {
+              this.oldTime2 = newTime;
+              this.monitor = {}
+              this.reset = false;
+            }
+            if (data.trim() !== '') {
+              data = data.split(':');
+              if (data.length === 2) {
+                this.monitor[data[0]] = data[1];
+                if (newTime - this.oldTime1 >= 100) {
+                  this.oldTime1 = newTime;
+                  set({ monitor: this.monitor });
+                }
+              }
+            }
+          })
+          if (this.state.app.Arduino.isOpen) {
+            this.state.app.Arduino.close()
+          }
+          this.state.app.Arduino.open(() => {
+            this.monitor = {}
+            this.oldTime1 = (new Date()).getTime();
+            this.oldTime2 = (new Date()).getTime();
+            this.reset = true
+          });
+        }
+      );
+    }
+  }
+
+
+  toggleLeft() {
+    this.setState({ leftbar: !this.state.leftbar });
+  }
+
+  toggleRight() {
+    this.setState({ rightbar: !this.state.rightbar });
   }
 
   render() {
@@ -658,13 +799,36 @@ class App extends Component {
       <div className="App" >
         <Header app={this.state.app} ref="Header" />
         <main>
-          <Sidebar isOpen={this.state.sidebar}>
+          <Sidebar isOpen={this.state.leftbar} side="left">
             <LeftContent app={this.state.app} ref="LeftContent" />
           </Sidebar>
-          <Button onClick={this.state.app.toggle} id="btn-toggle-sidebar">
-            {this.state.sidebar ? '<' : '>'}
+          <Button onClick={this.state.app.toggleLeft} id="btn-toggle-sidebar">
+            {this.state.leftbar ? '<' : '>'}
           </Button>
-          <Content app={this.state.app} isOpen={this.state.sidebar} />
+          <Content app={this.state.app} isLeft={this.state.leftbar} isRight={this.state.rightbar} />
+          <Button onClick={this.state.app.toggleRight} id="btn-toggle-sidebar">
+            {this.state.rightbar ? '>' : '<'}
+          </Button>
+          <Sidebar isOpen={this.state.rightbar} side="right">
+            <h2>Monitor</h2>
+            {
+              Object.keys(this.state.app.monitor).map(
+                (key, index) => {
+                  const value = this.state.app.monitor[key];
+                  return (
+                    <Row key={index}>
+                      <Col xs="7">
+                        <Label>{key}</Label>
+                      </Col>
+                      <Col xs="5">
+                        <div>{value}</div>
+                      </Col>
+                    </Row>
+                  );
+                }
+              )
+            }
+          </Sidebar>
         </main>
         <MessageModal app={this.state.app} />
         <ContextMenu ref="ContextMenu" />

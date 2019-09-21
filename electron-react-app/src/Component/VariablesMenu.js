@@ -65,7 +65,7 @@ class VariablesMenu extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Crear variable</ModalHeader>
                     <ModalBody>
-                        <Form>
+                        <Form onSubmit={(e) => e.preventDefault()}>
                             <Row>
                                 <Col xs="4">
                                     <FormGroup>

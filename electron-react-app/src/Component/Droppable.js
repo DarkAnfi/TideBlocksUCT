@@ -7,7 +7,12 @@ class Droppable extends Component {
         this.$node = $(this.refs.droppable);
         this.$node.droppable(
             {
-                accept: "[data-block='operator'], [data-block='value']",
+                accept: function (draggable) {
+                    if (draggable.is("[data-block='operator'], [data-block='value']")) {
+                        return $(this).parents('.LeftContent').length === 0
+                    }
+                    return false
+                },
                 drop: this.props.app.drop,
                 greedy: true,
                 tolerance: 'pointer'
@@ -19,7 +24,7 @@ class Droppable extends Component {
 
     render() {
         return (
-            <div className="value-slot" ref="droppable">
+            <div className="value-slot" ref="droppable" min={this.props.min} max={this.props.max}>
                 {this.props.children}
             </div>
         );

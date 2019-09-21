@@ -1,23 +1,23 @@
-:root {
-    --marginLeft: -350px;
-}
-
 .Sidebar {
-    min-width: 350px;
-    max-width: 350px;
     height: calc(100vh - 56px - 27px);
-    background:#23272b;
-    color: #f8f9fa;
     padding: 15px;
     transition: margin 0.5s;
 }
 
 .Sidebar.left {
-    margin-left: -350px;
+    min-width: 300px;
+    max-width: 300px;
+    margin-left: -300px;
+    background:#23272b;
+    color: #f8f9fa;
 }
 
 .Sidebar.right {
-    margin-right: -350px;
+    min-width: 300px;
+    max-width: 300px;
+    margin-right: -300px;
+    background:#23272b;
+    color: #f8f9fa;
 }
 
 .Sidebar.left.is-open {
@@ -25,5 +25,5 @@
 }
 
 .Sidebar.right.is-open {
-    margin-right: 0;
+    margin-right: 0px;
 }

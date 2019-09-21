@@ -9,10 +9,12 @@ class Content extends React.Component {
 
   render() {
     return (
-      <Container fluid className={classNames('Content', { 'is-open': this.props.isOpen })}>
+      <Container fluid className={classNames('Content', { 'isLeft': this.props.isLeft }, { 'isRight': this.props.isRight })}>
         <Scrollbar>
           <div id="loop-header">Ciclo principal</div>
-          <Workspace app={this.props.app}/>
+          <div>
+            <Workspace app={this.props.app} />
+          </div>
         </Scrollbar>
       </Container>
     );
