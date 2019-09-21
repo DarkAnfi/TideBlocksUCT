@@ -97,6 +97,11 @@
     color: rgba(255, 255, 255, 0.7)
 }
 
+[data-block='value'][color='default'] {
+    background-color: var(--gray);
+    color: rgba(255, 255, 255, 0.9)
+}
+
 [data-block='value'][color='primary'] {
     background-color: var(--primary);
     color: rgba(255, 255, 255, 0.7)
@@ -160,6 +165,41 @@
 [data-block='value'][color='danger-selected'] {
     background-color: var(--danger-selected);
     color: rgba(255, 255, 255, 0.7)
+}
+
+[data-block='value'][color='default-selected'] {
+    background-color: var(--gray-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='primary-selected'] {
+    background-color: var(--primary-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='secondary-selected'] {
+    background-color: var(--secondary-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='success-selected'] {
+    background-color: var(--success-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='info-selected'] {
+    background-color: var(--info-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='warning-selected'] {
+    background-color: var(--warning-selected);
+    color: rgba(255, 255, 255, 0.9)
+}
+
+[data-block='value'][color='danger-selected'] {
+    background-color: var(--danger-selected);
+    color: rgba(255, 255, 255, 0.9)
 }
 
 [data-block='value'][color='light'] {
