@@ -1284,6 +1284,9 @@
 					.on('change', handlerUpdateArgs)
 					.on('keypress', handlerUpdateArgs);
 				$(this).html(item);
+				array.push(ui);
+				console.log(array);
+				return array;
 			}
 		})
 
