@@ -102,6 +102,7 @@ class Header extends Component {
         ],
         setup: [
           { block: 'execute', command: 'Serial.begin(9600)' },
+          { block: 'execute', command: 'Serial.write(";;;;;;;;")' },
           { block: 'execute', command: 'pinMode(4, OUTPUT)' },
           { block: 'execute', command: 'pinMode(5, OUTPUT)' },
           { block: 'execute', command: 'pinMode(6, OUTPUT)' },

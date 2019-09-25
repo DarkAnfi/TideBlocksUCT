@@ -34,16 +34,16 @@ class LeftContent extends React.Component {
     handlerToggle(event) {
         if (event.state.collapse) {
             const { ControlsMenu, OperatorsMenu, MenuVariables, MakersMenu } = this.refs;
-            if (ControlsMenu.constructor.name !== event.component.props.className) {
+            if ("ControlsMenu" !== event.component.props.className) {
                 ControlsMenu.refs.BlockMenu.setState({ collapse: false })
             }
-            if (OperatorsMenu.constructor.name !== event.component.props.className) {
+            if ("OperatorsMenu" !== event.component.props.className) {
                 OperatorsMenu.refs.BlockMenu.setState({ collapse: false })
             }
-            if (MenuVariables.constructor.name !== event.component.props.className) {
+            if ("VariablesMenu" !== event.component.props.className) {
                 MenuVariables.refs.BlockMenu.setState({ collapse: false })
             }
-            if (MakersMenu.constructor.name !== event.component.props.className) {
+            if ("MakersMenu" !== event.component.props.className) {
                 MakersMenu.refs.BlockMenu.setState({ collapse: false })
             }
         }

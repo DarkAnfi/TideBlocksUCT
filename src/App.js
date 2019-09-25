@@ -29,6 +29,7 @@ class App extends Component {
           ],
           setup: [
             { block: 'execute', command: 'Serial.begin(9600)' },
+            { block: 'execute', command: 'Serial.write(";;;;;;;;")' },
             { block: 'execute', command: 'pinMode(4, OUTPUT)' },
             { block: 'execute', command: 'pinMode(5, OUTPUT)' },
             { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -127,7 +128,7 @@ class App extends Component {
             if (isOverLeft && !didOverLeft) {
               if (ui.item) {
                 ui.item.detach()
-              } else if (ui.helper){
+              } else if (ui.helper) {
                 if (ui.helper.is('.ui-draggable')) {
                   ui.helper.parent().html("<input class=\"form-control input-sm\"/>")
                   ui.helper.detach()
@@ -328,6 +329,7 @@ class App extends Component {
               ],
               setup: [
                 { block: 'execute', command: 'Serial.begin(9600)' },
+                { block: 'execute', command: 'Serial.write(";;;;;;;;")' },
                 { block: 'execute', command: 'pinMode(4, OUTPUT)' },
                 { block: 'execute', command: 'pinMode(5, OUTPUT)' },
                 { block: 'execute', command: 'pinMode(6, OUTPUT)' },
@@ -445,6 +447,7 @@ class App extends Component {
             ],
             setup: [
               { block: 'execute', command: 'Serial.begin(9600)' },
+              { block: 'execute', command: 'Serial.write(";;;;;;;;")' },
               { block: 'execute', command: 'pinMode(4, OUTPUT)' },
               { block: 'execute', command: 'pinMode(5, OUTPUT)' },
               { block: 'execute', command: 'pinMode(6, OUTPUT)' },
