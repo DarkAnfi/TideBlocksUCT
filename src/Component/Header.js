@@ -13,7 +13,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import logo from './media/logo.svg';
+import logo from './media/makers.ico';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCogs,
@@ -438,13 +438,6 @@ class Header extends Component {
                 <DropdownItem onClick={this.handlerRedo}>Rehacer<span style={{ float: 'right' }}>Ctrl+Y</span></DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>Ver</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={this.props.app.toggle}>Menú de Bloques</DropdownItem>
-                <DropdownItem onClick={this.props.app.toggleCreateVariable}>Crear Variable</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
             <NavItem>
               <NavLink href="#" onClick={this.handlerHelp}>Help</NavLink>
             </NavItem>
@@ -484,7 +477,7 @@ class Header extends Component {
           <NavbarBrand>
             <Form onSubmit={(e) => e.preventDefault()} inline>
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <img src={logo} className="logo mr-sm-2" alt="logo" />
+                <img src={logo} className="logo mr-sm-3" alt="logo" />
                 <Input defaultValue="Nuevo Proyecto" ref="projectName" innerRef="entry" bsSize={'sm'} />
               </FormGroup>
             </Form>
@@ -503,7 +496,7 @@ class Header extends Component {
               <NavLink id='saveClick' ref='saveClick' onClick={this.handlerSave} href="#"><FontAwesomeIcon icon={faSave} /> Guardar</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={this.handlerCompile} href="#" ><FontAwesomeIcon icon={faCogs} /> Compilar</NavLink>
+              <NavLink onClick={this.handlerCompile} href="#" ><FontAwesomeIcon icon={faCogs} /> Subir</NavLink>
             </NavItem>
           </Nav>
         </Navbar>

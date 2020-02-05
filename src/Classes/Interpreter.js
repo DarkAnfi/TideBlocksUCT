@@ -1,3 +1,14 @@
+/** Interpreter
+ * Este es el programa encargado de leer el árbol de bloques y transformarlo en código Arduino.
+ * Está la función prepare, el cual resive un json del html del workspace y lo transforma en
+ * un árbol con los bloques preparados para ser procesados y traducidos.
+ * Está la función getValue, encargada de transformar los bloques de valor a su representación
+ * en texto.
+ * Está la función build, la cual construye el código en base el árbol preparado.
+ * Está la función getCode, encargada de obtener el resultado final del proceso de traducción.
+ * Ultima modificación 05/02/2020 v1.10.4
+ */
+
 function prepare(html) {
     var tree = [];
     var elements = {};
@@ -282,10 +293,11 @@ function getCode(imports, defaults, variables, setup, loop) {
     code += "}\n";
     code += "\nvoid setup() {\n";
     code += build(1, setup);
-    code += "}\n";
-    code += "\nvoid loop() {\n";
+    code += "    // main content\n"
     code += build(1, loop);
     code += "}\n";
+    code += "// NO LOOP PARADIGM\n"
+    code += "\nvoid loop() {}\n";
 
     return code;
 }

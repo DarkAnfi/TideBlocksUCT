@@ -26,6 +26,6 @@
     background-repeat: no-repeat, no-repeat, no-repeat, 
                        no-repeat, no-repeat, no-repeat, 
                        no-repeat, no-repeat, no-repeat;
-    padding-bottom: calc(calc(100vh - 57px - 27px - 28px) / 2);
-    min-height: calc(100vh - 57px - 27px - 28px);
+    padding-bottom: calc(calc(100vh - 57px - 27px) / 2);
+    min-height: calc(100vh - 57px - 27px);
 }
