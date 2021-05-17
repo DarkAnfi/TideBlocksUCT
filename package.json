@@ -1,8 +1,8 @@
 {
   "name": "CTBlocks",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "private": true,
-  "author": "DarkAnfi",
+  "author": "Costa Digital and TIDE",
   "description": "Costa Digital TIDE Blocks para tarjeta TIDE Makers Mini.",
   "homepage": "./",
   "repository": {
@@ -94,8 +94,7 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
-          "arch": "ia32"
+          "target": "nsis"
         }
       ],
       "icon": "public/makers.ico"
